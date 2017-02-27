@@ -5,10 +5,19 @@ namespace Blog;
 
 class Module
 {
-    const VERSION = '0.1.0';
+    const VERSION = '1.0.0';
+
+    public function getAutoloaderConfig()
+    {
+        return ['Zend\Loader\StandardAutoloader' => [
+            'namespaces' => [
+                __NAMESPACE__ => __DIR__ . '/src'
+            ]
+        ]];
+    }
 
     public function getConfig()
     {
-        return include __DIR__ . '/../config/module.config.php'
+        return include __DIR__ . '/config/module.config.php';
     }
 }
