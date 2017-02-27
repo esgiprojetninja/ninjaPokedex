@@ -4,10 +4,14 @@ namespace Blog\Controller;
 
 use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\ViewModel;
 
 class IndexController extends AbstractActionController {
-    public function __construct() {
 
+    protected $container;
+
+    public function __construct($container) {
+        $this->container = $container;
     }
 
     public function indexAction () {

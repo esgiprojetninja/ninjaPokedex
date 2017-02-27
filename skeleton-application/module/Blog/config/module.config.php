@@ -8,9 +8,9 @@ return [
             'blog_home' => [
                 'type' => 'Literal',
                 'options' => [
-                    'route' => 'blog',
+                    'route' => '/blog',
                     'defaults' => [
-                        'controler' => 'Blog\Controller\Index',
+                        'controller' => 'Blog\Controller\Index',
                         'action'    => 'index'
                     ]
                 ]
@@ -20,7 +20,7 @@ return [
 
     'controllers' => [
         'factories' => [
-            'Blog\Controller\Index' => 'Blog\Controller\IndexController'
+            'Blog\Controller\Index' => 'Blog\Controller\IndexControllerFactory'
         ]
     ],
 
