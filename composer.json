@@ -1,0 +1,8 @@
+{
+    "name": "homestead/zend",
+    "description": "zend on homestead framework",
+    "require": {
+        "zendframework/zendframework": "^3.0",
+        "zendframework/zend-mvc": "^3.0"
+    }
+}
