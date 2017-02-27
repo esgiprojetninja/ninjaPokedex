@@ -1,0 +1,22 @@
+<h3>New hopeless post</h3>
+
+<?php
+    $form = $this->form;
+    $form->prepare();
+    echo $this->form()->openTag($form); // Made In ZEND --- JAYRIGOLÉ
+?>
+<div class="form-group">
+    <?= $this->formRow($form->get('title')); ?>
+</div>
+<div class="form-group">
+    <?= $this->formRow($form->get('slug')); ?>
+</div>
+<div class="form-group">
+    <?= $this->formRow($form->get('content')); ?>
+</div>
+<div class="form-group">
+    <?= $this->formRow($form->get('category_id')); ?>
+</div>
+
+<?= $this->formSubmit($form->get('submit')); ?>
+<?= $this->form()->closeTag(); ?>

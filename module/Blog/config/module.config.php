@@ -12,6 +12,16 @@ return [
                         'action'    => 'index'
                     ]
                 ]
+            ],
+            'blog_add' => [
+                'type' => 'Literal',
+                'options' => [
+                    'route' => '/blog/post/add',
+                    'defaults' => [
+                        'controller' => 'Blog\Controller\Index',
+                        'action'    => 'add'
+                    ]
+                ]
             ]
         ]
     ],
