@@ -1,22 +1,21 @@
-<h3>New hopeless post</h3>
+<h3>New blog post</h3>
 
 <?php
-    $form = $this->form;
-    $form->prepare();
-    echo $this->form()->openTag($form); // Made In ZEND --- JAYRIGOLÉ
+$form = $this->form;
+$form->prepare();
+echo $this->form()->openTag($form); //<form method="post">
 ?>
 <div class="form-group">
-    <?= $this->formRow($form->get('title')); ?>
+    <?php echo $this->formRow($form->get('title')); ?>
 </div>
 <div class="form-group">
-    <?= $this->formRow($form->get('slug')); ?>
+    <?php echo $this->formRow($form->get('slug')); ?>
 </div>
 <div class="form-group">
-    <?= $this->formRow($form->get('content')); ?>
+    <?php echo $this->formRow($form->get('content')); ?>
 </div>
 <div class="form-group">
-    <?= $this->formRow($form->get('category_id')); ?>
+    <?php echo $this->formRow($form->get('category_id')); ?>
 </div>
-
-<?= $this->formSubmit($form->get('submit')); ?>
-<?= $this->form()->closeTag(); ?>
+<?php echo $this->formSubmit($form->get('submit')); ?>
+<?php echo $this->form()->closeTag(); //</form>?> 
