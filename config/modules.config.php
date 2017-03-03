@@ -15,6 +15,7 @@
 // var_dump(is_dir(__DIR__ . '/../module'));
 // var_dump(is_dir(__DIR__ . '/../vendor'));
 return [
+    'Zend\Db',
     'Zend\I18n',
     'Zend\Router',
     'Zend\Validator',
