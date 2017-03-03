@@ -188,16 +188,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "v2.0.6",
+            "version": "v2.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "2bccb674209ed6f08412637b0c49456566c135d4"
+                "reference": "b5ea1ef3d8ff10c307ba8c5945c2f134e503278f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/2bccb674209ed6f08412637b0c49456566c135d4",
-                "reference": "2bccb674209ed6f08412637b0c49456566c135d4",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/b5ea1ef3d8ff10c307ba8c5945c2f134e503278f",
+                "reference": "b5ea1ef3d8ff10c307ba8c5945c2f134e503278f",
                 "shasum": ""
             },
             "require": {
@@ -232,7 +232,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2017-02-27 17:05:44"
+            "time": "2017-02-27 17:11:23"
         },
         {
             "name": "phpdocumentor/reflection-common",
