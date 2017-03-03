@@ -2,19 +2,27 @@
 
 namespace Blog\Service;
 
+use Blog\Entity\Post;
+
 interface BlogService
 {
-    public function save();
+    public function save(Post $post);
 
     public function fetchAll();
 
-    public function fetch();
+    public function fetch($page);
 
-    public function find();
+    /**
+     * @return Post|null
+    **/
+    public function find($categoySlug, $postSlug);
 
-    public function findById();
+    /**
+     * @return Post|null
+    **/
+    public function findById($postId);
 
-    public function update();
+    public function update(Post $post);
 
-    public function delete();
+    public function delete($postId);
 }
