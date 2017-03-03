@@ -15,18 +15,9 @@
 // var_dump(is_dir(__DIR__ . '/../module'));
 // var_dump(is_dir(__DIR__ . '/../vendor'));
 return [
-    'modules' => [
-        'Zend\Router',
-        'Zend\Validator',
-        'Application',
-        'Zend\Form',
-        'Blog'
-    ],
-
-    'module_listener_options' => [
-        'module_paths' => [
-            __DIR__ . '/../module',
-            __DIR__ . '/../vendor',
-        ]
-    ]
+    'Zend\Router',
+    'Zend\Validator',
+    'Application',
+    'Zend\Form',
+    'Blog'
 ];
