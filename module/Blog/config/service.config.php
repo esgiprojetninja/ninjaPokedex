@@ -13,5 +13,13 @@ return [
 
             return $blogService;
         }
+    ],
+    // initializers are called on every instantiation
+    'initializers' => [
+        function ( \Zend\ServiceManager\ServiceLocatorInterface $sl, $instance ) {
+            if ( $instance instanceof \Zend\Db\AdapterAwareInterface ) {
+                $instance->setDbAdapter($sl->get('Zend\Db\Adapater\Adapter'))
+            }
+        }
     ]
 ]
