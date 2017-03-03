@@ -10,6 +10,8 @@ class PostRepositoryImpl implements PostRepository
     use AdapterAwareTrait;
 
     public function save(Post $post) {
+        // var_dump($post);
+        // exit;
         $sql = new \Zend\Db\Sql\Sql($this->adapter);
         $insert = $sql->insert()
           ->values([
@@ -21,7 +23,9 @@ class PostRepositoryImpl implements PostRepository
           ])
           ->into('post');
         $statement = $sql->prepareStatementForSqlObject($insert);
-        $statement->execute();
+        $r = $statement->execute();
+        var_dump($statement, $r);
+        exit;
     }
 
     public function fetchAll() {

@@ -140,7 +140,7 @@ class Post
     {
         return $this->category;
     }
- 
+
     /**
      * Set the value of Category
      *

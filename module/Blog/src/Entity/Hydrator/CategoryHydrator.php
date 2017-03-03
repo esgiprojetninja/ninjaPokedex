@@ -6,18 +6,16 @@ use Blog\Entity\Post;
 use Blog\Entity\Category;
 use Zend\Hydrator\HydratorInterface;
 
-class PostHydrator implements HydratorInterface
+class CategoryHydrator implements HydratorInterface
 {
     public function extract($object) {
-      if ( !($object instanceof Post) )
+      if ( !($object instanceof Post) || $object->getCategory() == null )
           return [];
 
       return [
-          'id'        => $object->getId(),
-          'title'     => $object->getTitle(),
-          'slug'      => $object->getSlug(),
-          'content'   => $object->getContent(),
-          'created'   => $object->getCreated()
+          'id'        => $object->getCategory()->getId(),
+          'name'     => $object->getCategory()->getName(),
+          'slug'      => $object->getCategory()->getSlug()
       ];
     }
 
@@ -25,12 +23,13 @@ class PostHydrator implements HydratorInterface
         if ( !($object instanceof Post) )
             return $object;
 
-        $object->setId( isset($data['id']) ? intval($data['id']) : null );
-        $object->setTitle( isset($data['title']) ? $data['title'] : null );
-        $object->setSlug( isset($data['slug']) ? $data['slug'] : null );
-        $object->setContent( isset($data['content']) ? $data['content'] : null );
-        $object->setCreated( isset($data['created']) ? intval($data['created']) : null );
+        $category = new Category();
 
+        $category->setId( isset($data['category_id']) ? intval($data['category_id']) : null );
+        $category->setName( isset($data['name']) ? $data['name'] : null );
+        $category->setSlug( isset($data['category_slug']) ? $data['category_slug'] : null );
+
+        $object->setCategory($category);
         return $object;
     }
 }

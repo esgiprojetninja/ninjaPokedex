@@ -22,7 +22,7 @@ class BlogServiceImpl implements BlogService
     }
 
     public function save(Post $post) {
-        $this->postRepository = $postRepository;
+        $this->postRepository->save($post);
     }
 
     public function fetchAll() {

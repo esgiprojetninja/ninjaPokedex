@@ -13,7 +13,7 @@ class IndexController extends AbstractActionController {
     protected $blogService;
 
     public function __construct($blogService) {
-        $this->container = $blogService;
+        $this->blogService = $blogService;
     }
 
     public function indexAction () {
@@ -24,24 +24,21 @@ class IndexController extends AbstractActionController {
         return new ViewModel($variables);
     }
     public function addAction () {
-      $form = new Add();
-      $variables = [
-          'form' => $form
-      ];
-      if ($this->request->isPost()) { //Si le form a été submit
-          $blogPost = new Post();
-          $form->bind($blogPost);
-
-          $form->setInputFilter(new AddPost());
-          $data = $this->request->getPost(); //key value array
-          $form->setData($data);
-          if ($form->isValid()) {
-              $this->blogService->save($blogPost);
-              // @todo insert into db
-              return $this->redirect()->toRoute('blog_home');
-          }
-      }
-      return new ViewModel($variables);
+        $form = new Add();
+        $variables = [
+            'form' => $form
+        ];
+        if ($this->request->isPost()) { //Si le form a été submit
+            $blogPost = new Post();
+            $form->bind($blogPost);
+            $form->setInputFilter(new AddPost());
+            $data = $this->request->getPost(); //key value array
+            $form->setData($data);
+            if ($form->isValid()) {
+                $this->blogService->save($blogPost);
+                return $this->redirect()->toRoute('blog_home');
+            }
+        }
+        return new ViewModel($variables);
     }
-
 }
