@@ -32,6 +32,10 @@ class IndexController extends AbstractActionController {
             'form' => $form
         ];
 
+        if ($this->request->isPost()) { //Si le form a été submit
+            $form->setInputFilter(new AddPost());
+        }
+
         return new ViewModel($variables);
     }
 
