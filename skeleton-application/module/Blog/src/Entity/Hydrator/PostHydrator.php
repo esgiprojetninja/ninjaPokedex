@@ -17,7 +17,7 @@ class PostHydrator implements HydratorInterface
             'id'        => $object->getId(),
             'title'     => $object->getTitle(),
             'slug'      => $object->getSlug(),
-            'content'   => $object->getConten(),
+            'content'   => $object->getContent(),
             'created'   => $object->getCreated()
         ];
     }
