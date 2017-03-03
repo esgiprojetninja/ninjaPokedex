@@ -21,36 +21,36 @@ class BlogServiceImpl implements BlogService
     }
 
     public function save(Post $post) {
-
+        $this->postRepository = $postRepository;
     }
 
     public function fetchAll() {
-
+        return $this->postRepository->fetchAll();
     }
 
     public function fetch($page) {
-
+        return $this->postRepository->fetch($page);
     }
 
     /**
      * @return Post|null
     **/
     public function find($categoySlug, $postSlug) {
-
+        return $this->postRepository->find($categoySlug, $postSlug);
     }
 
     /**
      * @return Post|null
     **/
     public function findById($postId) {
-
+        return $this->postRepository->findById($postId);
     }
 
     public function update(Post $post) {
-
+        return $this->postRepository->update($post);
     }
 
     public function delete($postId) {
-
+        return $this->postRepository->delete($postId);
     }
 }
