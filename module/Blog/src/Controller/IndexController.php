@@ -5,7 +5,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Blog\Form\Add;
 use Blog\InputFilter\AddPost;
-use Blog\\Entity\Post;
+use Blog\Entity\Post;
 
 
 class IndexController extends AbstractActionController {

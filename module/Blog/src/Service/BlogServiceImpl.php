@@ -7,6 +7,7 @@
 namespace Blog\Service;
 
 use Blog\Service\BlogService;
+use Blog\Entity\Post;
 
 class BlogServiceImpl implements BlogService
 {
