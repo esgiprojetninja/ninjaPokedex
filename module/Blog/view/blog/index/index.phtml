@@ -1,10 +1,38 @@
 <h3>Mon blog</h3>
 <a class="btn btn-primary" href="<?php echo $this->url("blog_add"); ?>">Add a new post !</a>
 
-<ul>
+<?php if(!empty($this->posts)): ?>
     <?php foreach ($posts as $post): ?>
-        <li>
-            <?= $post->getTitle() ?>
-        </li>
+        <hr />
+        <div class="row">
+            <div class="col-md-5">
+                <strong>
+                    <?= $this->escapeHtml($post->getTitle()); ?>
+                </strong>
+                <?php
+                    $postedAt = $this->dateFormat(
+                      $post->getcreated(),
+                      IntlDateFormatter::MEDIUM,
+                      IntlDateFormatter::MEDIUM,
+                      'en_US'
+                    );
+                ?>
+                (<?= $postedAt; ?>)
+            </div>
+            <div class="col-md-3">
+                <?= $this->escapeHtml($post->getCategory()->getName()) ?>
+            </div>
+        </div>
+
     <?php endforeach; ?>
-</ul>
+<?php else: ?>
+
+<?php endif; ?>
+<hr />
+<?= $this->paginationControl(
+    $this->posts,
+    'Sliding',
+    'partial/pagination',
+    ['route' => '/blog/paged']
+  )
+?>
