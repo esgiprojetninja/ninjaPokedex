@@ -17,9 +17,15 @@ class IndexController extends AbstractActionController {
     }
 
     public function indexAction () {
+        $posts = $this->blogService->fetch(
+            $this->params()->fromRoute('page')
+        );
+
         $variables = [
-            'name' => 'quoi maggle'
+            'posts' => $posts
         ];
+
+
         //@todo fetch blog pg_connection_status
         return new ViewModel($variables);
     }

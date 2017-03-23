@@ -10,16 +10,14 @@
  * This should be an array of module namespaces used in the application.
  */
 
-// var_dump(__DIR__);
-//      /home/vagrant/Code/pokedex/config
-// var_dump(is_dir(__DIR__ . '/../module'));
-// var_dump(is_dir(__DIR__ . '/../vendor'));
 return [
     'Zend\Db',
     'Zend\I18n',
     'Zend\Router',
     'Zend\Validator',
+    'Zend\Paginator',
     'Application',
     'Zend\Form',
-    'Blog'
+    'Blog',
+    'User'
 ];
