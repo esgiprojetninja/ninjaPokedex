@@ -19,5 +19,6 @@ return [
     'Application',
     'Zend\Form',
     'Blog',
-    'User'
+    'User',
+    'Pokedex'
 ];
