@@ -118,21 +118,97 @@ class PostRepositoryImpl implements PostRepository
      * @return Post|null
     **/
     public function find($categoySlug, $postSlug) {
+        $sql = new \Zend\Db\Sql\Sql($this->adapter);
+        $select = $sql->select();
+        $select->columns([
+            'id',
+            'title',
+            'slug',
+            'content',
+            'created'
+        ])->from(
+            ['p' => 'post']
+        )->join(
+            ['c' => 'category'],
+            'c.id = p.category_id',
+            ['category_id' => 'id', 'name', 'category_slug' => 'slug']
+        )->where(
+            ['c.slug' => $categorySlug, 'p.slug' => $postSlug]
+        );
 
+        $statement = $sql->prepareStatementForSqlObject($select);
+        $results = $statement->execute();
+
+        $hydrator = new AggregateHydrator();
+        $hydrator->add(new PostHydrator());
+        $hydrator->add(new CategoryHydrator());
+
+        $resultSet = new HydratingResultSet($hydrator, new Post());
+        $resultSet->initialize($results);
+
+        return ( $resultSet->count() ? $resultSet->current() : null );
     }
 
     /**
      * @return Post|null
     **/
     public function findById($postId) {
+      $sql = new \Zend\Db\Sql\Sql($this->adapter);
+      $select = $sql->select();
+      $select->columns([
+          'id',
+          'title',
+          'slug',
+          'content',
+          'created'
+      ])->from(
+          ['p' => 'post']
+      )->join(
+          ['c' => 'category'],
+          'c.id = p.category_id',
+          ['category_id' => 'id', 'name', 'category_slug' => 'slug']
+      )->where(
+          ['p.id' => $postId]
+      );
 
+      $statement = $sql->prepareStatementForSqlObject($select);
+      $results = $statement->execute();
+
+      $hydrator = new AggregateHydrator();
+      $hydrator->add(new PostHydrator());
+      $hydrator->add(new CategoryHydrator());
+
+      $resultSet = new HydratingResultSet($hydrator, new Post());
+      $resultSet->initialize($results);
+
+      return ( $resultSet->count() ? $resultSet->current() : null );
     }
 
     public function update(Post $post) {
+        $sql = new \Zend\Db\Sql\Sql($this->adapter);
+        $update = $sql->update('post')
+            ->set([
+                'title' => $post->getTitle(),
+                'slug' => $post->getSlug(),
+                'content' => $post->getContent(),
+                'category_id' => $post->getCategory()->getId(),
+            ])->where([
+                'id' => $post->getId()
+            ]);
 
+        $statement = $sql->prepareStatementForSqlObject($update);
+        $statement->execute();
     }
 
     public function delete($postId) {
+        $sql = new \Zend\Db\Sql\Sql($this->adapter);
+        $delete = $sql->delete()
+            ->from('post')
+            ->where([
+                'id' => $postId
+            ]);
 
+        $statement = $sql->prepareStatementForSqlObject($delete);
+        $statement->execute();
     }
 }

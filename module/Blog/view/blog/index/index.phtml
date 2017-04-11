@@ -7,6 +7,11 @@
         <div class="row">
             <div class="col-md-5">
                 <strong>
+                    <a href="<?= $this->url(
+                      'display_post',
+                      ['categorySlug' => $post->getCategory()->getSlug(),
+                      'postSlug' => $post->getSlug()
+                    ]); ?>"></a>
                     <?= $this->escapeHtml($post->getTitle()); ?>
                 </strong>
                 <?php
@@ -33,6 +38,6 @@
     $this->posts,
     'Sliding',
     'partial/pagination',
-    ['route' => '/blog/paged']
+    ['route' => 'blog_home/paged']
   )
 ?>

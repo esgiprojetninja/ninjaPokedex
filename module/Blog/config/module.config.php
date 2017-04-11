@@ -38,7 +38,47 @@ return [
                         'action'    => 'add'
                     ]
                 ]
-            ]
+            ],
+            'display_post' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/blog/posts/:categorySlug/:postSlug',
+                    'contraints' => [
+                        'categorySlug' => '[a-zA-ZO-9]+',
+                        'postSlug' => '[a-zA-ZO-9]+'
+                    ],
+                    'defaults' => [
+                        'controller' => 'Blog\Controller\Index',
+                        'action' => 'viewPost'
+                    ]
+                ]
+            ],
+            'edit_post' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/blog/post/edit/:postId',
+                    'constraints' => [
+                        'postId' => '[0-9]+'
+                    ],
+                    'defaults' => [
+                        'controller'  => 'Blog\Controller\Index',
+                        'action'  => 'edit'
+                    ]
+                ]
+            ],
+            'delete_post' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/blog/post/delete/:postId',
+                    'constraints' => [
+                        'postId' => '[0-9]+'
+                    ],
+                    'defaults' => [
+                        'controller'  => 'Blog\Controller\Index',
+                        'action'  => 'delete'
+                    ]
+                ]
+            ],
         ]
     ],
     'controllers' => [

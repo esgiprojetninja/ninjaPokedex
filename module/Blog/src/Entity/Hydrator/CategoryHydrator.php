@@ -12,10 +12,12 @@ class CategoryHydrator implements HydratorInterface
       if ( !($object instanceof Post) || $object->getCategory() == null )
           return [];
 
+      $category = $object->getCategory();
+
       return [
-          'id'        => $object->getCategory()->getId(),
-          'name'     => $object->getCategory()->getName(),
-          'slug'      => $object->getCategory()->getSlug()
+          'id'        => $category->getId(),
+          'name'     => $category->getName(),
+          'slug'      => $category->getSlug()
       ];
     }
 
