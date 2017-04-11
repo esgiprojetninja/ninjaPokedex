@@ -18,8 +18,6 @@ class IndexController extends AbstractActionController {
     }
 
     public function indexAction () {
-        var_dump("suce fdp");
-        exit;
         $posts = $this->blogService->fetch(
             $this->params()->fromRoute('page')
         );

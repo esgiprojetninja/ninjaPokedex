@@ -3,7 +3,7 @@ namespace Pokedex;
 return [
     'router' => [
         'routes' => [
-            'blog_home' => [
+            'pokedex_home' => [
                 'type' => 'Literal',
                 'options' => [
                     'route' => '/pokedex',
