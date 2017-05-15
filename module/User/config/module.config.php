@@ -17,6 +17,10 @@ return [
                 'type' => 'Literal',
                 'options' => [
                     'route' => 'user/login',
+                    'defaults' => [
+                        'controller' => 'User\Controller\Index',
+                        'action'  => 'login'
+                    ]
                 ]
             ]
         ]

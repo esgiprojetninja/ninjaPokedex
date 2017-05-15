@@ -37,7 +37,7 @@ class IndexController extends AbstractActionController {
             return $this->redirect()->toRoute('blog_home');
         }
 
-        $form new Login();
+        $form = new Login();
         if ( $this->request->isPost() ) {
             //@TODO do login
         }
