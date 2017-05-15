@@ -19,15 +19,15 @@ class AddUser extends InputFilter {
     function __construct(\Zend\Db\Adapter\Adapter $dbAdapter) {
         $this->dbAdapter = $dbAdapter;
 
-        $firstname = new Input('firstname');
+        $firstname = new Input('firstName');
         $firstname->setRequired(true);
+        $firstname->setValidatorChain($this->getFirstnameValidatorChain());
         $firstname->setFilterChain($this->getStringTrimFilterChain());
-        $firstname->setValidatorChain($this->getTitleValidatorChain());
 
-        $lastname = new Input('lastname');
+        $lastname = new Input('lastName');
         $lastname->setRequired(true);
+        $lastname->setValidatorChain($this->getLastnameValidatorChain());
         $lastname->setFilterChain($this->getStringTrimFilterChain());
-        $lastname->setValidatorChain($this->getTitleValidatorChain());
 
         // @todo
         $email = new Input('email');
@@ -43,16 +43,7 @@ class AddUser extends InputFilter {
         $repeatPassword = new Input('repeatPassword');
         $repeatPassword->setRequired(true);
         $repeatPassword->setValidatorChain($this->getRepeatPasswordValidatorChain());
-        $repeatPassword->setFilterChain($this->getStringTrimFilterChain());
-
-
-        $this->add($firstname);
-        $this->add($lastname);
-        $this->add($email);
-        $this->add($password);
-        $this->add($repeatPassword);
     }
-
     protected function getFirstnameValidatorChain() {
         $stringLength = new StringLength();
         $stringLength->setMax(50);
@@ -60,7 +51,6 @@ class AddUser extends InputFilter {
         $validatorChain->attach($stringLength);
         return $validatorChain;
     }
-
     protected function getLastnameValidatorChain() {
         $stringLength = new StringLength();
         $stringLength->setMax(100);
@@ -68,7 +58,6 @@ class AddUser extends InputFilter {
         $validatorChain->attach($stringLength);
         return $validatorChain;
     }
-
     protected function getPasswordValidatorChain() {
         $stringLength = new StringLength();
         $stringLength->setMin(6);
@@ -79,35 +68,29 @@ class AddUser extends InputFilter {
         $validatorChain->attach($oneNumber);
         return $validatorChain;
     }
-
     protected function getRepeatPasswordValidatorChain() {
-       $identical = new Identical();
-       $identical->setToken('password');
-       $identical->setMessage('Passwords must match');
-       $validatorChain = new ValidatorChain();
-       $validatorChain->attach($identical);
-       return $validatorChain;
+        $identical = new Identical();
+        $identical->setToken('password');
+        $identical->setMessage('Passwords must match');
+        $validatorChain = new ValidatorChain();
+        $validatorChain->attach($identical);
+        return $validatorChain;
     }
-
-
     protected function getEmailValidatorChain() {
         $stringLength = new StringLength();
         $stringLength->setMin(7);
-
-        $emailDoesNotExist = new NoRecordExists(
-            'table' => 'user',
-            'field' => 'email',
-            'adapter' => $this->dbAdapter
-        );
+        $emailDoesNotExist = new NoRecordExists([
+          'table' => 'user',
+          'field' => 'email',
+          'adapter' => $this->dbAdapter
+        ]);
         $emailDoesNotExist->setMessage('This email address is already in use');
-
         $validatorChain = new ValidatorChain();
         $validatorChain->attach($stringLength);
         $validatorChain->attach(new EmailAddress(), true);
         $validatorChain->attach($emailDoesNotExist);
         return $validatorChain;
     }
-
     protected function getStringTrimFilterChain() {
         $filterChain = new FilterChain();
         $filterChain->attach(new StringTrim());

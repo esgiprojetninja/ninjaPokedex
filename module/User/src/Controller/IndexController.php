@@ -1,16 +1,33 @@
 <?php
 namespace User\Controller;
+use Zend\Mvc\Controller\AbstractActionController;
+use User\Form\Add;
+use User\Entity\User;
+use Zend\View\Model\ViewModel;
 
-class IndexController extends Zend_Controller_Action
-{
+class IndexController extends AbstractActionController {
+    protected $addUserFilter;
 
-    public function init()
-    {
-        /* Initialisez le contrôleur et l'action ici */
+    function __construct(\User\InputFilter\AddUser $addUserFilter) {
+        $this->addUserFilter = $addUserFilter;
     }
 
-    public function indexAction()
-    {
-        var_dump("hello moto");
+    function addAction() {
+        $form = new Add();
+        $variables = [
+          'form' => $form
+        ];
+        if ($this->request->isPost()) {
+            $user = new User();
+            $form->bind($user);
+            $form->setInputFilter($this->addUserFilter);
+            $form->setData($this->request->getPost());
+
+            if ( $form->isValid() ) {
+                // @TODO save user in db
+
+            }
+        }
+        return new ViewModel($variables);
     }
 }
