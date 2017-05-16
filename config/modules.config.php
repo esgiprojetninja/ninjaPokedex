@@ -20,5 +20,5 @@ return [
     'Zend\Form',
     'Blog',
     'User',
-    'Pokedex'
+    'Pokemon'
 ];
