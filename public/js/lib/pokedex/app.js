@@ -5,8 +5,8 @@ import { render } from "react-dom";
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Provider } from "react-redux";
 
-// import MainReducer from "./reducers/main";
-// import App from "./container/App";
+import MainReducer from "./reducers/main";
+import App from "./container/App";
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
@@ -15,26 +15,27 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
 const recruitmentApp = {
-    start() {
-        // const store = createStore(
-        //     MainReducer,
-        //     applyMiddleware(thunk)
-        // );
-        // store.subscribe(() => {
-        //     console.debug(store.getState());
-        // });
+    startApp() {
+        const store = createStore(
+            MainReducer,
+            applyMiddleware(thunk)
+        );
+        store.subscribe(() => {
+            console.group();
+            console.debug(store.getState());
+            console.groupEnd();
+        });
 
-        // render(
-        //   <MuiThemeProvider>
-        //       <Provider store={store}>
-        //       <BrowserRouter>
-        //           <Route path="/" component={App}/>
-        //       </BrowserRouter>
-        //       </Provider>
-        //   </MuiThemeProvider>,
-        //     document.getElementById("pokedexApp")
-        // );
-        alert("hello moto");
+        render(
+          <MuiThemeProvider>
+              <Provider store={store}>
+              <BrowserRouter>
+                  <Route path="/" component={App}/>
+              </BrowserRouter>
+              </Provider>
+          </MuiThemeProvider>,
+            document.getElementById("pokedexApp")
+        );
     }
 };
 
