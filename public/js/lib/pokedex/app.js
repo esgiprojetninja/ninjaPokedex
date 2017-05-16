@@ -24,16 +24,16 @@ const recruitmentApp = {
         //     console.debug(store.getState());
         // });
 
-        render(
-          <MuiThemeProvider>
-              <Provider store={store}>
-              <BrowserRouter>
-                  <Route path="/" component={App}/>
-              </BrowserRouter>
-              </Provider>
-          </MuiThemeProvider>,
-            document.getElementById("pokedexApp")
-        );
+        // render(
+        //   <MuiThemeProvider>
+        //       <Provider store={store}>
+        //       <BrowserRouter>
+        //           <Route path="/" component={App}/>
+        //       </BrowserRouter>
+        //       </Provider>
+        //   </MuiThemeProvider>,
+        //     document.getElementById("pokedexApp")
+        // );
         alert("hello moto");
     }
 };
