@@ -18,7 +18,7 @@ export default class Navbar extends React.PureComponent {
             <AppBar
                 title="Pokedex"
                 iconElementLeft={<IconButton><NavigationClose /></IconButton>}
-                iconElementRight={<FlatButton label="Oops" />}
+                iconElementRight={<FlatButton label="Oops" onTouchTap={this.props.testAction} />}
             />
         );
     }
@@ -26,5 +26,6 @@ export default class Navbar extends React.PureComponent {
 
 
 Navbar.propTypes = {
-    toggleNavbar: T.func.isRequired
+    toggleNavbar: T.func.isRequired,
+    testAction: T.func.isRequired
 };

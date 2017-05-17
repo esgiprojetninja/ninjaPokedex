@@ -2,7 +2,8 @@ import {connect} from "react-redux";
 import NavbarComponent from "../ui/Navbar";
 
 import {
-    toggleNavbar
+    toggleNavbar,
+    testAction
 } from "../actions/navbarActions";
 
 const mapStateToProps = state => state;
@@ -11,6 +12,9 @@ const mapDispatchToProps = dispatch => {
     return {
         toggleNavbar() {
             dispatch(toggleNavbar());
+        },
+        testAction() {
+            dispatch(testAction());
         }
     };
 }
