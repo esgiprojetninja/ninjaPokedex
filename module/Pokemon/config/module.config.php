@@ -3,21 +3,33 @@ namespace Pokemon;
 return [
     'controllers' => [
         'factories' => [
-            'Pokemon\Controller\Pokemon' => 'Pokemon\Controller\PokemonControllerFactory',
+            'Pokemon\Controller\Pokemons' => 'Pokemon\Controller\PokemonsControllerFactory',
         ],
     ],
     'router' => [
         'routes' => [
-            'pokemon' => [
-                'type'    => 'segment',
+            'pokemons' => [
+                'type'    => 'Segment',
                 'options' => [
-                    'route'    => '/pokemon[/:id]',
+                   'route'    => '/pokemons[/:id]',
                     'constraints' => [
                         'id'     => '[0-9]+',
                     ],
                     'defaults' => [
-                        'controller' => 'Pokemon\Controller\Pokemon',
-                        'action' => 'get'
+                        'controller' => 'Pokemon\Controller\Pokemons',
+                    ],
+                ],
+                'may_terminate' => true,
+                'child_routes' => [
+                    'signal' => [
+                        'type'    => 'Literal',
+                        'options' => [
+                            'route'    => '/signal',
+                            'defaults' => [
+                                'controller' => 'Pokemon\Controller\Pokemons',
+                                'action' => 'signal'
+                            ],
+                        ],
                     ],
                 ],
             ],

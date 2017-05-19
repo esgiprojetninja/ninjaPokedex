@@ -16,4 +16,6 @@ export default class PokemonApi {
             callback({error: response})
         });
     }
+
+
 }

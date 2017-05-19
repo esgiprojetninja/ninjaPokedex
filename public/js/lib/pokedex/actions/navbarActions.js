@@ -12,7 +12,7 @@ export const toggleNavbar = () => {
 export const testAction = () => {
     return dispatch => {
         pokemonApi.getTest( response => {
-            console.debug("NIKTAMERE", response);
+            console.debug("SERVER RESPONSE", response);
         });
     }
 }
