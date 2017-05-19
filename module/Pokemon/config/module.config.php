@@ -19,8 +19,43 @@ return [
                         'controller' => 'Pokemon\Controller\Pokemons',
                     ],
                 ],
-                'may_terminate' => true,
                 'child_routes' => [
+                    'update' => [
+                        'type'    => 'Segment',
+                        'options' => [
+                            'route'    => '/update[/:id]',
+                             'constraints' => [
+                                 'id'     => '[0-9]+',
+                             ],
+                            'defaults' => [
+                                'controller' => 'Pokemon\Controller\Pokemons'
+                            ],
+                        ],
+                    ],
+                    'create' => [
+                        'type'    => 'Segment',
+                        'options' => [
+                            'route'    => '/create[/:id]',
+                             'constraints' => [
+                                 'id'     => '[0-9]+',
+                             ],
+                            'defaults' => [
+                                'controller' => 'Pokemon\Controller\Pokemons'
+                            ],
+                        ],
+                    ],
+                    'delete' => [
+                        'type'    => 'Segment',
+                        'options' => [
+                            'route'    => '/delete[/:id]',
+                             'constraints' => [
+                                 'id'     => '[0-9]+',
+                             ],
+                            'defaults' => [
+                                'controller' => 'Pokemon\Controller\Pokemons'
+                            ],
+                        ],
+                    ],
                     'signal' => [
                         'type'    => 'Literal',
                         'options' => [
@@ -32,6 +67,7 @@ return [
                         ],
                     ],
                 ],
+                'may_terminate' => true,
             ],
         ],
     ],
