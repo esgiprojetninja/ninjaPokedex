@@ -1,15 +1,50 @@
 <?php
-
 namespace Pokemon\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="pokemon")
+ */
 class Pokemon {
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(name="id")
+     */
     protected $id;
+
+    /**
+     * @ORM\Column(name="title")
+     */
+    protected $title;
+
+    /**
+     * @ORM\Column(name="name")
+     */
     protected $name;
-    protected $type;
-    protected $health;
-    protected $number;
+
+    /**
+     * @ORM\Column(name="description")
+     */
+    protected $description;
+
+    /**
+     * @ORM\Column(name="image")
+     */
+    protected $image;
+
+    /**
+     * @ORM\Column(name="parent")
+     */
     protected $parent;
-    protected $attacks;
+
+    /**
+     * @ORM\Column(name="localization")
+     */
+    protected $localization;
 
 
     /**
@@ -32,6 +67,30 @@ class Pokemon {
     public function setId($id)
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Title
+     *
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set the value of Title
+     *
+     * @param mixed title
+     *
+     * @return self
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
 
         return $this;
     }
@@ -61,73 +120,49 @@ class Pokemon {
     }
 
     /**
-     * Get the value of Type
+     * Get the value of Description
      *
      * @return mixed
      */
-    public function getType()
+    public function getDescription()
     {
-        return $this->type;
+        return $this->description;
     }
 
     /**
-     * Set the value of Type
+     * Set the value of Description
      *
-     * @param mixed type
+     * @param mixed description
      *
      * @return self
      */
-    public function setType($type)
+    public function setDescription($description)
     {
-        $this->type = $type;
+        $this->description = $description;
 
         return $this;
     }
 
     /**
-     * Get the value of Health
+     * Get the value of Image
      *
      * @return mixed
      */
-    public function getHealth()
+    public function getImage()
     {
-        return $this->health;
+        return $this->image;
     }
 
     /**
-     * Set the value of Health
+     * Set the value of Image
      *
-     * @param mixed health
+     * @param mixed image
      *
      * @return self
      */
-    public function setHealth($health)
+    public function setImage($image)
     {
-        $this->health = $health;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of Number
-     *
-     * @return mixed
-     */
-    public function getNumber()
-    {
-        return $this->number;
-    }
-
-    /**
-     * Set the value of Number
-     *
-     * @param mixed number
-     *
-     * @return self
-     */
-    public function setNumber($number)
-    {
-        $this->number = $number;
+        $this->image = $image;
 
         return $this;
     }
@@ -157,25 +192,25 @@ class Pokemon {
     }
 
     /**
-     * Get the value of Attacks
+     * Get the value of Localization
      *
      * @return mixed
      */
-    public function getAttacks()
+    public function getLocalization()
     {
-        return $this->attacks;
+        return $this->localization;
     }
 
     /**
-     * Set the value of Attacks
+     * Set the value of Localization
      *
-     * @param mixed attacks
+     * @param mixed localization
      *
      * @return self
      */
-    public function setAttacks($attacks)
+    public function setLocalization($localization)
     {
-        $this->attacks = $attacks;
+        $this->localization = $localization;
 
         return $this;
     }

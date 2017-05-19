@@ -1,5 +1,8 @@
 <?php
 namespace Pokemon;
+
+use Doctrine\DBAL\Driver\PDOMySql\Driver as PDOMySqlDriver;
+
 return [
     'controllers' => [
         'factories' => [
@@ -76,4 +79,42 @@ return [
             'ViewJsonStrategy',
         ],
     ],
+    'doctrine' => [
+        'connection' => [
+            'orm_default' => [
+                'driverClass' => PDOMySqlDriver::class,
+                'params' => [
+                    'host'     => 'localhost',
+                    'user'     => 'vagrant',
+                    'password' => 'secret',
+                    'dbname'   => 'ninjapokedex',
+                ]
+            ]
+        ],
+        'configuration' => [
+            'orm_default' => [
+
+            ]
+        ],
+        'driver' => [
+            'orm_default' => [
+
+            ]
+        ],
+        'entitymanager' => [
+            'orm_default' => [
+
+            ]
+        ],
+        'eventmanager' => [
+            'orm_default' => [
+
+            ]
+        ],
+        'migrations_configuration' => [
+            'orm_default' => [
+
+            ]
+        ],
+    ]
 ];
