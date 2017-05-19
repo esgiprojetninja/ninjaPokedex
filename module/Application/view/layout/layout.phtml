@@ -13,10 +13,10 @@
         <!-- Le styles -->
         <?= $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'])
         ?>
-        <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen, projection">
+        <link rel="stylesheet" href="<?= $this->basePath() ?>/css/reset.css" type="text/css" media="screen, projection">
     </head>
     <body>
         <div id="pokedexApp"></div>
     </body>
-    <script type="text/javascript" src="/dist/js/pokedex.js"></script>
+    <script type="text/javascript" src="<?= $this->basePath() ?>/dist/js/pokedex.js"></script>
 </html>

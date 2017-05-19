@@ -13,7 +13,8 @@ class PokemonsController extends AbstractRestfulController {
     }
 
     public function signalAction() {
-        var_dump("wttttffff");
+        var_dump("signal Action !! isPost: ", $this->request->isPost());
+        var_dump("signal Action !! getPost: ", $this->request->getPost());
         exit;
     }
 
