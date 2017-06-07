@@ -1,61 +1,67 @@
 <?php
 namespace Pokemon;
 
-use Doctrine\DBAL\Driver\PDOMySql\Driver as PDOMySqlDriver;
+use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+use Zend\Router\Http\Segment;
 
 return [
     'controllers' => [
         'factories' => [
-            'Pokemon\Controller\Pokemons' => 'Pokemon\Controller\PokemonsControllerFactory',
+            Controller\PokemonController::class => Controller\Factory\PokemonControllerFactory::class,
         ],
     ],
+    // 'service_manager' => [
+    //     'factories' => [
+    //         Service\PokemonManager::class => Service\Factory\PokemonManagerFactory::class,
+    //     ],
+    // ],
     'router' => [
         'routes' => [
             'pokemons' => [
-                'type'    => 'Segment',
+                'type'    => Segment::class,
                 'options' => [
                    'route'    => '/pokemons[/:id]',
                     'constraints' => [
                         'id'     => '[0-9]+',
                     ],
                     'defaults' => [
-                        'controller' => 'Pokemon\Controller\Pokemons',
+                        'controller' =>   Controller\PokemonController::class,
                     ],
                 ],
                 'child_routes' => [
                     'update' => [
-                        'type'    => 'Segment',
+                        'type'    => Segment::class,
                         'options' => [
                             'route'    => '/update[/:id]',
                              'constraints' => [
                                  'id'     => '[0-9]+',
                              ],
                             'defaults' => [
-                                'controller' => 'Pokemon\Controller\Pokemons'
+                                'controller' =>   Controller\PokemonController::class
                             ],
                         ],
                     ],
                     'create' => [
-                        'type'    => 'Segment',
+                        'type'    => Segment::class,
                         'options' => [
                             'route'    => '/create[/:id]',
                              'constraints' => [
                                  'id'     => '[0-9]+',
                              ],
                             'defaults' => [
-                                'controller' => 'Pokemon\Controller\Pokemons'
+                                'controller' =>   Controller\PokemonController::class
                             ],
                         ],
                     ],
                     'delete' => [
-                        'type'    => 'Segment',
+                        'type'    => Segment::class,
                         'options' => [
                             'route'    => '/delete[/:id]',
                              'constraints' => [
                                  'id'     => '[0-9]+',
                              ],
                             'defaults' => [
-                                'controller' => 'Pokemon\Controller\Pokemons'
+                                'controller' =>   Controller\PokemonController::class
                             ],
                         ],
                     ],
@@ -64,7 +70,7 @@ return [
                         'options' => [
                             'route'    => '/signal',
                             'defaults' => [
-                                'controller' => 'Pokemon\Controller\Pokemons',
+                                'controller' =>   Controller\PokemonController::class,
                                 'action' => 'signal'
                             ],
                         ],
@@ -80,41 +86,17 @@ return [
         ],
     ],
     'doctrine' => [
-        'connection' => [
+        'driver' => [
+            __NAMESPACE__ . '_driver' => [
+                'class' => AnnotationDriver::class,
+                'cache' => 'array',
+                'paths' => [__DIR__ . '/../src/Entity']
+            ],
             'orm_default' => [
-                'driverClass' => PDOMySqlDriver::class,
-                'params' => [
-                    'host'     => 'localhost',
-                    'user'     => 'vagrant',
-                    'password' => 'secret',
-                    'dbname'   => 'ninjapokedex',
+                'drivers' => [
+                    __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver'
                 ]
             ]
-        ],
-        'configuration' => [
-            'orm_default' => [
-
-            ]
-        ],
-        'driver' => [
-            'orm_default' => [
-
-            ]
-        ],
-        'entitymanager' => [
-            'orm_default' => [
-
-            ]
-        ],
-        'eventmanager' => [
-            'orm_default' => [
-
-            ]
-        ],
-        'migrations_configuration' => [
-            'orm_default' => [
-
-            ]
-        ],
+        ]
     ]
 ];

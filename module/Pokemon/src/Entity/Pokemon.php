@@ -2,50 +2,64 @@
 namespace Pokemon\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Pokemon\Entity\Location;
+use Pokemon\Entity\Type;
+use Zend\Form\Annotation\Object;
 
 
 /**
+ * Class Pokemon
+ * @package Pokedex\Entity
+ *
  * @ORM\Entity
- * @ORM\Table(name="pokemon")
+ * @ORM\Table("pokemon")
+ * @ORM\Entity(repositoryClass="Pokedex\Repository\PokemonRepository")
  */
-class Pokemon {
+ class Pokemon {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(name="id")
      */
     protected $id;
-
-    /**
-     * @ORM\Column(name="title")
-     */
-    protected $title;
-
     /**
      * @ORM\Column(name="name")
      */
     protected $name;
-
     /**
      * @ORM\Column(name="description")
      */
     protected $description;
-
     /**
      * @ORM\Column(name="image")
      */
     protected $image;
-
     /**
      * @ORM\Column(name="parent")
      */
     protected $parent;
+    /**
+     * @ORM\OneToMany(targetEntity="\Application\Entity\Location", mappedBy="pokemon")
+     * @ORM\JoinColumn(name="id", referencedColumnName="pokemon_id")
+    */
+    protected $locations;
+    /**
+     * @ORM\ManyToMany(targetEntity="\Application\Entity\Type", inversedBy="pokemons")
+     * @ORM\JoinTable(name="pokemon_tag",
+     *      joinColumns={@ORM\JoinColumn(name="pokemon_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="type_id", referencedColumnName="id")}
+     *      )
+    */
+    protected $types;
 
     /**
-     * @ORM\Column(name="localization")
-     */
-    protected $localization;
-
+    * Constructor.
+   */
+    public function __construct() {
+        $this->locations = new ArrayCollection();
+        $this->types = new ArrayCollection();
+    }
 
     /**
      * Get the value of Id
@@ -67,30 +81,6 @@ class Pokemon {
     public function setId($id)
     {
         $this->id = $id;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of Title
-     *
-     * @return mixed
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set the value of Title
-     *
-     * @param mixed title
-     *
-     * @return self
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
 
         return $this;
     }
@@ -192,27 +182,45 @@ class Pokemon {
     }
 
     /**
-     * Get the value of Localization
+     * Get the value of Location
      *
      * @return mixed
      */
-    public function getLocalization()
+    public function getLocations()
     {
-        return $this->localization;
+        return $this->locations;
     }
 
     /**
-     * Set the value of Localization
+     * Adds a new location to this pokemon
      *
-     * @param mixed localization
+     * @param mixed location
      *
      * @return self
      */
-    public function setLocalization($localization)
+    public function addLocation($location)
     {
-        $this->localization = $localization;
+        $this->locations[] = $location;
 
         return $this;
+    }
+
+    // Returns types for this pokemon.
+    public function getTypes()
+    {
+        return $this->types;
+    }
+
+    // Adds a new tag to this pokemon.
+    public function addType($type)
+    {
+        $this->types[] = $type;
+    }
+
+    // Removes association between this pokemon and the given type.
+    public function removeTypeAssociation($type)
+    {
+        $this->types->removeElement($type);
     }
 
 }

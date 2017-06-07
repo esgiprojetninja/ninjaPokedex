@@ -11,14 +11,14 @@
  */
 
 return [
+    'DoctrineModule',
+    'DoctrineORMModule',
     'Zend\Cache',
     'Zend\Db',
     'Zend\I18n',
     'Zend\Router',
     'Zend\Validator',
     'Zend\Paginator',
-    'DoctrineModule',
-    'DoctrineORMModule',
     'Application',
     'Zend\Form',
     'Blog',

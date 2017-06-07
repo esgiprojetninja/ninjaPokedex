@@ -1,15 +1,24 @@
 <?php
 namespace Pokemon\Controller;
 
+use Doctrine\ORM\EntityManager;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
+use Zend\Debug\Debug;
+use Pokemon\Entity\Pokemon;
 
 class PokemonsController extends AbstractRestfulController {
 
-    protected $pokemonService;
+    /**
+    * Entity manager.
+    * @var Doctrine\ORM\EntityManager
+    */
+    private $entityManager;
 
-    public function __construct($pokemonService) {
-        $this->pokemonService = $pokemonService;
+    public function __construct($entityManager) {
+        var_dump($entityManager);
+        exit;
+        $this->entityManager = $entityManager;
     }
 
     public function signalAction() {
@@ -24,8 +33,10 @@ class PokemonsController extends AbstractRestfulController {
         );
     }
     public function getList() {
+        $pokemons = $this->entityManager->getRepository(Pokemon::class)
+            ->findAll();
         return new JsonModel(
-            array("getList" => "ezjfiezeffnzeui fzefui zejifzejio")
+            array('pokemons' => $pokemons)
         );
     }
     public function create($data) {
