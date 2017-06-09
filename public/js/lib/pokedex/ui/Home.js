@@ -11,9 +11,8 @@ export default class Home extends React.PureComponent {
 
     render () {
         return (
-            <div className="container">
-              <section className="index-wrapper">
-
+            <div className="container full-height full-width">
+              <section className="index-wrapper full-height full-width">
               </section>
               <section className="map-wrapper">
 
