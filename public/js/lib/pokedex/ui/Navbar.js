@@ -61,19 +61,19 @@ export default class Navbar extends React.PureComponent {
 
     renderSearchElement() {
         return (
-            <IconButton children={<SearchSVG color="white"/>}/>
+            <IconButton tooltip="EXPLORER" children={<SearchSVG color="white"/>}/>
         )
     }
 
     renderMapElement() {
         return (
-            <IconButton children={<LocationSVG color="white"/>}/>
+            <IconButton tooltip="MAP" children={<LocationSVG color="white"/>}/>
         )
     }
 
     renderContactElement() {
         return (
-            <IconButton children={<MailSVG color="white"/>}/>
+            <IconButton tooltip="CONTACT" children={<MailSVG color="white"/>}/>
         )
     }
 
@@ -91,20 +91,22 @@ export default class Navbar extends React.PureComponent {
         return <div></div>;
     }
 
-    renderRightElementChildren() {
+    renderToggleBtn() {
+        return (
+            <IconButton style={styles.toggleNavbar} onTouchTap={this.props.toggleNavbar} children={<ToggleSVG color="rgb(0, 188, 212)"/>}/>
+        );
+    }
 
+    renderRightElementChildren() {
         if ( !this.props.navbar.show ) {
             return (
                 <div style={styles.leftContainer}>
                     {this.renderRoundEffectElement()}
-                    <IconButton style={styles.toggleNavbar} onTouchTap={this.props.toggleNavbar} children={<ToggleSVG color="rgb(0, 188, 212)"/>}/>
+                    {this.renderToggleBtn()}
                 </div>
             )
-        } else {
-            return (
-                <IconButton style={styles.toggleNavbar} onTouchTap={this.props.toggleNavbar} children={<ToggleSVG color="rgb(0, 188, 212)"/>}/>
-            );
         }
+        return this.renderToggleBtn();
     }
 
     render () {
