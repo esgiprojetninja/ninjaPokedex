@@ -13,6 +13,7 @@ export default class Home extends React.PureComponent {
         return (
             <div className="container full-height full-width">
               <section className="index-wrapper full-height full-width">
+
               </section>
               <section className="map-wrapper">
 
