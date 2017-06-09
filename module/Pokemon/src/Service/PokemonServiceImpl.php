@@ -20,7 +20,6 @@ class PokemonServiceImpl implements PokemonService
         $this->pokemonRepository = $pokemonRepository;
     }
 
-
     function save(Pokemon $post) {
         $this->pokemonRepository->save($post);
     }

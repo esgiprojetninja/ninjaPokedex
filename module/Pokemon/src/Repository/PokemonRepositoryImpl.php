@@ -27,7 +27,6 @@ class PokemonRepositoryImpl implements PokemonRepository
           $sql = new \Zend\Db\Sql\Sql($this->adapter);
           $select = $sql->select();
           $select->from('pokemon');
-          //$select->where(array('myColumn' => 5));
 
           $statement = $sql->prepareStatementForSqlObject($select);
           $r = $statement->execute();
@@ -41,8 +40,6 @@ class PokemonRepositoryImpl implements PokemonRepository
           }
           return $pokemons;
       } catch ( \Exception $e ) {
-          echo $e->getMessage();
-          // On annule tout ce qu'on a pu faire avant le crash
           $this->adapter->getDriver()
             ->getConnection()
             ->rollback();
@@ -53,7 +50,31 @@ class PokemonRepositoryImpl implements PokemonRepository
      * @return Pokemon|null
     **/
     public function findById($pokemonId) {
+      try {
+        $this->adapter->getDriver()
+          ->getConnection()
+          ->beginTransaction();
+          $sql = new \Zend\Db\Sql\Sql($this->adapter);
+          $select = $sql->select();
+          $select->from('pokemon');
+          $select->where(array('id_pokemon' => $pokemonId));
 
+          $statement = $sql->prepareStatementForSqlObject($select);
+          $r = $statement->execute();
+
+          $resultSet = new ResultSet;
+          $resultSet->initialize($r);
+
+          $pokemons = [];
+          foreach ($resultSet as $pokemon) {
+              $pokemons[] = $pokemon;
+          }
+          return $pokemons;
+      } catch ( \Exception $e ) {
+          $this->adapter->getDriver()
+            ->getConnection()
+            ->rollback();
+      }
     }
 
     public function update(Pokemon $pokemon) {

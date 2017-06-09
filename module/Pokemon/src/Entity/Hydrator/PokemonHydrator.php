@@ -7,19 +7,19 @@ use Zend\Hydrator\HydratorInterface;
 
 class PokemonHydrator implements HydratorInterface{
     public function extract($object) {
-      if ( !($object instanceof Pokemon) || $object->getIdPokemon() == null )
+      if ( !($object instanceof Pokemon))
           return [];
 
-      $poke = $object->getIdPokemon();
+                      echo " TEST extract ";
 
       return [
-          'id_pokemon'    => $poke->getIdPokemon(),
-          'name'          => $poke->getName(),
-          'description'   => $poke->getDescription(),
-          'localisation'  => $poke->getLocalisation(),
-          'id_parent'     => $poke->getIdParent(),
-          'image'         => $poke->getImage(),
-          'id_national'   => $poke->getIdNational()
+          'id_pokemon'    => $object->getIdPokemon(),
+          'name'          => $object->getName(),
+          'description'   => $object->getDescription(),
+          'localisation'  => $object->getLocalisation(),
+          'id_parent'     => $object->getIdParent(),
+          'image'         => $object->getImage(),
+          'id_national'   => $object->getIdNational()
       ];
     }
 
@@ -27,7 +27,7 @@ class PokemonHydrator implements HydratorInterface{
         if ( !($object instanceof Pokemon) )
             return $object;
 
-        $poke = new Pokemon();
+            echo " TEST hydrate ";
 
         $poke->setIdPokemon( isset($data['id_pokemon']) ? intval($data['id_pokemon']) : null );
         $poke->setName( isset($data['name']) ? $data['name'] : null );
