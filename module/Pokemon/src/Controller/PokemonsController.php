@@ -24,8 +24,9 @@ class PokemonsController extends AbstractRestfulController {
         );
     }
     public function getList() {
+        $pokemons = $this->pokemonService->getAll();
         return new JsonModel(
-            array("getList" => "ezjfiezeffnzeui fzefui zejifzejio")
+            array($pokemons)
         );
     }
     public function create($data) {
@@ -48,5 +49,17 @@ class PokemonsController extends AbstractRestfulController {
             \Zend\Http\PhpEnvironment\Response::STATUS_CODE_405
         );
         throw new Exception('Method Not Allowed');
+    }
+
+    protected function pokemonToArray($pokemon){
+        return[
+          'id_pokemon'    => $pokemon->getIdPokemon(),
+          'name'          => $pokemon->getName(),
+          'description'   => $pokemon->getDescription(),
+          'localisation'  => $pokemon->getLocalisation(),
+          'id_parent'     => $pokemon->getIdParent(),
+          'image'         => $pokemon->getImage(),
+          'id_national'   => $pokemon->getIdNational()
+        ];
     }
 }

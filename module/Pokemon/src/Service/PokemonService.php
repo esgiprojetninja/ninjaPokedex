@@ -8,7 +8,7 @@ interface PokemonService
 {
     public function save(Pokemon $pokemon);
 
-    public function fetchAll();
+    public function getAll();
 
     /**
      * @return Pokemon|null

@@ -24,8 +24,8 @@ class PokemonServiceImpl implements PokemonService
     function save(Pokemon $post) {
         $this->pokemonRepository->save($post);
     }
-    function fetchAll() {
-        return $this->pokemonRepository->fetchAll();
+    function getAll() {
+        return $this->pokemonRepository->getAll();
     }
     /**
      * @return Pokemon|null

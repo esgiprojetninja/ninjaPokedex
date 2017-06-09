@@ -3,35 +3,34 @@
 namespace Pokemon\Entity;
 
 class Pokemon {
-    protected $id;
+    protected $id_pokemon;
     protected $name;
-    protected $type;
-    protected $health;
-    protected $number;
-    protected $parent;
-    protected $attacks;
-
+    protected $description;
+    protected $localisation;
+    protected $id_parent;
+    protected $image;
+    protected $id_national;
 
     /**
-     * Get the value of Id
+     * Get the value of Id Pokemon
      *
      * @return mixed
      */
-    public function getId()
+    public function getIdPokemon()
     {
-        return $this->id;
+        return $this->id_pokemon;
     }
 
     /**
-     * Set the value of Id
+     * Set the value of Id Pokemon
      *
-     * @param mixed id
+     * @param mixed id_pokemon
      *
      * @return self
      */
-    public function setId($id)
+    public function setIdPokemon($id_pokemon)
     {
-        $this->id = $id;
+        $this->id_pokemon = $id_pokemon;
 
         return $this;
     }
@@ -61,121 +60,121 @@ class Pokemon {
     }
 
     /**
-     * Get the value of Type
+     * Get the value of Description
      *
      * @return mixed
      */
-    public function getType()
+    public function getDescription()
     {
-        return $this->type;
+        return $this->description;
     }
 
     /**
-     * Set the value of Type
+     * Set the value of Description
      *
-     * @param mixed type
+     * @param mixed description
      *
      * @return self
      */
-    public function setType($type)
+    public function setDescription($description)
     {
-        $this->type = $type;
+        $this->description = $description;
 
         return $this;
     }
 
     /**
-     * Get the value of Health
+     * Get the value of Localisation
      *
      * @return mixed
      */
-    public function getHealth()
+    public function getLocalisation()
     {
-        return $this->health;
+        return $this->localisation;
     }
 
     /**
-     * Set the value of Health
+     * Set the value of Localisation
      *
-     * @param mixed health
+     * @param mixed localisation
      *
      * @return self
      */
-    public function setHealth($health)
+    public function setLocalisation($localisation)
     {
-        $this->health = $health;
+        $this->localisation = $localisation;
 
         return $this;
     }
 
     /**
-     * Get the value of Number
+     * Get the value of Id Parent
      *
      * @return mixed
      */
-    public function getNumber()
+    public function getIdParent()
     {
-        return $this->number;
+        return $this->id_parent;
     }
 
     /**
-     * Set the value of Number
+     * Set the value of Id Parent
      *
-     * @param mixed number
+     * @param mixed id_parent
      *
      * @return self
      */
-    public function setNumber($number)
+    public function setIdParent($id_parent)
     {
-        $this->number = $number;
+        $this->id_parent = $id_parent;
 
         return $this;
     }
 
     /**
-     * Get the value of Parent
+     * Get the value of Image
      *
      * @return mixed
      */
-    public function getParent()
+    public function getImage()
     {
-        return $this->parent;
+        return $this->image;
     }
 
     /**
-     * Set the value of Parent
+     * Set the value of Image
      *
-     * @param mixed parent
+     * @param mixed image
      *
      * @return self
      */
-    public function setParent($parent)
+    public function setImage($image)
     {
-        $this->parent = $parent;
+        $this->image = $image;
 
         return $this;
     }
 
     /**
-     * Get the value of Attacks
+     * Get the value of Id National
      *
      * @return mixed
      */
-    public function getAttacks()
+    public function getIdNational()
     {
-        return $this->attacks;
+        return $this->id_national;
     }
 
     /**
-     * Set the value of Attacks
+     * Set the value of Id National
      *
-     * @param mixed attacks
+     * @param mixed id_national
      *
      * @return self
      */
-    public function setAttacks($attacks)
+    public function setIdNational($id_national)
     {
-        $this->attacks = $attacks;
+        $this->id_national = $id_national;
 
         return $this;
     }

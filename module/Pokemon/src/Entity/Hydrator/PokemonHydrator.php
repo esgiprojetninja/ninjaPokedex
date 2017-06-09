@@ -6,32 +6,36 @@ use Pokemon\Entity\Pokemon;
 use Zend\Hydrator\HydratorInterface;
 
 class PokemonHydrator implements HydratorInterface{
-    function extract($poke) {
-      if ( !($poke instanceof Pokemon) )
+    public function extract($object) {
+      if ( !($object instanceof Pokemon) || $object->getIdPokemon() == null )
           return [];
 
+      $poke = $object->getIdPokemon();
+
       return [
-          'id'        => $poke->getId(),
-          'name'      => $poke->getName(),
-          'type'      => $poke->getType(),
-          'health'    => $poke->getHealth(),
-          'number'    => $poke->getNumber(),
-          'parent'    => $poke->getParent(),
-          'attacks'   => $poke->getAttacks()
+          'id_pokemon'    => $poke->getIdPokemon(),
+          'name'          => $poke->getName(),
+          'description'   => $poke->getDescription(),
+          'localisation'  => $poke->getLocalisation(),
+          'id_parent'     => $poke->getIdParent(),
+          'image'         => $poke->getImage(),
+          'id_national'   => $poke->getIdNational()
       ];
     }
 
-    function hydrate(array $data, $poke) {
-        if ( !($poke instanceof Pokemon) )
-            return $poke;
+    public function hydrate(array $data, $object) {
+        if ( !($object instanceof Pokemon) )
+            return $object;
 
-        $poke->setId( isset($data['id']) ? intval($data['id']) : null );
+        $poke = new Pokemon();
+
+        $poke->setIdPokemon( isset($data['id_pokemon']) ? intval($data['id_pokemon']) : null );
         $poke->setName( isset($data['name']) ? $data['name'] : null );
-        $poke->setType( isset($data['type']) ? $data['type'] : null );
-        $poke->setHealth( isset($data['health']) ? intval($data['health')] : null );
-        $poke->setNumber( isset($data['number']) ? intval($data['number')] : null );
-        $poke->setParent( isset($data['parent']) ? intval($data['parent']) : null );
-        $poke->setAttacks( isset($data['attacks']) ? intval($data['attacks']) : null );
+        $poke->setDescription( isset($data['description']) ? $data['description'] : null );
+        $poke->setLocalisation( isset($data['localisation']) ? intval($data['localisation')] : null );
+        $poke->setIdParent( isset($data['id_parent']) ? intval($data['id_parent')] : null );
+        $poke->setImage( isset($data['image']) ? intval($data['image']) : null );
+        $poke->setIdNational( isset($data['id_national']) ? intval($data['id_national']) : null );
 
         return $poke;
     }
