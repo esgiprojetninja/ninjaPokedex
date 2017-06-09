@@ -1,10 +1,11 @@
 import React from "react";
 import {PropTypes as T} from 'prop-types';
+import muiThemeable from 'material-ui/styles/muiThemeable';
 
 const styles = {
 };
 
-export default class Home extends React.PureComponent {
+class Home extends React.PureComponent {
     constructor(props) {
         super(props);
     }
@@ -22,3 +23,5 @@ export default class Home extends React.PureComponent {
         );
     }
 }
+
+export default muiThemeable()(Home);

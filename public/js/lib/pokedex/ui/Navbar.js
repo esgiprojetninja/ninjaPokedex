@@ -1,5 +1,6 @@
 import React from "react";
 import {PropTypes as T} from 'prop-types';
+import muiThemeable from 'material-ui/styles/muiThemeable';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import FlatButton from 'material-ui/FlatButton';
@@ -39,7 +40,6 @@ const styles = {
     },
     toggleNavbar: {
         borderRadius: '100%',
-        background: 'white',
         right: '17px',
         top: '4.7px',
         width: '38px',
@@ -53,7 +53,7 @@ const styles = {
     }
 };
 
-export default class Navbar extends React.PureComponent {
+class Navbar extends React.PureComponent {
     constructor(props) {
         super(props);
     }
@@ -66,19 +66,19 @@ export default class Navbar extends React.PureComponent {
 
     renderSearchElement() {
         return (
-            <IconButton className="animate slow fadeInHeaderIcon" style={styles.iconHide} tooltip="EXPLORER" children={<SearchSVG color="white"/>}/>
+            <IconButton className="animate slow fadeInHeaderIcon" style={styles.iconHide} tooltip="EXPLORER" children={<SearchSVG/>}/>
         )
     }
 
     renderMapElement() {
         return (
-            <IconButton className="animate slow fadeInHeaderIcon" style={styles.iconHide} tooltip="MAP" children={<LocationSVG color="white"/>}/>
+            <IconButton className="animate slow fadeInHeaderIcon" style={styles.iconHide} tooltip="MAP" children={<LocationSVG/>}/>
         )
     }
 
     renderContactElement() {
         return (
-            <IconButton className="animate slow fadeInHeaderIcon" style={styles.iconHide} tooltip="CONTACT" children={<MailSVG color="white"/>}/>
+            <IconButton className="animate slow fadeInHeaderIcon" style={styles.iconHide} tooltip="CONTACT" children={<MailSVG/>}/>
         )
     }
 
@@ -98,7 +98,7 @@ export default class Navbar extends React.PureComponent {
 
     renderToggleBtn() {
         return (
-            <IconButton style={styles.toggleNavbar} onTouchTap={this.props.toggleNavbar} children={<ToggleSVG color="rgb(0, 188, 212)"/>}/>
+            <IconButton style={{...styles.toggleNavbar, background: this.props.muiTheme.button.backgroundColor}} onTouchTap={this.props.toggleNavbar} children={<ToggleSVG color={this.props.muiTheme.palette.primary1Color}/>}/>
         );
     }
 
@@ -136,3 +136,5 @@ Navbar.propTypes = {
         show: T.bool.isRequired,
     }).isRequired
 };
+
+export default muiThemeable()(Navbar);
