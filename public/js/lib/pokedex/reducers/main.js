@@ -1,8 +1,10 @@
 import {combineReducers} from "redux";
+import theme from "./theme";
 import navbar from "./navbar";
 
 const Main = combineReducers({
-    navbar
+    navbar,
+    theme
 });
 
 export default Main;

@@ -7,15 +7,10 @@ import muiThemeable from 'material-ui/styles/muiThemeable';
 class App extends React.PureComponent {
     constructor(props) {
         super(props);
-        console.log("mofo", props);
     }
 
-    componentDidMount() {
-        this.props.onReady();
-    }
-
-    renderContent(){
-
+    componentWillMount() {
+        this.props.beforeReady(this.props.muiTheme);
     }
 
     render () {

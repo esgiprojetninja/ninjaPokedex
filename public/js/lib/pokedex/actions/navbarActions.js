@@ -10,7 +10,8 @@ export const toggleNavbar = () => {
 }
 
 export const testAction = () => {
-    return dispatch => {
+    return (dispatch, getState) => {
+        console.log("mother fucker bitch ", getState());
         pokemonApi.getAll(response => {
             console.debug("GetAll -- SERVER RESPONSE", response);
         });

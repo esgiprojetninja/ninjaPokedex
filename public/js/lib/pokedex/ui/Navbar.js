@@ -1,6 +1,5 @@
 import React from "react";
 import {PropTypes as T} from 'prop-types';
-import muiThemeable from 'material-ui/styles/muiThemeable';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import FlatButton from 'material-ui/FlatButton';
@@ -53,7 +52,7 @@ const styles = {
     }
 };
 
-class Navbar extends React.PureComponent {
+export default class Navbar extends React.PureComponent {
     constructor(props) {
         super(props);
     }
@@ -98,7 +97,7 @@ class Navbar extends React.PureComponent {
 
     renderToggleBtn() {
         return (
-            <IconButton style={{...styles.toggleNavbar, background: this.props.muiTheme.button.backgroundColor}} onTouchTap={this.props.toggleNavbar} children={<ToggleSVG color={this.props.muiTheme.palette.primary1Color}/>}/>
+            <IconButton style={{...styles.toggleNavbar, background: this.props.theme.current.button.backgroundColor}} onTouchTap={this.props.toggleNavbar} children={<ToggleSVG color={this.props.theme.current.palette.primary1Color}/>}/>
         );
     }
 
@@ -134,7 +133,8 @@ Navbar.propTypes = {
     testAction: T.func.isRequired,
     navbar: T.shape({
         show: T.bool.isRequired,
-    }).isRequired
+    }).isRequired,
+    theme: T.shape({
+        current: T.shape({})
+    })
 };
-
-export default muiThemeable()(Navbar);
