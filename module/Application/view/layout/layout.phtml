@@ -14,11 +14,15 @@
         <?= $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'])
         ?>
         <link rel="stylesheet" href="<?= $this->basePath() ?>/css/reset.css" type="text/css" media="screen, projection">
+        <link rel="stylesheet" href="<?= $this->basePath() ?>/css/index-wrapper.css" type="text/css" media="screen, projection">
+        <link rel="stylesheet" href="<?= $this->basePath() ?>/css/map-wrapper.css" type="text/css" media="screen, projection">
+        <link rel="stylesheet" href="<?= $this->basePath() ?>/css/card.css" type="text/css" media="screen, projection">
+        <link rel="stylesheet" href="<?= $this->basePath() ?>/css/size.css" type="text/css" media="screen, projection">
         <link rel="stylesheet" href="<?= $this->basePath() ?>/css/modules/animate.css" type="text/css" media="screen, projection">
         <link rel="stylesheet" href="<?= $this->basePath() ?>/css/navbar.css" type="text/css" media="screen, projection">
     </head>
     <body>
-        <div id="pokedexApp"></div>
+        <div id="pokedexApp" class="full-height"></div>
     </body>
     <script type="text/javascript" src="<?= $this->basePath() ?>/dist/js/pokedex.js"></script>
 </html>
