@@ -18,7 +18,7 @@ const styles = {
     },
     navNotShowed: {
         width: '100%',
-        maxWidth: '10px',
+        maxWidth: '70px',
         right: '0',
         position: 'fixed',
         transition: 'all .2s ease-in-out'
@@ -35,6 +35,15 @@ const styles = {
         borderRadius: '100%',
         borderTopLeftRadius: '80%',
         top: 'calc(-50%)',
+    },
+    toggleNavbar: {
+        borderRadius: '100%',
+        background: 'white',
+        right: '17px',
+        top: '4.7px',
+        width: '38px',
+        height: '38px',
+        padding: '2px'
     }
 };
 
@@ -44,6 +53,7 @@ export default class Navbar extends React.PureComponent {
     }
 
     renderRoundEffectElement() {
+        console.log("sup?");
         return (
             <div style={styles.roundEl}></div>
         )
@@ -82,16 +92,17 @@ export default class Navbar extends React.PureComponent {
     }
 
     renderRightElementChildren() {
-        if ( this.props.navbar.show ) {
+
+        if ( !this.props.navbar.show ) {
             return (
-                <div>
+                <div style={styles.leftContainer}>
                     {this.renderRoundEffectElement()}
-                    <ToggleSVG color="white"/>
+                    <IconButton style={styles.toggleNavbar} onTouchTap={this.props.toggleNavbar} children={<ToggleSVG color="rgb(0, 188, 212)"/>}/>
                 </div>
             )
         } else {
             return (
-                <ToggleSVG color="white"/>
+                <IconButton style={styles.toggleNavbar} onTouchTap={this.props.toggleNavbar} children={<ToggleSVG color="rgb(0, 188, 212)"/>}/>
             );
         }
     }
@@ -103,7 +114,8 @@ export default class Navbar extends React.PureComponent {
                 style={this.props.navbar.show ? styles.navShow : styles.navNotShowed }
                 iconElementLeft={this.renderLeftElements()}
                 iconStyleLeft={styles.leftContainer}
-                iconElementRight={<IconButton onTouchTap={this.props.toggleNavbar} children={this.renderRightElementChildren()}/>}
+                iconStyleRight={styles.leftContainer}
+                iconElementRight={this.renderRightElementChildren()}
             />
         );
     }
