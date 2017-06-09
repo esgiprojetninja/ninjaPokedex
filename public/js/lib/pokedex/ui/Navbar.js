@@ -53,7 +53,6 @@ export default class Navbar extends React.PureComponent {
     }
 
     renderRoundEffectElement() {
-        console.log("sup?");
         return (
             <div style={styles.roundEl}></div>
         )
