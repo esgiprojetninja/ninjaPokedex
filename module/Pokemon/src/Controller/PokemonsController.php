@@ -39,9 +39,13 @@ class PokemonsController extends AbstractRestfulController {
         );
     }
     public function delete($id) {
-        return new JsonModel(
-            array("delete" => $id)
-        );
+        try {
+            $this->pokemonService->delete($id);
+            $message = 'success';
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+        }
+        return new JsonModel([$message]);
     }
     public function methodNotAllowed() {
         $this->response->setStatusCode(

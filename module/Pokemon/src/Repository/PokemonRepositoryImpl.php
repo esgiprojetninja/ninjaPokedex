@@ -82,6 +82,13 @@ class PokemonRepositoryImpl implements PokemonRepository
     }
 
     public function delete($pokemonId) {
-
+        $sql = new \Zend\Db\Sql\Sql($this->adapter);
+        $delete = $sql->delete()
+        ->from('pokemon')
+        ->where([
+          'id_pokemon' => $pokemonId
+        ]);
+        $statement = $sql->prepareStatementForSqlObject($delete);
+        $statement->execute();
     }
 }
