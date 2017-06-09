@@ -21,9 +21,3 @@ export default class Home extends React.PureComponent {
         );
     }
 }
-
-
-// Home.propTypes = {
-//     toggleNavbar: T.func.isRequired,
-//     testAction: T.func.isRequired
-// };
