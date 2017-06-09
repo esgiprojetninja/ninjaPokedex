@@ -21,9 +21,7 @@ const recruitmentApp = {
             applyMiddleware(thunk)
         );
         store.subscribe(() => {
-            console.group();
-            console.debug(store.getState());
-            console.groupEnd();
+            console.log(store.getState());
         });
 
         render(

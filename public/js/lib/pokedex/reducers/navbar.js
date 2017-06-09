@@ -7,9 +7,10 @@ const initialSate = {
 const navbar = (state = initialSate, action) => {
     switch (action.type) {
         case types.TOGGLE_DISPLAY:
+            console.log("mofo i'm ill")
             return {
                 ...state,
-                show: !state.display
+                show: !state.show
             }
         default:
             return state;
