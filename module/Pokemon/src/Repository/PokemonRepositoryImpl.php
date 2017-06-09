@@ -47,10 +47,12 @@ class PokemonRepositoryImpl implements PokemonRepository
 
     public function getAll() {
       try {
-        $this->adapter->getDriver()
+          $this->adapter->getDriver()
           ->getConnection()
           ->beginTransaction();
           $sql = new \Zend\Db\Sql\Sql($this->adapter);
+
+          //Get pokemon infos
           $select = $sql->select();
           $select->from('pokemon');
 
@@ -59,10 +61,29 @@ class PokemonRepositoryImpl implements PokemonRepository
 
           $resultSet = new ResultSet;
           $resultSet->initialize($r);
-
           $pokemons = [];
           foreach ($resultSet as $pokemon) {
-              $pokemons[] = $pokemon;
+              //Get type infos
+              $select = $sql->select();
+              $select->from(['t' => 'type']);
+              $select->join(
+                ['p' => 'pokemon_has_type'],
+                'p.id_type = t.id_type'
+              );
+              $select->where(array('id_pokemon' => $pokemon['id_pokemon']));
+
+              $statement = $sql->prepareStatementForSqlObject($select);
+              $r = $statement->execute();
+
+              $resultSet2 = new ResultSet;
+              $resultSet2->initialize($r);
+              $types = [];
+              $idType = 0;
+              foreach ($resultSet2 as $type) {
+                $idType++;
+                $types['type'.$idType] = $type['id_type'];
+              }
+              $pokemons[] = (object) array_merge((array) $pokemon, $types);
           }
           return $pokemons;
       } catch ( \Exception $e ) {
