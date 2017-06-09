@@ -9,7 +9,7 @@ const navbar = (state = initialSate, action) => {
         case types.TOGGLE_DISPLAY:
             return {
                 ...state,
-                show: !state.display
+                show: !state.show
             }
         default:
             return state;
