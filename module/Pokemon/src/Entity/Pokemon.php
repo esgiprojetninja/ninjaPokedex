@@ -6,7 +6,6 @@ class Pokemon {
     protected $id_pokemon;
     protected $name;
     protected $description;
-    protected $localisation;
     protected $id_parent;
     protected $image;
     protected $id_national;
@@ -79,30 +78,6 @@ class Pokemon {
     public function setDescription($description)
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of Localisation
-     *
-     * @return mixed
-     */
-    public function getLocalisation()
-    {
-        return $this->localisation;
-    }
-
-    /**
-     * Set the value of Localisation
-     *
-     * @param mixed localisation
-     *
-     * @return self
-     */
-    public function setLocalisation($localisation)
-    {
-        $this->localisation = $localisation;
 
         return $this;
     }

@@ -17,6 +17,32 @@ class PokemonRepositoryImpl implements PokemonRepository
     use AdapterAwareTrait;
 
     public function save(Pokemon $pokemon) {
+      var_dump($pokemon);
+      try {
+          $this->adapter
+            ->getDriver()
+            ->getConnection()
+            ->beginTransaction();
+            $sql = new \Zend\Db\Sql\Sql($this->adapter);
+            $insert = $sql->insert()
+              ->values([
+                'id_national' => $pokemon->getIdNational(),
+                'name'        => $pokemon->getName(),
+                'description' => $pokemon->getDescription(),
+                'id_parent'   => $pokemon->getIdParent(),
+                'image'       => $pokemon->getImage(),
+              ])
+              ->into('pokemon');
+           $statement = $sql->prepareStatementForSqlObject($insert);
+           $statement->execute();
+           $this->adapter->getDriver()
+            ->getConnection()
+            ->commit();
+         } catch (\Exception $e) {
+           echo $e->getMessage();
+              $this->adapter->getDriver()
+                ->getConnection()->rollback();
+         }
     }
 
     public function getAll() {

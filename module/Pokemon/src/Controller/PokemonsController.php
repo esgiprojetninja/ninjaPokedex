@@ -4,6 +4,8 @@ namespace Pokemon\Controller;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
+use Pokemon\Entity\Pokemon;
+
 class PokemonsController extends AbstractRestfulController {
 
     protected $pokemonService;
@@ -29,9 +31,14 @@ class PokemonsController extends AbstractRestfulController {
         );
     }
     public function create($data) {
-        return new JsonModel(
-            array("create" => $data)
-        );
+        try {
+            $pokemon = $this->setPokemon($data);
+            $this->pokemonService->save($pokemon);
+            $message = 'success';
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+        }
+        return new JsonModel([$message]);
     }
     public function update($id, $data) {
         return new JsonModel(
@@ -52,5 +59,19 @@ class PokemonsController extends AbstractRestfulController {
             \Zend\Http\PhpEnvironment\Response::STATUS_CODE_405
         );
         throw new Exception('Method Not Allowed');
+    }
+
+    protected function setPokemon($data){
+        $pokemon = new Pokemon();
+        $pokemon->setIdNational($data['id_national']);
+        $pokemon->setName($data['name']);
+        $pokemon->setDescription($data['description']);
+        if(strlen($data['id_parent']) == 0 ){
+            $pokemon->setIdParent(NULL);
+        }else{
+            $pokemon->setIdParent($data['id_parent']);
+        }
+        $pokemon->setImage($data['image']);
+        return $pokemon;
     }
 }

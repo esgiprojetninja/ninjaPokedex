@@ -33,9 +33,9 @@ return [
                         ],
                     ],
                     'create' => [
-                        'type'    => 'Segment',
+                        'type'    => 'Literal',
                         'options' => [
-                            'route'    => '/create[/:id]',
+                            'route'    => '/create',
                              'constraints' => [
                                  'id'     => '[0-9]+',
                              ],

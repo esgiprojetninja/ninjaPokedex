@@ -15,9 +15,7 @@ class PostRepositoryImpl implements PostRepository
     use AdapterAwareTrait;
 
     public function save(Post $post) {
-        // var_dump($post);
-        // exit;
-        // Transactions: vérifier que tout s'est bien passé, sans quoi on rollback
+        var_dump($post);
         try {
             $this->adapter->getDriver()
               ->getConnection()
@@ -35,12 +33,10 @@ class PostRepositoryImpl implements PostRepository
             $statement = $sql->prepareStatementForSqlObject($insert);
             $r = $statement->execute();
 
-            // On peut commiter le travail à la fin vu qu'il n'y a pas eu de pb
             $this->adapter->getDriver()
               ->getConnection()
               ->commit();
         } catch ( \Exception $e ) {
-            // On annule tout ce qu'on a pu faire avant le crash
             $this->adapter->getDriver()
               ->getConnection()
               ->rollback();
