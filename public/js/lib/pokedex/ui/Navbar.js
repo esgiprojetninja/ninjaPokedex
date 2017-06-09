@@ -11,10 +11,11 @@ import MailSVG from 'material-ui/svg-icons/content/mail';
 const styles = {
     navShow: {
         width: '100%',
-        maxWidth: '400px',
+        maxWidth: '240px',
         right: '0',
         position: 'fixed',
-        transition: 'all .2s ease-in-out'
+        transition: 'all .2s ease-in-out',
+        maxHeight: '60px'
     },
     navNotShowed: {
         width: '100%',
@@ -44,6 +45,11 @@ const styles = {
         width: '38px',
         height: '38px',
         padding: '2px'
+    },
+    iconHide: {
+        transition: 'all .4s ease-in-out',
+        width: 'cancer',
+        height: 'cancer'
     }
 };
 
@@ -60,19 +66,19 @@ export default class Navbar extends React.PureComponent {
 
     renderSearchElement() {
         return (
-            <IconButton tooltip="EXPLORER" children={<SearchSVG color="white"/>}/>
+            <IconButton className="animate slow fadeInHeaderIcon" style={styles.iconHide} tooltip="EXPLORER" children={<SearchSVG color="white"/>}/>
         )
     }
 
     renderMapElement() {
         return (
-            <IconButton tooltip="MAP" children={<LocationSVG color="white"/>}/>
+            <IconButton className="animate slow fadeInHeaderIcon" style={styles.iconHide} tooltip="MAP" children={<LocationSVG color="white"/>}/>
         )
     }
 
     renderContactElement() {
         return (
-            <IconButton tooltip="CONTACT" children={<MailSVG color="white"/>}/>
+            <IconButton className="animate slow fadeInHeaderIcon" style={styles.iconHide} tooltip="CONTACT" children={<MailSVG color="white"/>}/>
         )
     }
 
