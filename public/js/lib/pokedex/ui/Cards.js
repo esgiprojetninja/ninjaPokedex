@@ -41,36 +41,73 @@ export default class Cards extends React.PureComponent {
 
     render () {
         return (
-            <div>
+            <div className="card-wrapper">
               <Slider {...sliderSettings}>
                 <div className="align" style={styles.cardWrapper}>
                   <div className="card">
-                    <img src=""/>
+                    <img src="img/reptincel.png" className="card-pokemon"/>
                     <span className="card-title">
                       Reptincel
                     </span>
-                    <span> className="card-description">
-                      Reptincel est tiré du dinosaure ; il possède de grandes et puissantes griffes acérées, qui laident notamment à déchirer la peau de ses ennemis.
+                    <span className="card-description">
+                      Reptincel est tiré du dinosaure, il possède de grandes et puissantes griffes acérées, qui laident notamment à déchirer la peau de ses ennemis.
                     </span>
-                    <div className="card-type">
-                      <img src=""/>
+                    <div className="card-type align">
+                      <img src="img/feu.png"/>
                     </div>
                   </div>
                 </div>
                 <div className="align" style={styles.cardWrapper}>
                   <div className="card">
+                    <img src="img/reptincel.png" className="card-pokemon"/>
+                    <span className="card-title">
+                      Reptincel
+                    </span>
+                    <span className="card-description">
+                      Reptincel est tiré du dinosaure, il possède de grandes et puissantes griffes acérées, qui laident notamment à déchirer la peau de ses ennemis.
+                    </span>
+                    <div className="card-type align">
+                      <img src="img/feu.png"/>
+                    </div>
                   </div>
-                </div>
-                <div className="align" style={styles.cardWrapper}>
+                </div><div className="align" style={styles.cardWrapper}>
                   <div className="card">
+                    <img src="img/reptincel.png" className="card-pokemon"/>
+                    <span className="card-title">
+                      Reptincel
+                    </span>
+                    <span className="card-description">
+                      Reptincel est tiré du dinosaure, il possède de grandes et puissantes griffes acérées, qui laident notamment à déchirer la peau de ses ennemis.
+                    </span>
+                    <div className="card-type align">
+                      <img src="img/feu.png"/>
+                    </div>
                   </div>
-                </div>
-                <div className="align" style={styles.cardWrapper}>
+                </div><div className="align" style={styles.cardWrapper}>
                   <div className="card">
+                    <img src="img/reptincel.png" className="card-pokemon"/>
+                    <span className="card-title">
+                      Reptincel
+                    </span>
+                    <span className="card-description">
+                      Reptincel est tiré du dinosaure, il possède de grandes et puissantes griffes acérées, qui laident notamment à déchirer la peau de ses ennemis.
+                    </span>
+                    <div className="card-type align">
+                      <img src="img/feu.png"/>
+                    </div>
                   </div>
-                </div>
-                <div className="align" style={styles.cardWrapper}>
+                </div><div className="align" style={styles.cardWrapper}>
                   <div className="card">
+                    <img src="img/reptincel.png" className="card-pokemon"/>
+                    <span className="card-title">
+                      Reptincel
+                    </span>
+                    <span className="card-description">
+                      Reptincel est tiré du dinosaure, il possède de grandes et puissantes griffes acérées, qui laident notamment à déchirer la peau de ses ennemis.
+                    </span>
+                    <div className="card-type align">
+                      <img src="img/feu.png"/>
+                    </div>
                   </div>
                 </div>
               </Slider>

@@ -1,6 +1,41 @@
+.card-wrapper {
+  margin-top: 500px;
+}
+
 .card {
-  height: 210px;
-  width: 300px;
+  /*height: 210px;
+  width: 300px;*/
+  max-width: 300px;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 5px;
+  color: white;
+  padding: 15px 25px;
+  position: relative;
+}
+
+.card-pokemon {
+  position: absolute;
+  top: -170px;
+  margin: 0 auto;
+  right: 0;
+  left: 0;
+  height: 250px;
+}
+
+.card-title {
+  text-align: center;
+  display: block;
+  font-weight: 800;
+  font-size: 18px;
+  margin: 65px 15px 15px 15px;
+}
+
+.card-description {
+  display: block;
+  font-size: 12px;
+}
+
+.card-type {
+  display: block;
+  margin-top: 15px;
 }
