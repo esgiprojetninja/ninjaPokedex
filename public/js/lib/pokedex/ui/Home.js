@@ -2,6 +2,7 @@ import React from "react";
 import {PropTypes as T} from 'prop-types';
 import MapContainer from '../container/MapContainer';
 import Cards from "../container/Cards";
+import {Grid, Row, Col} from 'react-bootstrap';
 
 const styles = {
 };
@@ -13,19 +14,20 @@ export default class Home extends React.PureComponent {
 
     render () {
         return (
-            <div className="container full-height full-width">
-                <section className="index-wrapper full-height full-width">
-                  <div className="col-md-12">
-                    <Cards/>
+          <Grid className="container full-height full-width">
+            <section className="index-wrapper full-height full-width">
+              <Row className="show-grid">
+                <Col md={8} mdOffset={2}>
+                  <Cards/>
+                </Col>
+                <Col md={6}>
+                  <div className="title-lg">
                   </div>
-                  <div className="col-md-6">
-                    <div className="title-lg">
-                      Le pokedex le plus complet et le plus rapide
-                    </div>
-                  </div>
-                </section>
-                <MapContainer/>
-            </div>
+                </Col>
+              </Row>
+            </section>
+            <MapContainer/>
+          </Grid>
         );
     }
 }
