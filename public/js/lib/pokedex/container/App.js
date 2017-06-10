@@ -1,12 +1,13 @@
 import {connect} from "react-redux";
 import AppComponent from "../ui/App";
+import {initTheme} from "../actions/themeActions";
 
 const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => {
     return {
-        onReady() {
-            
+        beforeReady(default_theme) {
+            dispatch(initTheme(default_theme));
         }
     };
 }

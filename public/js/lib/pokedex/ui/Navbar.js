@@ -39,7 +39,6 @@ const styles = {
     },
     toggleNavbar: {
         borderRadius: '100%',
-        background: 'white',
         right: '17px',
         top: '4.7px',
         width: '38px',
@@ -66,19 +65,19 @@ export default class Navbar extends React.PureComponent {
 
     renderSearchElement() {
         return (
-            <IconButton className="animate slow fadeInHeaderIcon" style={styles.iconHide} tooltip="EXPLORER" children={<SearchSVG color="white"/>}/>
+            <IconButton className="animate slow fadeInHeaderIcon" style={styles.iconHide} tooltip="EXPLORER" children={<SearchSVG/>}/>
         )
     }
 
     renderMapElement() {
         return (
-            <IconButton className="animate slow fadeInHeaderIcon" style={styles.iconHide} tooltip="MAP" children={<LocationSVG color="white"/>}/>
+            <IconButton className="animate slow fadeInHeaderIcon" style={styles.iconHide} tooltip="MAP" children={<LocationSVG/>}/>
         )
     }
 
     renderContactElement() {
         return (
-            <IconButton className="animate slow fadeInHeaderIcon" style={styles.iconHide} tooltip="CONTACT" children={<MailSVG color="white"/>}/>
+            <IconButton className="animate slow fadeInHeaderIcon" style={styles.iconHide} tooltip="CONTACT" children={<MailSVG/>}/>
         )
     }
 
@@ -98,7 +97,7 @@ export default class Navbar extends React.PureComponent {
 
     renderToggleBtn() {
         return (
-            <IconButton style={styles.toggleNavbar} onTouchTap={this.props.toggleNavbar} children={<ToggleSVG color="rgb(0, 188, 212)"/>}/>
+            <IconButton style={{...styles.toggleNavbar, background: this.props.theme.current.button.backgroundColor}} onTouchTap={this.props.toggleNavbar} children={<ToggleSVG color={this.props.theme.current.palette.primary1Color}/>}/>
         );
     }
 
@@ -134,5 +133,8 @@ Navbar.propTypes = {
     testAction: T.func.isRequired,
     navbar: T.shape({
         show: T.bool.isRequired,
-    }).isRequired
+    }).isRequired,
+    theme: T.shape({
+        current: T.shape({})
+    })
 };
