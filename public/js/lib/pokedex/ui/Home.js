@@ -16,7 +16,7 @@ export default class Home extends React.PureComponent {
 
               </section>
               <section className="map-wrapper">
-
+                  dzd
               </section>
             </div>
         );
