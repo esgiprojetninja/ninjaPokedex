@@ -4,7 +4,8 @@ import Slider from 'react-slick';
 
 const styles = {
   cardWrapper : {
-    display: 'flex'
+    display: 'flex',
+    height: '560px'
   }
 };
 
