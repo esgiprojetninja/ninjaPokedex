@@ -10,13 +10,19 @@ const styles = {
     }
 };
 
+const chibar = targetMarker => {
+    console.group();
+    console.debug(targetMarker);
+    console.groupEnd();
+}
+
 const markers = [
   {
       position: {
-        lat: 25.0112183,
-        lng: 121.52067570000001,
+        lat: -25.363882,
+        lng: 131.044922,
       },
-      key: 'Taiwan',
+      key: 'Chibar',
       defaultAnimation: 2,
   }
 ];
@@ -27,6 +33,12 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
       defaultCenter={{ lat: -25.363882, lng: 131.044922 }}
       onClick={props.onMapClick}
     >
+        {markers.map(marker => (
+              <Marker
+                {...marker}
+                onRightClick={chibar}
+              />
+        ))}
     </GoogleMap>
 ));
 
@@ -70,6 +82,7 @@ export default class MapContainer extends React.PureComponent {
                     mapElement={
                       <div className="full-height full-width" />
                     }
+                    markers={markers}
                     onMapLoad={this.handleMapLoad}
                     onMapClick={this.handleMapClick}
                 />
