@@ -15,7 +15,7 @@ import muiThemeable from 'material-ui/styles/muiThemeable';
 import spacing from 'material-ui/styles/spacing';
 import {fade} from 'material-ui/utils/colorManipulator';
 import {
-    indigo900,
+    indigo400,
     cyan700,
     grey400,
     pinkA200,
@@ -31,7 +31,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
 
-const mainColor = indigo900;
+const mainColor = indigo400;
 
 const muiTheme = getMuiTheme({
     spacing: spacing,
