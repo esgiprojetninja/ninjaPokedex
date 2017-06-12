@@ -46,6 +46,7 @@ export default class Cards extends React.PureComponent {
               <Slider {...sliderSettings}>
                 <div className="align" style={styles.cardWrapper}>
                   <div className="card">
+                    <span className="card-number">008</span>
                     <img src="img/reptincel.png" className="card-pokemon"/>
                     <span className="card-title">
                       Reptincel
@@ -60,6 +61,7 @@ export default class Cards extends React.PureComponent {
                 </div>
                 <div className="align" style={styles.cardWrapper}>
                   <div className="card">
+                    <span className="card-number">008</span>
                     <img src="img/reptincel.png" className="card-pokemon"/>
                     <span className="card-title">
                       Reptincel
@@ -73,6 +75,7 @@ export default class Cards extends React.PureComponent {
                   </div>
                 </div><div className="align" style={styles.cardWrapper}>
                   <div className="card">
+                    <span className="card-number">008</span>
                     <img src="img/reptincel.png" className="card-pokemon"/>
                     <span className="card-title">
                       Reptincel
@@ -86,6 +89,7 @@ export default class Cards extends React.PureComponent {
                   </div>
                 </div><div className="align" style={styles.cardWrapper}>
                   <div className="card">
+                    <span className="card-number">008</span>
                     <img src="img/reptincel.png" className="card-pokemon"/>
                     <span className="card-title">
                       Reptincel
@@ -99,6 +103,7 @@ export default class Cards extends React.PureComponent {
                   </div>
                 </div><div className="align" style={styles.cardWrapper}>
                   <div className="card">
+                    <span className="card-number">008</span>
                     <img src="img/reptincel.png" className="card-pokemon"/>
                     <span className="card-title">
                       Reptincel
