@@ -97,7 +97,7 @@ export default class Navbar extends React.PureComponent {
 
     renderToggleBtn() {
         return (
-            <IconButton style={{...styles.toggleNavbar, background: this.props.theme.current.button.backgroundColor}} onTouchTap={this.props.toggleNavbar} children={<ToggleSVG color={this.props.theme.current.palette.primary1Color}/>}/>
+            <IconButton style={{...styles.toggleNavbar, background: this.props.theme.current.palette.primary2Color}} onTouchTap={this.props.toggleNavbar} children={<ToggleSVG color={this.props.theme.current.palette.textColor}/>}/>
         );
     }
 

@@ -1,14 +1,20 @@
 import React from "react";
 import {PropTypes as T} from 'prop-types';
 
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import MapSVG from 'material-ui/svg-icons/maps/place';
+import AddOnMapSVG from 'material-ui/svg-icons/maps/add-location';
+import BackSVG from 'material-ui/svg-icons/navigation/arrow-back';
 
 const styles = {
     container: {
-        height: '80%',
-        borderRadius: '10px'
+        padding: '20px',
+        borderRadius: '10px',
+        transition: 'all .2s ease-in-out'
     },
     icon: {
         height: '45px',
@@ -18,7 +24,8 @@ const styles = {
         margin: '20px 0 0 20px'
     },
     btn: {
-        marginTop: '20px'
+        marginTop: '20px',
+        marginLeft: '20px'
     }
 };
 
@@ -27,38 +34,94 @@ export default class MapLegend extends React.PureComponent {
         super(props);
     }
 
-    addPokemonHandler = () => {
-        console.log("mofo i'm ill");
+    handlePokemonSelection = (event, index, value) => {
+        this.props.setSelectedPokemon(this.props.pokemons.all.find( poke => poke.id_national === value ))
+    }
+
+    renderPokemonList() {
+        return this.props.pokemons.all.map( (pokemon, key) =>
+            <MenuItem value={pokemon.id_national} primaryText={pokemon.id_national+ " - "+pokemon.name} key={key} />
+        )
     }
 
     renderForm() {
-
+        return (
+            <div className="full-width height-auto margin-auto display-flex-column">
+                <SelectField
+                    floatingLabelText="Pokemon aperçu"
+                    value={this.props.mapLegend.selectedPokemon.id_national || null}
+                    onChange={this.handlePokemonSelection}
+                    menuItemStyle={{color: this.props.theme.current.palette.primary1Color}}
+                    selectedMenuItemStyle={{color: this.props.theme.current.palette.accent1Color}}
+                    maxHeight={250}
+                >
+                    <MenuItem value={null} primaryText="" />
+                    {this.renderPokemonList()}
+                </SelectField>
+                <div className="display-flex-row margin-auto">
+                    <RaisedButton
+                        label="retour"
+                        secondary={true}
+                        icon={<BackSVG/>}
+                        onTouchTap={this.props.toggleForm}
+                    />
+                    <RaisedButton
+                        label="localiser"
+                        primary={true}
+                        icon={<AddOnMapSVG/>}
+                        disabled={this.props.mapLegend.selectedPokemon.id_national === undefined}
+                        onTouchTap={this.props.toggleForm}
+                    />
+                </div>
+            </div>
+        )
     }
 
     renderDescription() {
         return (
-            <div className="full-width margin-auto display-flex-column">
+            <div className="full-width height-auto margin-auto display-flex-column">
                 <p style={{...styles.el, color: this.props.theme.current.palette.textColor}}>Regarde les Pokémons aux alentours et si tu n'en trouves pas, utilise la Recherche !</p>
                 <RaisedButton
                     label="ajouter un pokémon"
-                    secondary={true}
+                    primary={true}
+                    className="align-start"
                     style={{...styles.btn, background: this.props.theme.current.palette.primary3Color, color: this.props.theme.current.palette.textColor}}
                     icon={<FontIcon className="muidocs-icon-custom-github" />}
-                    onTouchTap={this.addPokemonHandler}
+                    onTouchTap={this.props.toggleForm}
                 />
             </div>
         )
     }
 
+    renderContent() {
+        return this.props.mapLegend.displayForm ?
+            this.renderForm() :
+            this.renderDescription();
+    }
+
     render () {
         return (
-            <div style={{...styles.container, background:this.props.theme.current.palette.primary2Color}} className="width-5 margin-auto display-flex-column justify-start">
-                <div style={styles.el} className="margin-reset width-auto display-flex-row align-start">
+            <div style={{...styles.container, background:this.props.theme.current.palette.primary2Color}} className="width-8 margin-reset display-flex-column justify-start">
+                <div className="margin-reset width-auto display-flex-row align-start">
                     <MapSVG style={styles.icon} color={this.props.theme.current.palette.textColor}/>
                     <h3 style={{color: this.props.theme.current.palette.textColor}} className="uppercase header-title">map</h3>
                 </div>
-                {this.renderDescription()}
+                {this.renderContent()}
             </div>
         );
     }
 }
+MapLegend.propTypes = {
+    toggleForm: T.func.isRequired,
+    setSelectedPokemon: T.func.isRequired,
+    navbar: T.shape({
+        show: T.bool.isRequired,
+    }).isRequired,
+    theme: T.shape({
+        current: T.shape({})
+    }).isRequired,
+    mapLegend: T.shape({
+        displayForm: T.bool.isRequired,
+        selectedPokemon :T.shape({})
+    }).isRequired
+};

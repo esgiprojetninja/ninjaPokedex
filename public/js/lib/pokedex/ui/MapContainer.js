@@ -13,7 +13,7 @@ const styles = {
 };
 
 const chibar = targetMarker => {
-    console.debug("right here right now:", targetMarker);
+    console.debug("right here right now:", targetMarker, targetMarker.latLng.lat(), targetMarker.latLng.lng());
 }
 
 
@@ -45,10 +45,6 @@ export default class MapContainer extends React.PureComponent {
         }
     }
 
-    /*
-    * This is called when you click on the map.
-    * Go and try click now.
-    */
     handleMapClick = event => {
         console.debug("handling map click,", event);
     }
@@ -66,7 +62,7 @@ export default class MapContainer extends React.PureComponent {
         return (
             <section style={{background: this.props.theme.current.palette.primary1Color}} className="map-wrapper full-height full-width display-flex-row space-around">
                 <div style={{...styles.containerElement, background: this.props.theme.current.palette.primary2Color}} className="display-flex-column space-around margin-auto width-14">
-                    <CircularProgress className="margin-auto" color="white" size={80} thickness={5}/>
+                    <CircularProgress className="margin-reset" color="white" size={80} thickness={5}/>
                 </div>
                 <MapLegend/>
             </section>
@@ -78,7 +74,7 @@ export default class MapContainer extends React.PureComponent {
             <section style={{background: this.props.theme.current.palette.primary1Color}} className="map-wrapper full-height full-width display-flex-row space-around">
                 <GettingStartedGoogleMap
                     containerElement={
-                      <div style={styles.containerElement} className="margin-auto width-14" />
+                      <div style={styles.containerElement} className="margin-reset width-14" />
                     }
                     mapElement={
                       <div className="full-height full-width" />
