@@ -7,7 +7,7 @@ import LocationSVG from 'material-ui/svg-icons/action/room';
 const styles = {
   cardWrapper : {
     display: 'flex',
-    height: '560px'
+    height: '433px'
   },
   cardIconLocationWrapper : {
     width: '25px',
@@ -74,6 +74,7 @@ export default class Cards extends React.PureComponent {
                     </div>
                   </div>
                 </div>
+
                 <div className="align" style={styles.cardWrapper}>
                   <div className="card">
                     <span className="card-number">008</span>
@@ -89,7 +90,9 @@ export default class Cards extends React.PureComponent {
                       <img src="img/feu.png"/>
                     </div>
                   </div>
-                </div><div className="align" style={styles.cardWrapper}>
+                </div>
+
+                <div className="align" style={styles.cardWrapper}>
                   <div className="card">
                     <span className="card-number">008</span>
                     <img src="img/reptincel.png" className="card-pokemon"/>
@@ -104,7 +107,9 @@ export default class Cards extends React.PureComponent {
                       <img src="img/feu.png"/>
                     </div>
                   </div>
-                </div><div className="align" style={styles.cardWrapper}>
+                </div>
+
+                <div className="align" style={styles.cardWrapper}>
                   <div className="card">
                     <span className="card-number">008</span>
                     <img src="img/reptincel.png" className="card-pokemon"/>
@@ -119,7 +124,9 @@ export default class Cards extends React.PureComponent {
                       <img src="img/feu.png"/>
                     </div>
                   </div>
-                </div><div className="align" style={styles.cardWrapper}>
+                </div>
+
+                <div className="align" style={styles.cardWrapper}>
                   <div className="card">
                     <span className="card-number">008</span>
                     <img src="img/reptincel.png" className="card-pokemon"/>
@@ -134,7 +141,9 @@ export default class Cards extends React.PureComponent {
                       <img src="img/feu.png"/>
                     </div>
                   </div>
-                </div><div className="align" style={styles.cardWrapper}>
+                </div>
+
+                <div className="align" style={styles.cardWrapper}>
                   <div className="card">
                     <span className="card-number">008</span>
                     <img src="img/reptincel.png" className="card-pokemon"/>

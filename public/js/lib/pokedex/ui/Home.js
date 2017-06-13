@@ -24,6 +24,9 @@ export default class Home extends React.PureComponent {
                   <div className="title-lg">
                   </div>
                 </Col>
+                <Col md={6}>
+                  <img className="random-btn-image" src="img/randomBtn.png"/>
+                </Col>
               </Row>
             </section>
             <MapContainer/>

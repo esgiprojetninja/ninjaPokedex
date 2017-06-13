@@ -3,6 +3,7 @@
 }
 
 .card {
+  margin-top: 165px;
   max-width: 300px;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 5px;
