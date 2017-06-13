@@ -9,6 +9,9 @@ class Pokemon {
     protected $id_parent;
     protected $image;
     protected $id_national;
+    protected $type1;
+    protected $type2;
+
 
     /**
      * Get the value of Id Pokemon
@@ -150,6 +153,55 @@ class Pokemon {
     public function setIdNational($id_national)
     {
         $this->id_national = $id_national;
+
+        return $this;
+    }
+
+
+    /**
+     * Get the value of Type
+     *
+     * @return mixed
+     */
+    public function getType1()
+    {
+        return $this->type1;
+    }
+
+    /**
+     * Set the value of Type
+     *
+     * @param mixed type1
+     *
+     * @return self
+     */
+    public function setType1($type1)
+    {
+        $this->type1 = $type1;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Type
+     *
+     * @return mixed
+     */
+    public function getType2()
+    {
+        return $this->type2;
+    }
+
+    /**
+     * Set the value of Type
+     *
+     * @param mixed type2
+     *
+     * @return self
+     */
+    public function setType2($type2)
+    {
+        $this->type2 = $type2;
 
         return $this;
     }
