@@ -9,6 +9,7 @@ import FontIcon from 'material-ui/FontIcon';
 import MapSVG from 'material-ui/svg-icons/maps/place';
 import AddOnMapSVG from 'material-ui/svg-icons/maps/add-location';
 import BackSVG from 'material-ui/svg-icons/navigation/arrow-back';
+import CancelSVG from 'material-ui/svg-icons/navigation/cancel';
 
 const styles = {
     container: {
@@ -66,11 +67,11 @@ export default class MapLegend extends React.PureComponent {
                         onTouchTap={this.props.toggleForm}
                     />
                     <RaisedButton
-                        label="localiser"
+                        label={this.props.mapLegend.placingPokemon ? "annuler" :"localiser"}
                         primary={true}
-                        icon={<AddOnMapSVG/>}
+                        icon={this.props.mapLegend.placingPokemon ?<CancelSVG/>:<AddOnMapSVG/>}
                         disabled={this.props.mapLegend.selectedPokemon.id_national === undefined}
-                        onTouchTap={this.props.toggleForm}
+                        onTouchTap={this.props.togglePlacingPokemon}
                     />
                 </div>
             </div>
@@ -101,7 +102,7 @@ export default class MapLegend extends React.PureComponent {
 
     render () {
         return (
-            <div style={{...styles.container, background:this.props.theme.current.palette.primary2Color}} className="width-8 margin-reset display-flex-column justify-start">
+            <div style={{...styles.container, background:this.props.theme.current.palette.primary2Color}} className="width-8 margin-auto display-flex-column justify-start">
                 <div className="margin-reset width-auto display-flex-row align-start">
                     <MapSVG style={styles.icon} color={this.props.theme.current.palette.textColor}/>
                     <h3 style={{color: this.props.theme.current.palette.textColor}} className="uppercase header-title">map</h3>
@@ -114,14 +115,13 @@ export default class MapLegend extends React.PureComponent {
 MapLegend.propTypes = {
     toggleForm: T.func.isRequired,
     setSelectedPokemon: T.func.isRequired,
-    navbar: T.shape({
-        show: T.bool.isRequired,
-    }).isRequired,
+    togglePlacingPokemon: T.func.isRequired,
     theme: T.shape({
         current: T.shape({})
     }).isRequired,
     mapLegend: T.shape({
         displayForm: T.bool.isRequired,
+        placingPokemon: T.bool.isRequired,
         selectedPokemon :T.shape({})
     }).isRequired
 };

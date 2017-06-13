@@ -3,7 +3,7 @@ import * as types from "../actions/mapLegendTypes";
 const initialSate = {
     displayForm: false,
     selectedPokemon: {},
-    displayMapModal: false
+    placingPokemon: false
 };
 
 const navbar = (state = initialSate, action) => {
@@ -12,7 +12,13 @@ const navbar = (state = initialSate, action) => {
             return {
                 ...state,
                 displayForm: !state.displayForm,
+                placingPokemon: state.displayForm ? false: state.placingPokemon,
                 selectedPokemon: {}
+            }
+        case types.TOGGLE_PLACING_POKEMON:
+            return {
+                ...state,
+                placingPokemon: !state.placingPokemon,
             }
         case types.CHANGE_POKEMON:
             return {

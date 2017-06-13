@@ -7,15 +7,9 @@ import CircularProgress from 'material-ui/CircularProgress';
 const styles = {
     containerElement: {
         height: '80%',
-        minWidth: '320px',
-        borderRadius: '10px'
+        minWidth: '320px'
     }
 };
-
-const chibar = targetMarker => {
-    console.debug("right here right now:", targetMarker, targetMarker.latLng.lat(), targetMarker.latLng.lng());
-}
-
 
 const GettingStartedGoogleMap = withGoogleMap(props => (
     <GoogleMap
@@ -28,7 +22,7 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
             <Marker
               {...marker}
               key={key}
-              onRightClick={chibar}
+              onRightClick={props.onMarkerRightClick}
             />
         ))}
     </GoogleMap>
@@ -37,16 +31,24 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
 export default class MapContainer extends React.PureComponent {
     constructor(props) {
         super(props);
+        this._mapComponent = null;
     }
 
     handleMapLoad = map => {
-        if ( map ) {
-            this._mapComponent = map;
-        }
+        if ( map ) this._mapComponent = map;
     }
 
-    handleMapClick = event => {
-        console.debug("handling map click,", event);
+    handleMapClick = ({latLng}) => {
+        console.debug("handling map click,", latLng);
+        if ( this.props.mapLegend.placingPokemon ) {
+            console.log("trying to place pokemon ", this)
+            const marker = new google.maps.Marker({
+                position: latLng,
+                title: 'Hello World!',
+                icon: this.props.mapLegend.selectedPokemon.icon
+            });
+            marker.setMap(this._mapComponent.getStreetView())
+        }
     }
 
     handleMarkerRightClick = targetMarker => {
@@ -56,6 +58,7 @@ export default class MapContainer extends React.PureComponent {
         * web front end and even with google maps API.)
         */
         console.debug("handling map RIGHT click,", targetMarker);
+        targetMarker.stop();
     }
 
     renderSpinner() {
@@ -70,11 +73,12 @@ export default class MapContainer extends React.PureComponent {
     }
 
     renderMap() {
+        const focusStyle =  this.props.mapLegend.placingPokemon ? {border: "2px solid", borderColor: this.props.theme.current.palette.accent1Color} : {};
         return (
-            <section style={{background: this.props.theme.current.palette.primary1Color}} className="map-wrapper full-height full-width display-flex-row space-around">
+            <section style={{background: this.props.theme.current.palette.primary1Color, padding: "10px 0"}} className="map-wrapper full-height full-width display-flex-row space-around">
                 <GettingStartedGoogleMap
                     containerElement={
-                      <div style={styles.containerElement} className="margin-reset width-14" />
+                      <div style={{...styles.containerElement, ...focusStyle}} className="margin-auto width-14" />
                     }
                     mapElement={
                       <div className="full-height full-width" />
@@ -82,6 +86,7 @@ export default class MapContainer extends React.PureComponent {
                     markers={this.props.pokemons.marked}
                     onMapLoad={this.handleMapLoad}
                     onMapClick={this.handleMapClick}
+                    onMarkerRightClick={this.handleMarkerRightClick}
                 />
               <MapLegend/>
 
@@ -91,16 +96,17 @@ export default class MapContainer extends React.PureComponent {
 
     render () {
         return ( this.props.pokemons.marked ) ?
-            this.renderMap() :
+            this.renderMap():
             this.renderSpinner();
     }
 }
 MapContainer.propTypes = {
-    navbar: T.shape({
-        show: T.bool.isRequired,
-    }).isRequired,
     pokemons: T.shape({
         isFetching: T.bool.isRequired,
     }).isRequired,
     theme: T.shape({}).isRequired,
+    mapLegend: T.shape({
+        placingPokemon: T.bool.isRequired,
+        selectedPokemon: T.shape({})
+    }).isRequired,
 };

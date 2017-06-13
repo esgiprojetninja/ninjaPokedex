@@ -8,6 +8,11 @@ export const toggleForm = () => {
         type: types.TOGGLE_FORM
     }
 }
+export const togglePlacingPokemon = () => {
+    return {
+        type: types.TOGGLE_PLACING_POKEMON
+    }
+}
 export const setSelectedPokemon = pokemon => {
     return {
         type: types.CHANGE_POKEMON,

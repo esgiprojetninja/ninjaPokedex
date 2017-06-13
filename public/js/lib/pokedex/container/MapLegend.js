@@ -2,6 +2,7 @@ import {connect} from "react-redux";
 import MapLegendComponent from "../ui/MapLegend";
 import {
     toggleForm,
+    togglePlacingPokemon,
     setSelectedPokemon
 } from "../actions/mapLegendActions";
 
@@ -11,6 +12,9 @@ const mapDispatchToProps = dispatch => {
     return {
         toggleForm() {
             dispatch(toggleForm())
+        },
+        togglePlacingPokemon() {
+            dispatch(togglePlacingPokemon())
         },
         setSelectedPokemon(pokemon) {
             dispatch(setSelectedPokemon(pokemon))
