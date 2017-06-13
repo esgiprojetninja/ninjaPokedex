@@ -69,7 +69,7 @@ return [
                     'marked' => [
                         'type'    => 'Literal',
                         'options' => [
-                            'route'    => '/signal',
+                            'route'    => '/marked',
                             'defaults' => [
                                 'controller' => 'Pokemon\Controller\Pokemons',
                                 'action' => 'marked'

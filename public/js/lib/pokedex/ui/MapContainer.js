@@ -24,9 +24,10 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
       defaultCenter={{ lat: -25.363882, lng: 131.044922 }}
       onClick={props.onMapClick}
     >
-        {props.markers.map(marker => (
+        {props.markers.map( (marker, key) => (
             <Marker
               {...marker}
+              key={key}
               onRightClick={chibar}
             />
         ))}

@@ -68,7 +68,7 @@ class PokemonsController extends AbstractRestfulController {
             array("delete" => $id)
         );
     }
-    public function marked() {
+    public function markedAction() {
         return new JsonModel(
             array("data" => [
                 [
