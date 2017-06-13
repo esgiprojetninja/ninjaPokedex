@@ -7,7 +7,8 @@ import MapSVG from 'material-ui/svg-icons/maps/place';
 
 const styles = {
     container: {
-        height: '80%'
+        height: '80%',
+        borderRadius: '10px'
     },
     icon: {
         height: '45px',
@@ -30,13 +31,13 @@ export default class MapLegend extends React.PureComponent {
         console.log("mofo i'm ill");
     }
 
-    render () {
+    renderForm() {
+
+    }
+
+    renderDescription() {
         return (
-            <div style={{...styles.container, background:this.props.theme.current.palette.primary2Color}} className="width-5 margin-auto display-flex-column justify-start">
-                <div style={styles.el} className="margin-reset width-auto display-flex-row align-start">
-                    <MapSVG style={styles.icon} color={this.props.theme.current.palette.textColor}/>
-                    <h3 style={{color: this.props.theme.current.palette.textColor}} className="uppercase header-title">map</h3>
-                </div>
+            <div className="full-width margin-auto display-flex-column">
                 <p style={{...styles.el, color: this.props.theme.current.palette.textColor}}>Regarde les Pokémons aux alentours et si tu n'en trouves pas, utilise la Recherche !</p>
                 <RaisedButton
                     label="ajouter un pokémon"
@@ -45,6 +46,18 @@ export default class MapLegend extends React.PureComponent {
                     icon={<FontIcon className="muidocs-icon-custom-github" />}
                     onTouchTap={this.addPokemonHandler}
                 />
+            </div>
+        )
+    }
+
+    render () {
+        return (
+            <div style={{...styles.container, background:this.props.theme.current.palette.primary2Color}} className="width-5 margin-auto display-flex-column justify-start">
+                <div style={styles.el} className="margin-reset width-auto display-flex-row align-start">
+                    <MapSVG style={styles.icon} color={this.props.theme.current.palette.textColor}/>
+                    <h3 style={{color: this.props.theme.current.palette.textColor}} className="uppercase header-title">map</h3>
+                </div>
+                {this.renderDescription()}
             </div>
         );
     }

@@ -66,6 +66,16 @@ return [
                             ],
                         ],
                     ],
+                    'marked' => [
+                        'type'    => 'Literal',
+                        'options' => [
+                            'route'    => '/signal',
+                            'defaults' => [
+                                'controller' => 'Pokemon\Controller\Pokemons',
+                                'action' => 'marked'
+                            ],
+                        ],
+                    ]
                 ],
                 'may_terminate' => true,
             ],

@@ -2,30 +2,21 @@ import React from "react";
 import {PropTypes as T} from 'prop-types';
 import { withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 import MapLegend from '../container/MapLegend';
+import CircularProgress from 'material-ui/CircularProgress';
 
 const styles = {
     containerElement: {
         height: '80%',
-        minWidth: '320px'
+        minWidth: '320px',
+        borderRadius: '10px'
     }
 };
 
 const chibar = targetMarker => {
-    console.group();
-    console.debug(targetMarker);
-    console.groupEnd();
+    console.debug("right here right now:", targetMarker);
 }
 
-const markers = [
-  {
-      position: {
-        lat: -25.363882,
-        lng: 131.044922,
-      },
-      key: 'Chibar',
-      defaultAnimation: 2,
-  }
-];
+
 const GettingStartedGoogleMap = withGoogleMap(props => (
     <GoogleMap
       ref={props.onMapLoad}
@@ -33,11 +24,11 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
       defaultCenter={{ lat: -25.363882, lng: 131.044922 }}
       onClick={props.onMapClick}
     >
-        {markers.map(marker => (
-              <Marker
-                {...marker}
-                onRightClick={chibar}
-              />
+        {props.markers.map(marker => (
+            <Marker
+              {...marker}
+              onRightClick={chibar}
+            />
         ))}
     </GoogleMap>
 ));
@@ -49,9 +40,7 @@ export default class MapContainer extends React.PureComponent {
 
     handleMapLoad = map => {
         if ( map ) {
-            console.log(map);
             this._mapComponent = map;
-            console.log(map.getZoom());
         }
     }
 
@@ -60,7 +49,7 @@ export default class MapContainer extends React.PureComponent {
     * Go and try click now.
     */
     handleMapClick = event => {
-        console.log("handling map click,", event);
+        console.debug("handling map click,", event);
     }
 
     handleMarkerRightClick = targetMarker => {
@@ -69,10 +58,21 @@ export default class MapContainer extends React.PureComponent {
         * This is so called data-driven-development. (And yes, it's now in
         * web front end and even with google maps API.)
         */
-        console.log("handling map RIGHT click,", targetMarker);
+        console.debug("handling map RIGHT click,", targetMarker);
     }
 
-    render () {
+    renderSpinner() {
+        return (
+            <section style={{background: this.props.theme.current.palette.primary1Color}} className="map-wrapper full-height full-width display-flex-row space-around">
+                <div style={{...styles.containerElement, background: this.props.theme.current.palette.primary2Color}} className="display-flex-column space-around margin-auto width-14">
+                    <CircularProgress className="margin-auto" color="white" size={80} thickness={5}/>
+                </div>
+                <MapLegend/>
+            </section>
+        )
+    }
+
+    renderMap() {
         return (
             <section style={{background: this.props.theme.current.palette.primary1Color}} className="map-wrapper full-height full-width display-flex-row space-around">
                 <GettingStartedGoogleMap
@@ -82,7 +82,7 @@ export default class MapContainer extends React.PureComponent {
                     mapElement={
                       <div className="full-height full-width" />
                     }
-                    markers={markers}
+                    markers={this.props.pokemons.marked}
                     onMapLoad={this.handleMapLoad}
                     onMapClick={this.handleMapClick}
                 />
@@ -91,4 +91,19 @@ export default class MapContainer extends React.PureComponent {
             </section>
         );
     }
+
+    render () {
+        return ( this.props.pokemons.marked ) ?
+            this.renderMap() :
+            this.renderSpinner();
+    }
 }
+MapContainer.propTypes = {
+    navbar: T.shape({
+        show: T.bool.isRequired,
+    }).isRequired,
+    pokemons: T.shape({
+        isFetching: T.bool.isRequired,
+    }).isRequired,
+    theme: T.shape({}).isRequired,
+};

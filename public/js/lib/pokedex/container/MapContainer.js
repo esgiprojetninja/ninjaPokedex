@@ -5,7 +5,6 @@ const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => {
     return {
-
     }
 }
 
