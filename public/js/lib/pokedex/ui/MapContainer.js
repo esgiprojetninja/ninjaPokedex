@@ -31,35 +31,23 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
 export default class MapContainer extends React.PureComponent {
     constructor(props) {
         super(props);
-        this._mapComponent = null;
-    }
-
-    handleMapLoad = map => {
-        if ( map ) this._mapComponent = map;
     }
 
     handleMapClick = ({latLng}) => {
-        console.debug("handling map click,", latLng);
         if ( this.props.mapLegend.placingPokemon ) {
-            console.log("trying to place pokemon ", this)
+            if ( this.props.mapWrap.addedMarker )
+                this.props.mapWrap.addedMarker.setMap(null);
             const marker = new google.maps.Marker({
                 position: latLng,
                 title: 'Hello World!',
                 icon: this.props.mapLegend.selectedPokemon.icon
             });
-            marker.setMap(this._mapComponent.getStreetView())
+            this.props.addMarker(marker);
+            marker.setMap(this.props.mapWrap.mapComponent.getStreetView())
         }
     }
 
-    handleMarkerRightClick = targetMarker => {
-        /*
-        * All you modify is data, and the view is driven by data.
-        * This is so called data-driven-development. (And yes, it's now in
-        * web front end and even with google maps API.)
-        */
-        console.debug("handling map RIGHT click,", targetMarker);
-        targetMarker.stop();
-    }
+    handleMarkerRightClick = targetMarker => {}
 
     renderSpinner() {
         return (
@@ -84,7 +72,7 @@ export default class MapContainer extends React.PureComponent {
                       <div className="full-height full-width" />
                     }
                     markers={this.props.pokemons.marked}
-                    onMapLoad={this.handleMapLoad}
+                    onMapLoad={this.props.mapLoaded}
                     onMapClick={this.handleMapClick}
                     onMarkerRightClick={this.handleMarkerRightClick}
                 />
