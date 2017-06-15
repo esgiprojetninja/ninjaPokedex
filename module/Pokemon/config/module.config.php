@@ -58,7 +58,8 @@ return [
                         'options' => [
                             'route'    => '/marked',
                             'defaults' => [
-                                'controller' => 'Pokemon\Controller\Pokemons'
+                                'controller' => 'Pokemon\Controller\Pokemons',
+                                'action' => 'marked'
                             ],
                         ],
                     ],

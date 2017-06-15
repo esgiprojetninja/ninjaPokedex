@@ -55,9 +55,9 @@ class PokemonsController extends AbstractRestfulController {
     return new JsonModel([$message]);
   }
 
-  public function marked() {
+  public function markedAction() {
     return new JsonModel(
-      $this->Pokemons->marked()
+      $this->pokemonService->marked()
     );
   }
 
