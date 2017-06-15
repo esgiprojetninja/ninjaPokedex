@@ -18,4 +18,6 @@ interface PokemonService
     public function update(Pokemon $pokemon);
 
     public function delete($pokemonId);
+
+    public function marked();
 }

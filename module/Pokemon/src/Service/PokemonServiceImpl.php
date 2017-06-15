@@ -38,4 +38,7 @@ class PokemonServiceImpl implements PokemonService
     function delete($postId) {
         return $this->pokemonRepository->delete($postId);
     }
+    function marked() {
+        return $this->pokemonRepository->marked();
+    }
 }

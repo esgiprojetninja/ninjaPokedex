@@ -55,6 +55,12 @@ class PokemonsController extends AbstractRestfulController {
     return new JsonModel([$message]);
   }
 
+  public function marked() {
+    return new JsonModel(
+      $this->Pokemons->marked()
+    );
+  }
+
   public function methodNotAllowed() {
     $this->response->setStatusCode(
       \Zend\Http\PhpEnvironment\Response::STATUS_CODE_405

@@ -53,6 +53,15 @@ return [
                             ],
                         ],
                     ],
+                    'marked' => [
+                        'type'    => 'Literal',
+                        'options' => [
+                            'route'    => '/marked',
+                            'defaults' => [
+                                'controller' => 'Pokemon\Controller\Pokemons'
+                            ],
+                        ],
+                    ],
                 ],
                 'may_terminate' => true,
             ],

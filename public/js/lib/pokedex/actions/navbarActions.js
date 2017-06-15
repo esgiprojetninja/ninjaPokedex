@@ -26,5 +26,8 @@ export const testAction = () => {
         pokemonApi.delete(undefined, response => {
             console.debug("DELETE -- SERVER RESPONSE", response);
         });
+        pokemonApi.marked(response => {
+            console.debug("Marked -- SERVER REPONSE", response);
+        });
     }
 }

@@ -121,6 +121,10 @@ class PokemonRepositoryImpl implements PokemonRepository
     }
   }
 
+  public function marked() {
+    echo "SALUT";
+  }
+
   /**
   * @return Pokemon|null
   **/

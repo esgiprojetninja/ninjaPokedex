@@ -58,6 +58,15 @@ export default class PokemonApi {
             callback({error: response})
         });
     }
-
+    marked(callback){
+      $.ajax({
+          method: "GET",
+          url: base_url + "/marked"
+      }).done( response => {
+          callback(response);
+      }).fail( response => {
+          callback({error: response})
+      });
+    }
 
 }
