@@ -1,5 +1,6 @@
 import React from "react";
 import {PropTypes as T} from 'prop-types';
+import MapContainer from '../container/MapContainer';
 
 const styles = {
 };
@@ -12,12 +13,10 @@ export default class Home extends React.PureComponent {
     render () {
         return (
             <div className="container full-height full-width">
-              <section className="index-wrapper full-height full-width">
+                <section className="index-wrapper full-height full-width">
 
-              </section>
-              <section className="map-wrapper">
-
-              </section>
+                </section>
+                <MapContainer/>
             </div>
         );
     }

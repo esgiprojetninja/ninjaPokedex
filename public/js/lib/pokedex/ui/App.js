@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from 'prop-types';
+import {PropTypes as T} from 'prop-types';
 import Navbar from "../container/Navbar";
 import Home from "../ui/Home";
 import muiThemeable from 'material-ui/styles/muiThemeable';
@@ -12,6 +12,9 @@ class App extends React.PureComponent {
     componentWillMount() {
         this.props.beforeReady(this.props.muiTheme);
     }
+    componentDidMount() {
+        this.props.onReady();
+    }
 
     render () {
         return (
@@ -22,5 +25,17 @@ class App extends React.PureComponent {
         );
     }
 }
+App.propTypes = {
+    beforeReady: T.func.isRequired,
+    onReady: T.func.isRequired,
+    navbar: T.shape({
+        show: T.bool.isRequired,
+    }).isRequired,
+    pokemons: T.shape({
+        isFetching: T.bool.isRequired,
+    }).isRequired,
+    theme: T.shape({}).isRequired,
+};
+
 
 export default muiThemeable()(App);
