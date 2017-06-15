@@ -14,12 +14,6 @@ class PokemonsController extends AbstractRestfulController {
     $this->pokemonService = $pokemonService;
   }
 
-  public function signalAction() {
-    var_dump("signal Action !! isPost: ", $this->request->isPost());
-    var_dump("signal Action !! getPost: ", $this->request->getPost());
-    exit;
-  }
-
   public function get($id) {
     return new JsonModel(
       $this->pokemonService->findById($id)

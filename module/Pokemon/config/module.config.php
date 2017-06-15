@@ -36,9 +36,6 @@ return [
                         'type'    => 'Literal',
                         'options' => [
                             'route'    => '/create',
-                             'constraints' => [
-                                 'id'     => '[0-9]+',
-                             ],
                             'defaults' => [
                                 'controller' => 'Pokemon\Controller\Pokemons'
                             ],
@@ -53,16 +50,6 @@ return [
                              ],
                             'defaults' => [
                                 'controller' => 'Pokemon\Controller\Pokemons'
-                            ],
-                        ],
-                    ],
-                    'signal' => [
-                        'type'    => 'Literal',
-                        'options' => [
-                            'route'    => '/signal',
-                            'defaults' => [
-                                'controller' => 'Pokemon\Controller\Pokemons',
-                                'action' => 'signal'
                             ],
                         ],
                     ],
