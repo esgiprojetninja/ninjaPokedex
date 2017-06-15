@@ -1,9 +1,7 @@
 import React from "react";
 import {PropTypes as T} from 'prop-types';
-
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import MapSVG from 'material-ui/svg-icons/maps/place';
@@ -35,6 +33,15 @@ export default class MapLegend extends React.PureComponent {
         super(props);
     }
 
+    handleReturn = () => {
+        this.props.toggleForm();
+        this.props.cleanMarker(this.props.mapWrap.addedMarker);
+    }
+    handleCancel = () => {
+        this.props.togglePlacingPokemon();
+        this.props.cleanMarker(this.props.mapWrap.addedMarker);
+    }
+
     handlePokemonSelection = (event, index, value) => {
         this.props.setSelectedPokemon(this.props.pokemons.all.find( poke => poke.id_national === value ))
     }
@@ -64,14 +71,14 @@ export default class MapLegend extends React.PureComponent {
                         label="retour"
                         secondary={true}
                         icon={<BackSVG/>}
-                        onTouchTap={this.props.toggleForm}
+                        onTouchTap={this.handleReturn}
                     />
                     <RaisedButton
                         label={this.props.mapLegend.placingPokemon ? "annuler" :"localiser"}
                         primary={true}
                         icon={this.props.mapLegend.placingPokemon ?<CancelSVG/>:<AddOnMapSVG/>}
                         disabled={this.props.mapLegend.selectedPokemon.id_national === undefined}
-                        onTouchTap={this.props.togglePlacingPokemon}
+                        onTouchTap={this.handleCancel}
                     />
                 </div>
             </div>
@@ -116,6 +123,7 @@ MapLegend.propTypes = {
     toggleForm: T.func.isRequired,
     setSelectedPokemon: T.func.isRequired,
     togglePlacingPokemon: T.func.isRequired,
+    cleanMarker: T.func.isRequired,
     theme: T.shape({
         current: T.shape({})
     }).isRequired,

@@ -7,9 +7,25 @@ export const mapLoaded = mapRef => {
     }
 };
 
-export const addMarker = marker => {
+export const cleanMarker = marker => {
+    if ( marker )
+        marker.setMap(null);
+    return {
+        type: types.CLEAN_MARKER
+    }
+}
+
+const addMarker = marker => {
     return {
         type: types.ADD_MARKER,
         marker
+    }
+}
+
+export const changeMarker = marker => {
+    return (dispatch, getState) => {
+        dispatch(cleanMarker(getState().mapWrap.addedMarker));
+        dispatch(addMarker(marker));
+        marker.setMap(getState().mapWrap.mapComponent.getStreetView())
     }
 };

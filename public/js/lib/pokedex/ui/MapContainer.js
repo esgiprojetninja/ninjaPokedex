@@ -3,11 +3,21 @@ import {PropTypes as T} from 'prop-types';
 import { withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 import MapLegend from '../container/MapLegend';
 import CircularProgress from 'material-ui/CircularProgress';
+import Snackbar from 'material-ui/Snackbar';
+
+import RaisedButton from 'material-ui/RaisedButton';
+import DoneSVG from 'material-ui/svg-icons/action/done';
 
 const styles = {
     containerElement: {
         height: '80%',
         minWidth: '320px'
+    },
+    validBtn: {
+        width: '100%',
+        maxWidth: '200px',
+        bottom: '15px',
+        left: 'calc(50% - 40px)'
     }
 };
 
@@ -35,19 +45,19 @@ export default class MapContainer extends React.PureComponent {
 
     handleMapClick = ({latLng}) => {
         if ( this.props.mapLegend.placingPokemon ) {
-            if ( this.props.mapWrap.addedMarker )
-                this.props.mapWrap.addedMarker.setMap(null);
-            const marker = new google.maps.Marker({
+            this.props.changeMarker(new google.maps.Marker({
                 position: latLng,
-                title: 'Hello World!',
                 icon: this.props.mapLegend.selectedPokemon.icon
-            });
-            this.props.addMarker(marker);
-            marker.setMap(this.props.mapWrap.mapComponent.getStreetView())
+            }));
         }
     }
 
     handleMarkerRightClick = targetMarker => {}
+
+    handleValidateMarker = () => {
+        this.props.setNoticedAddingPokeLocationMsgFalse();
+        this.props.validateAddedMarker(this.props.mapWrap.addedMarker);
+    }
 
     renderSpinner() {
         return (
@@ -60,10 +70,26 @@ export default class MapContainer extends React.PureComponent {
         )
     }
 
+    renderValidatingBtn() {
+        const _m = this.props.mapWrap.addedMarker;
+        const wasMarkerAdded = () => _m !== null;
+        return (
+            <RaisedButton
+                label="valider"
+                secondary={true}
+                icon={<DoneSVG/>}
+                style={styles.validBtn}
+                className="absolute margin-auto"
+                disabled={!wasMarkerAdded()}
+                onTouchTap={this.handleValidateMarker}
+            />
+        );
+    }
+
     renderMap() {
         const focusStyle =  this.props.mapLegend.placingPokemon ? {border: "2px solid", borderColor: this.props.theme.current.palette.accent1Color} : {};
         return (
-            <section style={{background: this.props.theme.current.palette.primary1Color, padding: "10px 0"}} className="map-wrapper full-height full-width display-flex-row space-around">
+            <section style={{background: this.props.theme.current.palette.primary1Color, padding: "10px 0"}} className="map-wrapper full-height full-width display-flex-row space-around relative">
                 <GettingStartedGoogleMap
                     containerElement={
                       <div style={{...styles.containerElement, ...focusStyle}} className="margin-auto width-14" />
@@ -76,8 +102,33 @@ export default class MapContainer extends React.PureComponent {
                     onMapClick={this.handleMapClick}
                     onMarkerRightClick={this.handleMarkerRightClick}
                 />
-              <MapLegend/>
-
+                <MapLegend/>
+                {this.renderValidatingBtn()}
+                <Snackbar
+                    open={this.props.pokemons.addingPokemonMarker && !this.props.mapContainer.noticedAddingSignalment}
+                    message="Signalement envoyé"
+                    action="ok"
+                    autoHideDuration={4000}
+                    onActionTouchTap={this.props.setNoticedAddingPokeLocationMsgTrue}
+                    onRequestClose={this.props.setNoticedAddingPokeLocationMsgTrue}
+                />
+                <Snackbar
+                    open={!this.props.mapContainer.noticedAddedSignalment}
+                    message="Signalement enregistré !"
+                    action="ok"
+                    autoHideDuration={4000}
+                    onActionTouchTap={this.props.setNoticedAddEDPokeLocationMsgTrue}
+                    onRequestClose={this.props.setNoticedAddEDPokeLocationMsgTrue}
+                />
+                />
+                <Snackbar
+                    open={!this.props.mapContainer.noticedFailedAddedSignalment}
+                    message="Le signalement a échoué !"
+                    action="ok"
+                    autoHideDuration={4000}
+                    onActionTouchTap={this.props.setNoticedFailedAddEDPokeLocationMsgTrue}
+                    onRequestClose={this.props.setNoticedFailedAddEDPokeLocationMsgTrue}
+                />
             </section>
         );
     }
@@ -89,6 +140,13 @@ export default class MapContainer extends React.PureComponent {
     }
 }
 MapContainer.propTypes = {
+    mapLoaded: T.func.isRequired,
+    changeMarker: T.func.isRequired,
+    validateAddedMarker: T.func.isRequired,
+    setNoticedAddingPokeLocationMsgTrue: T.func.isRequired,
+    setNoticedAddingPokeLocationMsgFalse: T.func.isRequired,
+    setNoticedFailedAddEDPokeLocationMsgTrue: T.func.isRequired,
+    setNoticedFailedAddEDPokeLocationMsgFalse: T.func.isRequired,
     pokemons: T.shape({
         isFetching: T.bool.isRequired,
     }).isRequired,

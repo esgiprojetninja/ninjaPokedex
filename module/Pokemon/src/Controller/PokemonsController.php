@@ -13,9 +13,28 @@ class PokemonsController extends AbstractRestfulController {
     }
 
     public function signalAction() {
-        var_dump("signal Action !! isPost: ", $this->request->isPost());
-        var_dump("signal Action !! getPost: ", $this->request->getPost());
-        exit;
+        sleep(3);
+        if ( $this->request->isPost() ) {
+            $id_national = (int) $this->request->getPost('id_national');
+            return new JsonModel(
+                array("data" => [
+                    [
+                        "name" => "Chibar",
+                        "id_national" => $id_national,
+                        "parent" => null,
+                        "position" => [
+                            "lat"=> floatval($this->request->getPost('lat')),
+                            "lng"=> floatval($this->request->getPost('lng'))
+                        ],
+                        "icon" => "https://raw.githubusercontent.com/PokeAPI/sprites/master//sprites/pokemon/".$id_national.".png"
+                    ]
+                ])
+            );
+        } else {
+            return new JsonModel(
+                array("error" => "no quireo chupar el pene")
+            );
+        }
     }
 
     public function get($id) {

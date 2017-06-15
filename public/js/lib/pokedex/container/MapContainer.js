@@ -2,8 +2,24 @@ import {connect} from "react-redux";
 import MapContainerComponent from "../ui/MapContainer";
 import {
     mapLoaded,
-    addMarker
+    cleanMarker,
+    changeMarker
 } from "../actions/mapWrapActions";
+import {
+    toggleForm,
+    togglePlacingPokemon
+} from "../actions/mapLegendActions";
+import {
+    signalPosition,
+} from "../actions/pokemonActions";
+import {
+    setNoticedAddingPokeLocationMsgTrue,
+    setNoticedAddingPokeLocationMsgFalse,
+    setNoticedAddEDPokeLocationMsgTrue,
+    setNoticedAddEDPokeLocationMsgFalse,
+    setNoticedFailedAddEDPokeLocationMsgTrue,
+    setNoticedFailedAddEDPokeLocationMsgFalse,
+} from "../actions/mapContainerActions";
 
 const mapStateToProps = state => state;
 
@@ -12,8 +28,31 @@ const mapDispatchToProps = dispatch => {
         mapLoaded(mapComponent){
             dispatch(mapLoaded(mapComponent))
         },
-        addMarker(marker) {
-            dispatch(addMarker(marker))
+        changeMarker(marker) {
+            dispatch(changeMarker(marker))
+        },
+        validateAddedMarker(marker) {
+            dispatch(signalPosition(marker));
+            dispatch(cleanMarker());
+            dispatch(toggleForm());
+        },
+        setNoticedAddingPokeLocationMsgTrue() {
+            dispatch(setNoticedAddingPokeLocationMsgTrue());
+        },
+        setNoticedAddingPokeLocationMsgFalse() {
+            dispatch(setNoticedAddingPokeLocationMsgFalse());
+        },
+        setNoticedAddEDPokeLocationMsgTrue() {
+            dispatch(setNoticedAddEDPokeLocationMsgTrue());
+        },
+        setNoticedAddEDPokeLocationMsgFalse() {
+            dispatch(setNoticedAddEDPokeLocationMsgFalse());
+        },
+        setNoticedFailedAddEDPokeLocationMsgTrue() {
+            dispatch(setNoticedFailedAddEDPokeLocationMsgTrue());
+        },
+        setNoticedFailedAddEDPokeLocationMsgFalse() {
+            dispatch(setNoticedFailedAddEDPokeLocationMsgFalse());
         }
     }
 }

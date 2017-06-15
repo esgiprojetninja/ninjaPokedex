@@ -1,4 +1,9 @@
 import * as types from "./pokemonTypes";
+import {
+    setNoticedAddEDPokeLocationMsgFalse,
+    setNoticedFailedAddEDPokeLocationMsgFalse
+} from './mapContainerActions';
+import {cleanMarker} from './mapWrapActions';
 import PokemonApi from "../api/pokemon";
 
 const pokemonApi = new PokemonApi();
@@ -53,6 +58,44 @@ export const getMarked = () => {
                 else
                     dispatch(receivedMarkedPokemons(response.data));
             })
-            .catch(dispatch(requestFailed()));
+            .catch( err => {
+                  dispatch(requestFailed(err))
+            });
     };
+}
+
+const addingLocation = () => {
+    return {
+        type: types.ADDING_POKEMON_MARKER
+    }
+}
+
+const receivedSignalSucces = marker => {
+    return {
+        type: types.RECEIVED_SIGNAL_SUCCESS,
+        marker
+    }
+}
+
+export const signalPosition = addedMarker => {
+    return (dispatch, getState) => {
+        dispatch(addingLocation());
+        const lat = getState().mapWrap.addedMarker.position.lat();
+        const lng = getState().mapWrap.addedMarker.position.lng();
+        const id_national = getState().mapLegend.selectedPokemon.id_national;
+        pokemonApi.signal(id_national, lat, lng)
+            .then( response => {
+                if ( response.error ) {
+                    dispatch(setNoticedFailedAddEDPokeLocationMsgFalse());
+                    dispatch(cleanMarker(addedMarker));
+                    dispatch(requestFailed());
+                } else {
+                    dispatch(setNoticedAddEDPokeLocationMsgFalse())
+                    dispatch(receivedSignalSucces(response.data));
+                }
+            })
+            .catch( err => {
+                  dispatch(requestFailed(err))
+            });
+    }
 }

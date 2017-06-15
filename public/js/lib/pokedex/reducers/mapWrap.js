@@ -17,6 +17,11 @@ const mapWrap = (state = initialSate, action) => {
                 ...state,
                 addedMarker: action.marker
             }
+        case types.CLEAN_MARKER:
+            return {
+                ...state,
+                addedMarker: null
+            }
         default:
             return state;
     }

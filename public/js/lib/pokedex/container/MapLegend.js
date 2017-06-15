@@ -5,6 +5,9 @@ import {
     togglePlacingPokemon,
     setSelectedPokemon
 } from "../actions/mapLegendActions";
+import {
+    cleanMarker
+} from "../actions/mapWrapActions";
 
 const mapStateToProps = state => state;
 
@@ -18,6 +21,9 @@ const mapDispatchToProps = dispatch => {
         },
         setSelectedPokemon(pokemon) {
             dispatch(setSelectedPokemon(pokemon))
+        },
+        cleanMarker(marker) {
+            dispatch(cleanMarker(marker))
         }
     }
 }

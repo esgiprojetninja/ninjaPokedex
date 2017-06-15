@@ -80,6 +80,23 @@ export default class PokemonApi {
             });
         });
     }
+    signal(id_national, lat, lng) {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                method: "POST",
+                url: base_url + "/signal",
+                data: {
+                    id_national,
+                    lat,
+                    lng
+                }
+            }).done( response => {
+                resolve(response);
+            }).fail( response => {
+                reject({error: response})
+            });
+        });
+    }
 
 
 }

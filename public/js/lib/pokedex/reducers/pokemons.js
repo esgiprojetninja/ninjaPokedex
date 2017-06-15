@@ -4,6 +4,7 @@ const initialSate = {
     all: false,
     marked: false,
     isFetching: false,
+    addingPokemonMarker: false,
     requestFailMsg: false
 };
 
@@ -18,6 +19,7 @@ const pokemons = (state = initialSate, action) => {
             return {
                 ...state,
                 isFetching: false,
+                addingPokemonMarker: false,
                 requestFailMsg: action.error
             }
         case types.RECEIVED_ALL_POKEMONS:
@@ -31,6 +33,17 @@ const pokemons = (state = initialSate, action) => {
                 ...state,
                 isFetching: false,
                 marked: action.pokemons
+            }
+        case types.RECEIVED_SIGNAL_SUCCESS:
+            return {
+                ...state,
+                addingPokemonMarker: false,
+                marked: [...state.marked, action.marker]
+            }
+        case types.ADDING_POKEMON_MARKER:
+            return {
+                ...state,
+                addingPokemonMarker: true
             }
         default:
             return state;
