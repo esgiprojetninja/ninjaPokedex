@@ -110,7 +110,6 @@ class PokemonRepositoryImpl implements PokemonRepository
       foreach ($resultSet as $pokemon) {
         //Get type infos
         $types = $this->getTypes($pokemon['id_pokemon']);
-        //$localisations = $this->getLocalisation($pokemon['id_pokemon']);
         $pokemons[] = (object) array_merge((array) $pokemon, $types);
       }
       return $pokemons;
@@ -210,25 +209,6 @@ class PokemonRepositoryImpl implements PokemonRepository
     }
 
     return $types;
-  }
-
-  protected function getLocalisation($idPokemon){
-    $sql = new \Zend\Db\Sql\Sql($this->adapter);
-    $select = $sql->select();
-    $select->from(['localisation']);
-    $select->where(array('id_pokemon' => $idPokemon));
-
-    $statement = $sql->prepareStatementForSqlObject($select);
-    $r = $statement->execute();
-
-    $resultSet = new ResultSet;
-    $resultSet->initialize($r);
-    $localisations = [];
-    foreach ($resultSet as $localisation) {
-      $localisations[] = $localisation[''];
-    }
-
-    return $localisations;
   }
 
   public function getPokemonByName($name){

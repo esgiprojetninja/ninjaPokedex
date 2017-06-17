@@ -16,7 +16,6 @@ class PokemonHydrator implements HydratorInterface{
           'id_pokemon'    => $object->getIdPokemon(),
           'name'          => $object->getName(),
           'description'   => $object->getDescription(),
-          'localisation'  => $object->getLocalisation(),
           'id_parent'     => $object->getIdParent(),
           'image'         => $object->getImage(),
           'id_national'   => $object->getIdNational()
