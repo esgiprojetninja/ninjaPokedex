@@ -122,7 +122,25 @@ class PokemonRepositoryImpl implements PokemonRepository
   }
 
   public function marked() {
-    echo "SALUT";
+    try {
+      $sql = new \Zend\Db\Sql\Sql($this->adapter);
+      $select = $sql->select();
+      $select->from('location');
+
+      $statement = $sql->prepareStatementForSqlObject($select);
+      $r = $statement->execute();
+
+      $resultSet = new ResultSet;
+      $resultSet->initialize($r);
+
+      $locations = [];
+      foreach ($resultSet as $location) {
+        $locations[] = $location;
+      }
+      return $locations;
+    } catch ( \Exception $e ) {
+      echo $e->getMessage();
+    }
   }
 
   /**
