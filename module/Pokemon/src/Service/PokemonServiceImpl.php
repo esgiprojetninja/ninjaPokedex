@@ -8,6 +8,7 @@ namespace Pokemon\Service;
 
 use Pokemon\Service\PokemonService;
 use Pokemon\Entity\Pokemon;
+use Pokemon\Entity\Location;
 
 class PokemonServiceImpl implements PokemonService
 {
@@ -40,5 +41,8 @@ class PokemonServiceImpl implements PokemonService
     }
     function marked() {
         return $this->pokemonRepository->marked();
+    }
+    function signal(Location $location) {
+        return $this->pokemonRepository->signal($location);
     }
 }

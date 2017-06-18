@@ -5,6 +5,7 @@ use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
 use Pokemon\Entity\Pokemon;
+use Pokemon\Entity\Location;
 
 class PokemonsController extends AbstractRestfulController {
 
@@ -61,6 +62,19 @@ class PokemonsController extends AbstractRestfulController {
     );
   }
 
+  public function signalAction() {
+    try {
+      $location = $this->setLocation($_POST);
+      $message = "error";
+      if($this->pokemonService->signal($location)){
+        $message = "success";
+      }
+    } catch (\Exception $e) {
+      $message = $e->getMessage();
+    }
+    return new JsonModel([$message]);
+  }
+
   public function methodNotAllowed() {
     $this->response->setStatusCode(
       \Zend\Http\PhpEnvironment\Response::STATUS_CODE_405
@@ -68,7 +82,25 @@ class PokemonsController extends AbstractRestfulController {
     throw new Exception('Method Not Allowed');
   }
 
-  public static function setPokemon($data){
+  public function setLocation($data){
+    $location = new Location();
+
+    $now = date('Y-m-d H:i:s');
+    $timezone = 'Europe/Paris';
+    date_default_timezone_set($timezone);
+    $timestamp = strtotime($now);
+    $local_time = $timestamp + date('Z');
+    $local_date = date('Y-m-d H:i:s', $local_time);
+
+
+    $location->setIdPokemon($data['id_pokemon']);
+    $location->setLatitude($data['latitude']);
+    $location->setLongitude($data['longitude']);
+    $location->setDateCreated($local_date);
+    return $location;
+  }
+
+  public function setPokemon($data){
     $pokemon = new Pokemon();
     if(isset($data['id_pokemon'])){
       $pokemon->setIdPokemon($data['id_pokemon']);

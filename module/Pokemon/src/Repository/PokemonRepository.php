@@ -3,6 +3,7 @@ namespace Pokemon\Repository;
 
 use Application\Repository\RepositoryInterface;
 use Pokemon\Entity\Pokemon;
+use Pokemon\Entity\Location;
 
 interface PokemonRepository extends RepositoryInterface
 {
@@ -19,4 +20,6 @@ interface PokemonRepository extends RepositoryInterface
     public function delete($pokemonId);
 
     public function marked();
+
+    public function signal(Location $location);
 }

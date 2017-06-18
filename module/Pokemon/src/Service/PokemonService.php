@@ -3,6 +3,7 @@
 namespace Pokemon\Service;
 
 use Pokemon\Entity\Pokemon;
+use Pokemon\Entity\Location;
 
 interface PokemonService
 {
@@ -20,4 +21,6 @@ interface PokemonService
     public function delete($pokemonId);
 
     public function marked();
+
+    public function signal(Location $location);
 }

@@ -63,6 +63,17 @@ return [
                             ],
                         ],
                     ],
+                    'signal' => [
+                        'type'    => 'Literal',
+                        'options' => [
+                            'route' => '/signal',
+                            'verb'  => 'post,put',
+                            'defaults' => [
+                                'controller' => 'Pokemon\Controller\Pokemons',
+                                'action' => 'signal'
+                            ],
+                        ],
+                    ],
                 ],
                 'may_terminate' => true,
             ],

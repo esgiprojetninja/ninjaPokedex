@@ -8,6 +8,7 @@ use Zend\Db\Adapter\AdapterAwareTrait;
 use Pokemon\Entity\Hydrator\PokemonHydrator;
 use Pokemon\Repository\PokemonRepository;
 use Pokemon\Entity\Pokemon;
+use Pokemon\Entity\Location;
 use Pokemon\Controller\PokemonsController;
 
 use Zend\Db\Adapter\Driver\ResultInterface;
@@ -140,6 +141,39 @@ class PokemonRepositoryImpl implements PokemonRepository
     } catch ( \Exception $e ) {
       echo $e->getMessage();
     }
+  }
+
+  public function signal(Location $location) {
+    $return = false;
+    try {
+      $this->adapter
+      ->getDriver()
+      ->getConnection()
+      ->beginTransaction();
+      $sql = new \Zend\Db\Sql\Sql($this->adapter);
+
+        $insert = $sql->insert()
+        ->values([
+          'longitude' => $location->getLongitude(),
+          'latitude'   => $location->getLatitude(),
+          'id_pokemon' => $location->getIdPokemon(),
+          'date_created' => $location->getDateCreated(),
+        ])
+        ->into('location');
+        $statement = $sql->prepareStatementForSqlObject($insert);
+        $statement->execute();
+        $this->adapter->getDriver()
+        ->getConnection()
+        ->commit();
+
+        $return = true;
+
+    } catch (\Exception $e) {
+      echo $e->getMessage();
+      $this->adapter->getDriver()
+      ->getConnection()->rollback();
+    }
+    return $return;
   }
 
   /**
