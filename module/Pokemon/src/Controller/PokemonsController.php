@@ -41,9 +41,15 @@ class PokemonsController extends AbstractRestfulController {
   }
 
   public function update($id, $data) {
-    return new JsonModel(
-      array("update" => $id)
-    );
+    try {
+      $message = "error";
+      if($this->pokemonService->update($id, $data)){
+        $message = "success";
+      }
+    } catch (\Exception $e) {
+      $message = $e->getMessage();
+    }
+    return new JsonModel([$message]);
   }
 
   public function delete($id) {
@@ -100,7 +106,8 @@ class PokemonsController extends AbstractRestfulController {
     return $location;
   }
 
-  public function setPokemon($data){
+  public static function setPokemon($data){
+    var_dump($data);
     $pokemon = new Pokemon();
     if(isset($data['id_pokemon'])){
       $pokemon->setIdPokemon($data['id_pokemon']);
@@ -123,7 +130,7 @@ class PokemonsController extends AbstractRestfulController {
         $pokemon->setType2($data['type2']);
       }
     }
-    $pokemon->setImage($data['image']);
+    $pokemon->setImage("http://romainlambot.fr/pokemons/images/".$data['id_national'].".png");
     return $pokemon;
   }
 

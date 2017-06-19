@@ -33,8 +33,8 @@ class PokemonServiceImpl implements PokemonService
     function findById($postId) {
         return $this->pokemonRepository->findById($postId);
     }
-    function update(Pokemon $post) {
-        return $this->pokemonRepository->update($post);
+    function update($id, $data){
+        return $this->pokemonRepository->update($id, $data);
     }
     function delete($postId) {
         return $this->pokemonRepository->delete($postId);

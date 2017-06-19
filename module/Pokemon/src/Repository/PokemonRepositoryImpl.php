@@ -192,24 +192,86 @@ class PokemonRepositoryImpl implements PokemonRepository
       $resultSet = new ResultSet;
       $resultSet->initialize($r);
 
-      $pokemons = [];
       foreach ($resultSet as $pokemon) {
-        $pokemons[] = $pokemon;
+        $types = $this->getTypes($pokemon['id_pokemon']);
+        $pokemon =  array_merge((array) $pokemon, $types);
+        $pokemon = PokemonsController::setPokemon($pokemon);
       }
-      return $pokemons;
+      return $pokemon;
     } catch ( \Exception $e ) {
       echo $e->getMessage();
     }
   }
 
-  public function update(Pokemon $pokemon) {
+  public function update($id, $data) {
+      $return = false;
+      $pokemon = $this->findById($id);
+      try {
+        $this->adapter
+        ->getDriver()
+        ->getConnection()
+        ->beginTransaction();
+        $sql = new \Zend\Db\Sql\Sql($this->adapter);
 
-  }
+        $types = ['type1', 'type2'];
+        $typeToUpdate = [];
+        $updateType = false;
+        foreach($types as $type){
+          if(array_key_exists($type,$data)){
+            $updateType = true;
+            $typeToUpdate[$type] = $data[$type];
+            unset($data[$type]);
+          }else if($type == 'type1'){
+              $typeToUpdate[$type] = $pokemon->getType1();
+          }else if($type == 'type2'){
+              $typeToUpdate[$type] = $pokemon->getType2();
+          }else{
+              $typeToUpdate[$type] = NULL;
+          }
+        }
+
+        var_dump($typeToUpdate);
+
+        if($updateType){
+            $this->deleteTypes($id);
+            $this->saveTypes($pokemon, $typeToUpdate['type1'], $typeToUpdate['type2']);
+        }
+
+        $update = $sql->update();
+        $update->table('pokemon');
+        $update->set($data);
+        $update->where( array( 'id_pokemon' => $id ) );
+
+        $statement = $sql->prepareStatementForSqlObject($update);
+        $statement->execute();
+        $this->adapter->getDriver()
+        ->getConnection()
+        ->commit();
+
+        $return = true;
+      } catch (\Exception $e) {
+        echo $e->getMessage();
+        $this->adapter->getDriver()
+        ->getConnection()->rollback();
+      }
+      return $return;
+    }
 
   public function delete($pokemonId) {
     $sql = new \Zend\Db\Sql\Sql($this->adapter);
     $delete = $sql->delete()
     ->from('pokemon')
+    ->where([
+      'id_pokemon' => $pokemonId
+    ]);
+    $statement = $sql->prepareStatementForSqlObject($delete);
+    $statement->execute();
+  }
+
+  public function deleteTypes($pokemonId) {
+    $sql = new \Zend\Db\Sql\Sql($this->adapter);
+    $delete = $sql->delete()
+    ->from('pokemon_has_type')
     ->where([
       'id_pokemon' => $pokemonId
     ]);
