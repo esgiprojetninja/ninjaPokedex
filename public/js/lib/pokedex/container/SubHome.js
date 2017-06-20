@@ -1,5 +1,5 @@
 import {connect} from "react-redux";
-import CardsComponent from "../ui/Cards";
+import SubHomeComponent from "../ui/SubHome";
 
 import {
     testAction
@@ -15,9 +15,9 @@ const mapDispatchToProps = dispatch => {
     };
 }
 
-const Cards = connect(
+const SubHome = connect(
     mapStateToProps,
     mapDispatchToProps
-)(CardsComponent);
+)(SubHomeComponent);
 
-export default Cards;
+export default SubHome;

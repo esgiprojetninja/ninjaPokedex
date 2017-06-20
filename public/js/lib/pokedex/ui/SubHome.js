@@ -38,7 +38,6 @@ export default class SubHome extends React.PureComponent {
       return (
         <div className="text-center title-btn-wrapper">
           <RaisedButton
-            href="https://github.com/callemall/material-ui"
             target="_blank"
             label="Ajouter un pokémon"
             labelColor="#ffffff"
@@ -47,13 +46,16 @@ export default class SubHome extends React.PureComponent {
             icon={<AddCircleOutlineSVG/>}
           />
           <RaisedButton
-            href="https://github.com/callemall/material-ui"
             target="_blank"
             label="Voir la map"
             labelColor="#ffffff"
             secondary={true}
+            buttonStyle={{backgroundColor: this.props.theme.current.palette.primary1Color}}
             style={styles.button}
             icon={<LocationSVG/>}
+            onClick={() => {
+              console.log('this', this.props.theme.current.palette.primary1Color);
+            }}
           />
         </div>
       )
@@ -73,3 +75,9 @@ export default class SubHome extends React.PureComponent {
         )
     }
 }
+
+SubHome.propTypes = {
+    theme: T.shape({
+        current: T.shape({})
+    })
+};

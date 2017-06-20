@@ -2,7 +2,7 @@ import React from "react";
 import {PropTypes as T} from 'prop-types';
 import MapContainer from '../container/MapContainer';
 import Cards from "../container/Cards";
-import SubHome from "../ui/SubHome";
+import SubHome from "../container/SubHome";
 import {Grid, Row, Col} from 'react-bootstrap';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';

@@ -5,6 +5,7 @@ import pokemons from "./pokemons";
 import mapLegend from "./mapLegend";
 import mapContainer from "./mapContainer";
 import mapWrap from "./mapWrap";
+import subhome from "./subhome";
 
 const Main = combineReducers({
     navbar,
@@ -12,7 +13,8 @@ const Main = combineReducers({
     pokemons,
     mapWrap,
     mapLegend,
-    mapContainer
+    mapContainer,
+    subhome
 });
 
 export default Main;
