@@ -14,21 +14,50 @@ export default class Home extends React.PureComponent {
         super(props);
     }
 
+    renderHomeTable() {
+      return (
+        <Row className="show-grid">
+          <Col md={12}>
+            test
+          </Col>
+        </Row>
+      )
+    }
+
+    renderHomeCarousel() {
+      return (
+        <Row className="show-grid">
+          <Col md={8} mdOffset={2}>
+            <Cards/>
+          </Col>
+          <Col md={12}>
+            <SubHome/>
+          </Col>
+        </Row>
+      )
+    }
+
+    renderOnToggleView() {
+      if( this.props.home.showCarousel ) {
+        return this.renderHomeCarousel();
+      } else {
+        return this.renderHomeTable();
+      }
+    }
+
     render () {
         return (
           <Grid className="container full-height full-width">
             <section className="index-wrapper full-height full-width">
-              <Row className="show-grid">
-                <Col md={8} mdOffset={2}>
-                  <Cards/>
-                </Col>
-                <Col md={12}>
-                  <SubHome/>
-                </Col>
-              </Row>
+              <button onClick={this.props.toggleView}>toggleView</button>
+              {this.renderOnToggleView()}
             </section>
             <MapContainer/>
           </Grid>
         );
     }
 }
+
+Home.propTypes = {
+    toggleView: T.func.isRequired
+};

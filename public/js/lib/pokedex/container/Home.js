@@ -1,23 +1,27 @@
 import {connect} from "react-redux";
-import SubHomeComponent from "../ui/SubHome";
+import HomeComponent from "../ui/Home";
 
 import {
+    toggleView,
     testAction
-} from "../actions/subHomeActions";
+} from "../actions/homeActions";
 
 const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => {
     return {
+        toggleView() {
+            dispatch(toggleView());
+        },
         testAction() {
             dispatch(testAction());
         }
     };
 }
 
-const SubHome = connect(
+const Home = connect(
     mapStateToProps,
     mapDispatchToProps
-)(SubHomeComponent);
+)(HomeComponent);
 
-export default SubHome;
+export default Home;
