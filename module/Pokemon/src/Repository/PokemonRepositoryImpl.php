@@ -209,9 +209,19 @@ class PokemonRepositoryImpl implements PokemonRepository
 
   public function marked() {
     try {
+      $now = date('Y-m-d H:i:s');
+      $timezone = 'Europe/Paris';
+      date_default_timezone_set($timezone);
+      $timestamp = strtotime($now);
+      $local_time = $timestamp + date('Z');
+      $local_date = date('Y-m-d H:i:s', $local_time);
+
       $sql = new \Zend\Db\Sql\Sql($this->adapter);
       $select = $sql->select();
       $select->from('location');
+      $select->where("date_created <= '".$local_date."' AND date_created >= DATE_ADD('".$local_date."', INTERVAL -30 MINUTE)");
+
+      echo $sql->getSqlstringForSqlObject($select);
 
       $statement = $sql->prepareStatementForSqlObject($select);
       $r = $statement->execute();

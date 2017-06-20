@@ -98,7 +98,6 @@ class PokemonsController extends AbstractRestfulController {
     $local_time = $timestamp + date('Z');
     $local_date = date('Y-m-d H:i:s', $local_time);
 
-
     $location->setIdPokemon($data['id_pokemon']);
     $location->setLatitude($data['latitude']);
     $location->setLongitude($data['longitude']);
