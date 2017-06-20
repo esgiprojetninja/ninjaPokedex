@@ -1,9 +1,19 @@
+.title-lg-wrapper{
+  margin: 25px;
+}
+
 .title-lg {
   font-size: 45px;
   font-bold: 800;
   color: white;
+  text-transform: uppercase;
+  display: block;
 }
 
 .random-btn-image{
 
+}
+
+.text-center{
+  text-align: center;
 }
