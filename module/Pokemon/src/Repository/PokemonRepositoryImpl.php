@@ -282,7 +282,6 @@ class PokemonRepositoryImpl implements PokemonRepository
       foreach ($resultSet as $pokemon) {
         $types = $this->getTypes($pokemon['id_pokemon']);
         $pokemon =  array_merge((array) $pokemon, $types);
-        $pokemon = PokemonsController::setPokemon($pokemon);
       }
       return $pokemon;
     } catch ( \Exception $e ) {
@@ -292,7 +291,7 @@ class PokemonRepositoryImpl implements PokemonRepository
 
   public function update($id, $data) {
     $return = false;
-    $pokemon = $this->findById($id);
+    $pokemon = PokemonsController::setPokemon($this->findById($id));
     try {
       $this->adapter
       ->getDriver()
@@ -316,8 +315,6 @@ class PokemonRepositoryImpl implements PokemonRepository
           $typeToUpdate[$type] = NULL;
         }
       }
-
-      var_dump($typeToUpdate);
 
       if($updateType){
         $this->updateTypes($pokemon, $typeToUpdate['type1'], $typeToUpdate['type2']);
@@ -352,6 +349,7 @@ class PokemonRepositoryImpl implements PokemonRepository
     ]);
     $statement = $sql->prepareStatementForSqlObject($delete);
     $statement->execute();
+    $this->deleteTypes($pokemonId);
   }
 
   public function deleteTypes($pokemonId) {

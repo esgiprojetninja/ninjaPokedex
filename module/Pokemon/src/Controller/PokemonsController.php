@@ -107,7 +107,6 @@ class PokemonsController extends AbstractRestfulController {
   }
 
   public static function setPokemon($data){
-    var_dump($data);
     $pokemon = new Pokemon();
     if(isset($data['id_pokemon'])){
       $pokemon->setIdPokemon($data['id_pokemon']);
