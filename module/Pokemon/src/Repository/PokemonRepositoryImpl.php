@@ -112,7 +112,7 @@ class PokemonRepositoryImpl implements PokemonRepository
           $update->where( ['id_pokemon' => $pokemon->getIdPokemon(), 'type_number' => '1'] );
 
           $statement = $sql->prepareStatementForSqlObject($update);
-          $statement->execute();  
+          $statement->execute();
         }
       }else{
         $insert = $sql->insert()
@@ -278,6 +278,7 @@ class PokemonRepositoryImpl implements PokemonRepository
       $resultSet = new ResultSet;
       $resultSet->initialize($r);
 
+      $pokemon = NULL;
       foreach ($resultSet as $pokemon) {
         $types = $this->getTypes($pokemon['id_pokemon']);
         $pokemon =  array_merge((array) $pokemon, $types);
