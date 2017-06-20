@@ -5,6 +5,8 @@ import Cards from "../container/Cards";
 import {Grid, Row, Col} from 'react-bootstrap';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
+import LocationSVG from 'material-ui/svg-icons/action/room';
+import AddCircleOutlineSVG from 'material-ui/svg-icons/content/add-circle-outline';
 
 const styles = {
   button: {
@@ -48,7 +50,7 @@ export default class Home extends React.PureComponent {
                       <span className="title-lg">
                         et le plus rapide
                       </span>
-                      <div className="text-center">
+                      <div className="text-center title-btn-wrapper">
                         <RaisedButton
                           href="https://github.com/callemall/material-ui"
                           target="_blank"
@@ -56,7 +58,7 @@ export default class Home extends React.PureComponent {
                           labelColor="#ffffff"
                           backgroundColor="#a4c639"
                           style={styles.button}
-                          icon={<FontIcon className="muidocs-icon-custom-github" />}
+                          icon={<AddCircleOutlineSVG/>}
                         />
                         <RaisedButton
                           href="https://github.com/callemall/material-ui"
@@ -65,7 +67,7 @@ export default class Home extends React.PureComponent {
                           labelColor="#ffffff"
                           secondary={true}
                           style={styles.button}
-                          icon={<FontIcon className="muidocs-icon-custom-github" />}
+                          icon={<LocationSVG/>}
                         />
                       </div>
                     </div>

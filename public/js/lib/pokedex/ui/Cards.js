@@ -19,7 +19,8 @@ const styles = {
   },
   cardIconLocation : {
     width: '20px',
-    height: '20px'
+    height: '20px',
+    color: 'white'
   }
 };
 
