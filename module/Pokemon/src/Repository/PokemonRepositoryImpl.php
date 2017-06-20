@@ -71,13 +71,16 @@ class PokemonRepositoryImpl implements PokemonRepository
       for($k=1; $k <= $i; $k++){
         if($k == 2){
           $type = $type2;
+          $typeNumber = 2;
         }else{
           $type = $type1;
+          $typeNumber = 1;
         }
         $insert = $sql->insert()
         ->values([
-          'id_pokemon' => $pokemon->getIdPokemon(),
-          'id_type'    => $type,
+          'id_pokemon'  => $pokemon->getIdPokemon(),
+          'id_type'     => $type,
+          'type_number' => $typeNumber
         ])
         ->into('pokemon_has_type');
         $statement = $sql->prepareStatementForSqlObject($insert);
@@ -93,6 +96,89 @@ class PokemonRepositoryImpl implements PokemonRepository
     }
   }
 
+  public function updateTypes(Pokemon $pokemon, $type1, $type2) {
+    try {
+      $this->adapter
+      ->getDriver()
+      ->getConnection()
+      ->beginTransaction();
+      $sql = new \Zend\Db\Sql\Sql($this->adapter);
+
+      if($this->typeAllreadyExist($pokemon, '1')){
+        if($type1 != NULL){
+          $update = $sql->update();
+          $update->table('pokemon_has_type');
+          $update->set( ['id_type' => $type1] );
+          $update->where( ['id_pokemon' => $pokemon->getIdPokemon(), 'type_number' => '1'] );
+
+          $statement = $sql->prepareStatementForSqlObject($update);
+          $statement->execute();  
+        }
+      }else{
+        $insert = $sql->insert()
+        ->values([
+          'id_pokemon'  => $pokemon->getIdPokemon(),
+          'id_type'     => $type1,
+          'type_number' => '1'
+        ])
+        ->into('pokemon_has_type');
+        $statement = $sql->prepareStatementForSqlObject($insert);
+        $statement->execute();
+      }
+      if($this->typeAllreadyExist($pokemon, '2')){
+        if($type2 != NULL){
+          $update = $sql->update();
+          $update->table('pokemon_has_type');
+          $update->set( ['id_type' => $type2] );
+          $update->where( ['id_pokemon' => $pokemon->getIdPokemon(), 'type_number' => '2'] );
+
+          $statement = $sql->prepareStatementForSqlObject($update);
+          $statement->execute();
+        }
+      }else{
+        $insert = $sql->insert()
+        ->values([
+          'id_pokemon'  => $pokemon->getIdPokemon(),
+          'id_type'     => $type2,
+          'type_number' => '2'
+        ])
+        ->into('pokemon_has_type');
+        $statement = $sql->prepareStatementForSqlObject($insert);
+        $statement->execute();
+      }
+      $this->adapter->getDriver()
+      ->getConnection()
+      ->commit();
+    }catch (\Exception $e) {
+      echo $e->getMessage();
+      $this->adapter->getDriver()
+      ->getConnection()->rollback();
+    }
+  }
+
+  public function typeAllreadyExist(Pokemon $pokemon, $typeNumber){
+    try {
+      $sql = new \Zend\Db\Sql\Sql($this->adapter);
+      $select = $sql->select();
+      $select->from('pokemon_has_type');
+      $select->where(array('id_pokemon' => $pokemon->getIdPokemon(), 'type_number' => $typeNumber));
+
+      $statement = $sql->prepareStatementForSqlObject($select);
+      $r = $statement->execute();
+
+      $resultSet = new ResultSet;
+      $resultSet->initialize($r);
+
+      foreach ($resultSet as $pokemon) {
+        return true;
+      }
+    } catch (\Exception $e) {
+      echo $e->getMessage();
+      $this->adapter->getDriver()
+      ->getConnection()->rollback();
+    }
+    return false;
+  }
 
   public function getAll() {
     try {
@@ -152,21 +238,21 @@ class PokemonRepositoryImpl implements PokemonRepository
       ->beginTransaction();
       $sql = new \Zend\Db\Sql\Sql($this->adapter);
 
-        $insert = $sql->insert()
-        ->values([
-          'longitude' => $location->getLongitude(),
-          'latitude'   => $location->getLatitude(),
-          'id_pokemon' => $location->getIdPokemon(),
-          'date_created' => $location->getDateCreated(),
-        ])
-        ->into('location');
-        $statement = $sql->prepareStatementForSqlObject($insert);
-        $statement->execute();
-        $this->adapter->getDriver()
-        ->getConnection()
-        ->commit();
+      $insert = $sql->insert()
+      ->values([
+        'longitude' => $location->getLongitude(),
+        'latitude'   => $location->getLatitude(),
+        'id_pokemon' => $location->getIdPokemon(),
+        'date_created' => $location->getDateCreated(),
+      ])
+      ->into('location');
+      $statement = $sql->prepareStatementForSqlObject($insert);
+      $statement->execute();
+      $this->adapter->getDriver()
+      ->getConnection()
+      ->commit();
 
-        $return = true;
+      $return = true;
 
     } catch (\Exception $e) {
       echo $e->getMessage();
@@ -204,58 +290,57 @@ class PokemonRepositoryImpl implements PokemonRepository
   }
 
   public function update($id, $data) {
-      $return = false;
-      $pokemon = $this->findById($id);
-      try {
-        $this->adapter
-        ->getDriver()
-        ->getConnection()
-        ->beginTransaction();
-        $sql = new \Zend\Db\Sql\Sql($this->adapter);
+    $return = false;
+    $pokemon = $this->findById($id);
+    try {
+      $this->adapter
+      ->getDriver()
+      ->getConnection()
+      ->beginTransaction();
+      $sql = new \Zend\Db\Sql\Sql($this->adapter);
 
-        $types = ['type1', 'type2'];
-        $typeToUpdate = [];
-        $updateType = false;
-        foreach($types as $type){
-          if(array_key_exists($type,$data)){
-            $updateType = true;
-            $typeToUpdate[$type] = $data[$type];
-            unset($data[$type]);
-          }else if($type == 'type1'){
-              $typeToUpdate[$type] = $pokemon->getType1();
-          }else if($type == 'type2'){
-              $typeToUpdate[$type] = $pokemon->getType2();
-          }else{
-              $typeToUpdate[$type] = NULL;
-          }
+      $types = ['type1', 'type2'];
+      $typeToUpdate = [];
+      $updateType = false;
+      foreach($types as $type){
+        if(array_key_exists($type,$data)){
+          $updateType = true;
+          $typeToUpdate[$type] = $data[$type];
+          unset($data[$type]);
+        }else if($type == 'type1'){
+          $typeToUpdate[$type] = $pokemon->getType1();
+        }else if($type == 'type2'){
+          $typeToUpdate[$type] = $pokemon->getType2();
+        }else{
+          $typeToUpdate[$type] = NULL;
         }
-
-        var_dump($typeToUpdate);
-
-        if($updateType){
-            $this->deleteTypes($id);
-            $this->saveTypes($pokemon, $typeToUpdate['type1'], $typeToUpdate['type2']);
-        }
-
-        $update = $sql->update();
-        $update->table('pokemon');
-        $update->set($data);
-        $update->where( array( 'id_pokemon' => $id ) );
-
-        $statement = $sql->prepareStatementForSqlObject($update);
-        $statement->execute();
-        $this->adapter->getDriver()
-        ->getConnection()
-        ->commit();
-
-        $return = true;
-      } catch (\Exception $e) {
-        echo $e->getMessage();
-        $this->adapter->getDriver()
-        ->getConnection()->rollback();
       }
-      return $return;
+
+      var_dump($typeToUpdate);
+
+      if($updateType){
+        $this->updateTypes($pokemon, $typeToUpdate['type1'], $typeToUpdate['type2']);
+      }
+
+      $update = $sql->update();
+      $update->table('pokemon');
+      $update->set($data);
+      $update->where( array( 'id_pokemon' => $id ) );
+
+      $statement = $sql->prepareStatementForSqlObject($update);
+      $statement->execute();
+      $this->adapter->getDriver()
+      ->getConnection()
+      ->commit();
+
+      $return = true;
+    } catch (\Exception $e) {
+      echo $e->getMessage();
+      $this->adapter->getDriver()
+      ->getConnection()->rollback();
     }
+    return $return;
+  }
 
   public function delete($pokemonId) {
     $sql = new \Zend\Db\Sql\Sql($this->adapter);
