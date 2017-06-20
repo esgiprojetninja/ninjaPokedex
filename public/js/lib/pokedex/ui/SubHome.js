@@ -64,7 +64,7 @@ export default class SubHome extends React.PureComponent {
     render () {
         return (
           <div className="align">
-            <div>
+            <div className="subtitle-wrapper">
               {this.renderSubTitle()}
               {this.renderSubtitleBtn()}
             </div>

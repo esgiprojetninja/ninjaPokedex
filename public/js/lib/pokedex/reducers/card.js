@@ -1,10 +1,10 @@
-import * as types from "../actions/cardsTypes";
+import * as types from "../actions/cardTypes";
 
 const initialSate = {
     show: true
 };
 
-const cards = (state = initialSate, action) => {
+const card = (state = initialSate, action) => {
     switch (action.type) {
         case types.TOGGLE_DISPLAY:
             return {
@@ -16,4 +16,4 @@ const cards = (state = initialSate, action) => {
     }
 };
 
-export default cards;
+export default card;

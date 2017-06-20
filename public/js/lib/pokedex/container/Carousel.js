@@ -1,9 +1,9 @@
 import {connect} from "react-redux";
-import CardsComponent from "../ui/Cards";
+import CarouselComponent from "../ui/Carousel";
 
 import {
     testAction
-} from "../actions/cardsActions";
+} from "../actions/carouselActions";
 
 const mapStateToProps = state => state;
 
@@ -15,9 +15,9 @@ const mapDispatchToProps = dispatch => {
     };
 }
 
-const Cards = connect(
+const Carousel = connect(
     mapStateToProps,
     mapDispatchToProps
-)(CardsComponent);
+)(CarouselComponent);
 
-export default Cards;
+export default Carousel;

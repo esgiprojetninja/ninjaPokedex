@@ -1,4 +1,4 @@
-import * as types from "./cardsTypes";
+import * as types from "./cardTypes";
 import PokemonApi from "../api/pokemon";
 
 const pokemonApi = new PokemonApi();

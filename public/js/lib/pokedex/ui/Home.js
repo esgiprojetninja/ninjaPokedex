@@ -1,8 +1,9 @@
 import React from "react";
 import {PropTypes as T} from 'prop-types';
 import MapContainer from '../container/MapContainer';
-import Cards from "../container/Cards";
+import Carousel from "../container/Carousel";
 import SubHome from "../container/SubHome";
+import Table from "../container/Table";
 import {Grid, Row, Col} from 'react-bootstrap';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
@@ -18,7 +19,7 @@ export default class Home extends React.PureComponent {
       return (
         <Row className="show-grid">
           <Col md={12}>
-            test
+            <Table/>
           </Col>
         </Row>
       )
@@ -28,7 +29,7 @@ export default class Home extends React.PureComponent {
       return (
         <Row className="show-grid">
           <Col md={8} mdOffset={2}>
-            <Cards/>
+            <Carousel/>
           </Col>
           <Col md={12}>
             <SubHome/>

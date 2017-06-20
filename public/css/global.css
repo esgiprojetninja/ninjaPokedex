@@ -1,3 +1,7 @@
+.subtitle-wrapper{
+  margin-left: 100px;
+}
+
 .title-lg {
   font-size: 45px;
   font-bold: 800;
@@ -11,7 +15,7 @@
 }
 
 .random-btn-image{
-  margin-left: 100px;
+  margin-left: 150px;
 }
 
 .text-center{
