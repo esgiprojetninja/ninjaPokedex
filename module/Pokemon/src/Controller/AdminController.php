@@ -6,6 +6,9 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Zend\Mvc\MvcEvent;
+use Pokemon\Form\Connection;
+use Pokemon\InputFilter\ConnectionPost;
+
 class AdminController extends AbstractActionController {
 
     protected $pokemonService;
@@ -31,9 +34,23 @@ class AdminController extends AbstractActionController {
     }
 
     public function indexAction() {
-        $variables = [
-            'posts' => 'oh no'
-        ];
-        return new ViewModel($variables);
+        $form = new Connection();
+
+        if ( $this->getRequest()->isPost() ) {
+            $form->setInputFilter(new ConnectionPost());
+            $data = $this->request->getPost();
+            $form->setData($data);
+            if ($form->isValid()) {
+                var_dump("it's all good brother !");
+                var_dump($data);
+                // $this->pokemonService->save($connectionPost);
+                // return $this->redirect()->toRoute('blog_home');
+            } else {
+                var_dump("fucking form is invalid dude");
+            }
+        }
+        return new ViewModel([
+            'form' => $form
+        ]);
     }
 }

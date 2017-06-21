@@ -11,6 +11,7 @@
  */
 
 return [
+    'Zend\Session',
     'Zend\Db',
     'Zend\I18n',
     'Zend\Router',
