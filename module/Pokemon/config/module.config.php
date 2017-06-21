@@ -1,15 +1,21 @@
 <?php
 namespace Pokemon;
+
+use Zend\Router\Http\Literal;
+use Zend\Router\Http\Segment;
+use Zend\ServiceManager\Factory\InvokableFactory;
+
 return [
     'controllers' => [
         'factories' => [
             'Pokemon\Controller\Pokemons' => 'Pokemon\Controller\PokemonsControllerFactory',
+            'Pokemon\Controller\Admin' => 'Pokemon\Controller\AdminControllerFactory',
         ],
     ],
     'router' => [
         'routes' => [
             'pokemons' => [
-                'type'    => 'Segment',
+                'type'    => Segment::class,
                 'options' => [
                    'route'    => '/pokemons[/:id]',
                     'constraints' => [
@@ -21,7 +27,7 @@ return [
                 ],
                 'child_routes' => [
                     'update' => [
-                        'type'    => 'Segment',
+                        'type'    => Segment::class,
                         'options' => [
                             'route'    => '/update[/:id]',
                              'constraints' => [
@@ -33,7 +39,7 @@ return [
                         ],
                     ],
                     'create' => [
-                        'type'    => 'Segment',
+                        'type'    => Segment::class,
                         'options' => [
                             'route'    => '/create[/:id]',
                              'constraints' => [
@@ -45,7 +51,7 @@ return [
                         ],
                     ],
                     'delete' => [
-                        'type'    => 'Segment',
+                        'type'    => Segment::class,
                         'options' => [
                             'route'    => '/delete[/:id]',
                              'constraints' => [
@@ -57,7 +63,7 @@ return [
                         ],
                     ],
                     'signal' => [
-                        'type'    => 'Literal',
+                        'type'    => Literal::class,
                         'options' => [
                             'route'    => '/signal',
                             'defaults' => [
@@ -67,7 +73,7 @@ return [
                         ],
                     ],
                     'marked' => [
-                        'type'    => 'Literal',
+                        'type'    => Literal::class,
                         'options' => [
                             'route'    => '/marked',
                             'defaults' => [
@@ -78,6 +84,17 @@ return [
                     ]
                 ],
                 'may_terminate' => true,
+            ],
+            'admin_home' => [
+                'type'    => Literal::class,
+                'options' => [
+                   'route'    => '/admin',
+                    'defaults' => [
+                        'controller' => 'Pokemon\Controller\Admin',
+                        'action' => 'index',
+                    ],
+                ],
+                'may_terminate' => true
             ],
         ],
     ],
