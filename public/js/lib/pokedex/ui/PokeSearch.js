@@ -60,7 +60,9 @@ export default class PokeSearch extends React.PureComponent {
               <Row>
                 <Col md={12} className="search-content">
                   <div className="search-intro">Tape le nom dun Pokémon et appuies sur entrée</div>
-                  <input className="search-input" type="text" placeholder="Rechercher"/>
+                  <input onChange={() => {
+                    console.log('Search for a pokemon');
+                  }} className="search-input" type="text" placeholder="Rechercher"/>
                   <span className="search-found"><span className="search-found-count">1</span> Pokémon trouvé</span>
                   <div className="filters filters-type">
                       <span className="filters-name">Types :</span>
