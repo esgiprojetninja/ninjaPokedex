@@ -5,3 +5,9 @@ export const toggleNavbar = () => {
         type: types.TOGGLE_DISPLAY
     }
 }
+
+export const toggleSearch = () => {
+    return {
+        type: types.TOGGLE_SEARCH
+    }
+}

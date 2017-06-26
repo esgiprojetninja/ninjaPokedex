@@ -68,7 +68,7 @@ export default class Navbar extends React.PureComponent {
 
     renderSearchElement() {
         return (
-            <IconButton className="animate slow fadeInHeaderIcon" style={styles.iconHide} iconStyle={styles.icon} tooltip="EXPLORER" children={<SearchSVG/>}/>
+            <IconButton className="animate slow fadeInHeaderIcon" onClick={this.props.toggleSearch} style={styles.iconHide} iconStyle={styles.icon} tooltip="EXPLORER" children={<SearchSVG/>}/>
         )
     }
 

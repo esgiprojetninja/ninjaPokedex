@@ -21,3 +21,19 @@
 .text-center{
   text-align: center;
 }
+
+.search-fixed{
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  background: rgba(0, 0, 0, 0.6);
+  margin: 0;
+  padding: 15px;
+  top: 0;
+  z-index: 10000;
+  color: white;
+}
+
+.search-content{
+  padding: 50px;
+}

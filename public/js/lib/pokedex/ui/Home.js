@@ -9,10 +9,25 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import LocationSVG from 'material-ui/svg-icons/action/room';
 import AddCircleOutlineSVG from 'material-ui/svg-icons/content/add-circle-outline';
+import PokeSearch from '../container/PokeSearch';
 
 export default class Home extends React.PureComponent {
     constructor(props) {
         super(props);
+    }
+
+    renderSearch() {
+      return (
+        <div>
+          <PokeSearch/>
+        </div>
+      )
+    }
+
+    renderSearchWrapper() {
+      if( this.props.navbar.showSearch ) {
+        return this.renderSearch();
+      }
     }
 
     renderHomeTable() {
@@ -48,10 +63,11 @@ export default class Home extends React.PureComponent {
 
     render () {
         return (
-          <Grid className="container full-height full-width">
+          <Grid className="container full-height full-width" style={{padding: 0}}>
             <section className="index-wrapper full-height full-width">
               <button onClick={this.props.toggleView}>toggleView</button>
               {this.renderOnToggleView()}
+              {this.renderSearchWrapper()}
             </section>
             <MapContainer/>
           </Grid>
