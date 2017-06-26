@@ -7,8 +7,8 @@ import LocationSVG from 'material-ui/svg-icons/action/room';
 
 const styles = {
   cardWrapper : {
-    display: 'flex',
-    height: '433px'
+    display: 'flex'
+    // height: '433px'
   },
   cardIconLocationWrapper : {
     width: '25px',
@@ -56,30 +56,43 @@ export default class Carousel extends React.PureComponent {
         super(props);
     }
 
-    render () {
-        return (
-            <div className="card-wrapper">
-              <Slider {...sliderSettings}>
-                <div>
-                  <Card/>
-                </div>
-                <div>
-                  <Card/>
-                </div>
-                <div>
-                  <Card/>
-                </div>
-                <div>
-                  <Card/>
-                </div>
-                <div>
-                  <Card/>
-                </div>
-                <div>
-                  <Card/>
-                </div>
-              </Slider>
+    renderCards (p, key) {
+      return (
+        <div className="align" style={styles.cardWrapper}>
+            <div className="card">
+              <span className="card-number">{this.props.pokemons.all[key].id_national}</span>
+              <img src={this.props.pokemons.all[key].icon} className="card-pokemon"/>
+              <IconButton style={styles.cardIconLocationWrapper} iconStyle={styles.cardIconLocation} tooltipPosition="top-center" tooltip="Position" children={<LocationSVG/>}/>
+              <span className="card-title">
+                {this.props.pokemons.all[key].name}
+              </span>
+              <span className="card-description">
+                Reptincel est tiré du dinosaure, il possède de grandes et puissantes griffes acérées, qui laident notamment à déchirer la peau de ses ennemis.
+              </span>
+              <div className="card-type align">
+                <img src="img/feu.png"/>
+              </div>
             </div>
-        );
+          </div>
+        )
+    }
+
+
+    render () {
+      if(this.props.pokemons.all) {
+        return (
+          <div className="card-wrapper">
+            <Slider {...sliderSettings}>
+              {(this.props.pokemons.all.map((p, key) => this.renderCards(p, key)))}
+            </Slider>
+          </div>
+        )
+      } else {
+        return (
+          <div>
+            Loading...
+          </div>
+        )
+      }
     }
 }

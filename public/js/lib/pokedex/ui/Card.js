@@ -31,8 +31,9 @@ export default class Card extends React.PureComponent {
     }
 
     render () {
-        return (
-          <div className="align" style={styles.cardWrapper}>
+      return (
+        <div className="align" style={styles.cardWrapper}>
+          <button onClick={() => {console.log('this', this.props.pokemons.all);}}>test</button>
             <div className="card">
               <span className="card-number">008</span>
               <img src="img/reptincel.png" className="card-pokemon"/>
@@ -48,6 +49,6 @@ export default class Card extends React.PureComponent {
               </div>
             </div>
           </div>
-        )
+      )
     }
 }
