@@ -52,3 +52,16 @@
   display: block;
   margin-top: 15px;
 }
+
+.table-type {
+  margin: 5px 0 0 0;
+}
+
+.table-title {
+  margin: 0;
+  overflow-x: auto;
+}
+
+.table-card {
+  width: 200px;
+}

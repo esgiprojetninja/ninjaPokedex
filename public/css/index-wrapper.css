@@ -1,5 +1,5 @@
 .index-wrapper {
   background: url("/img/index-wrapper-bg.jpg") center;
   background-size: cover;
-  overflow: hidden;
+  overflow-y: auto;
 }

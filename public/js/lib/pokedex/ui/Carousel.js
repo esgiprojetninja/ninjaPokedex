@@ -58,7 +58,7 @@ export default class Carousel extends React.PureComponent {
 
     renderCards (p, key) {
       return (
-        <div className="align" style={styles.cardWrapper}>
+        <div key={key} className="align" style={styles.cardWrapper}>
             <div className="card">
               <span className="card-number">{this.props.pokemons.all[key].id_national}</span>
               <img src={this.props.pokemons.all[key].icon} className="card-pokemon"/>
@@ -76,7 +76,6 @@ export default class Carousel extends React.PureComponent {
           </div>
         )
     }
-
 
     render () {
       if(this.props.pokemons.all) {
