@@ -37,3 +37,46 @@
 .search-content{
   padding: 50px;
 }
+
+.filters {
+  margin: 15px;
+}
+
+.filters .filters-name{
+  font-weight: 800;
+  display: block;
+}
+
+.filters ul, .filters li{
+  width: -moz-fit-content;
+}
+
+.filters.filters-type ul, .filters.filters-evolution ul {
+  margin: 15px 15px 15px 0;
+  display: inline-block;
+}
+
+.search-found {
+  margin: 15px;
+}
+
+.search-found-count{
+  color: #CD2431;
+  font-weight: 800;
+}
+
+.search-intro{
+  display: block;
+  margin: 15px;
+}
+
+.search-input{
+  border: none;
+  background: none;
+  color: white;
+  margin: 15px;
+  display: block;
+  font-size: 100px;
+  text-transform: uppercase;
+  font-weight: 800;
+}
