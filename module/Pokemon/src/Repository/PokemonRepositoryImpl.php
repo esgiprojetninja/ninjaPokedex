@@ -49,7 +49,7 @@ class PokemonRepositoryImpl implements PokemonRepository
         $return = true;
       }
     } catch (\Exception $e) {
-      echo $e->getMessage();
+      return $e->getMessage();
       $this->adapter->getDriver()
       ->getConnection()->rollback();
     }
@@ -90,7 +90,7 @@ class PokemonRepositoryImpl implements PokemonRepository
       ->getConnection()
       ->commit();
     } catch (\Exception $e) {
-      echo $e->getMessage();
+      return $e->getMessage();
       $this->adapter->getDriver()
       ->getConnection()->rollback();
     }
@@ -150,7 +150,7 @@ class PokemonRepositoryImpl implements PokemonRepository
       ->getConnection()
       ->commit();
     }catch (\Exception $e) {
-      echo $e->getMessage();
+      return $e->getMessage();
       $this->adapter->getDriver()
       ->getConnection()->rollback();
     }
@@ -173,7 +173,7 @@ class PokemonRepositoryImpl implements PokemonRepository
         return true;
       }
     } catch (\Exception $e) {
-      echo $e->getMessage();
+      return $e->getMessage();
       $this->adapter->getDriver()
       ->getConnection()->rollback();
     }
@@ -221,8 +221,6 @@ class PokemonRepositoryImpl implements PokemonRepository
       $select->from('location');
       $select->where("date_created <= '".$local_date."' AND date_created >= DATE_ADD('".$local_date."', INTERVAL -30 MINUTE)");
 
-      echo $sql->getSqlstringForSqlObject($select);
-
       $statement = $sql->prepareStatementForSqlObject($select);
       $r = $statement->execute();
 
@@ -235,7 +233,7 @@ class PokemonRepositoryImpl implements PokemonRepository
       }
       return $locations;
     } catch ( \Exception $e ) {
-      echo $e->getMessage();
+      return $e->getMessage();
     }
   }
 
@@ -265,7 +263,7 @@ class PokemonRepositoryImpl implements PokemonRepository
       $return = true;
 
     } catch (\Exception $e) {
-      echo $e->getMessage();
+      return $e->getMessage();
       $this->adapter->getDriver()
       ->getConnection()->rollback();
     }
@@ -295,7 +293,7 @@ class PokemonRepositoryImpl implements PokemonRepository
       }
       return $pokemon;
     } catch ( \Exception $e ) {
-      echo $e->getMessage();
+      return $e->getMessage();
     }
   }
 
@@ -343,7 +341,7 @@ class PokemonRepositoryImpl implements PokemonRepository
 
       $return = true;
     } catch (\Exception $e) {
-      echo $e->getMessage();
+      return $e->getMessage();
       $this->adapter->getDriver()
       ->getConnection()->rollback();
     }
@@ -418,7 +416,7 @@ class PokemonRepositoryImpl implements PokemonRepository
         return PokemonsController::setPokemon($pokemon);
       }
     } catch ( \Exception $e ) {
-      echo $e->getMessage();
+      return $e->getMessage();
     }
   }
 
@@ -450,7 +448,7 @@ class PokemonRepositoryImpl implements PokemonRepository
 
       return count($resultSet);
     } catch ( \Exception $e ) {
-      echo $e->getMessage();
+      return $e->getMessage();
     }
   }
 
@@ -469,7 +467,7 @@ class PokemonRepositoryImpl implements PokemonRepository
 
       return count($resultSet);
     } catch ( \Exception $e ) {
-      echo $e->getMessage();
+      return $e->getMessage();
     }
   }
 
