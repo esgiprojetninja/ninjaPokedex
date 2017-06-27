@@ -3,7 +3,6 @@ import HomeComponent from "../ui/Home";
 
 import {
     toggleView,
-    testAction
 } from "../actions/homeActions";
 
 const mapStateToProps = state => state;
