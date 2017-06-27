@@ -16,6 +16,7 @@
 
 .random-btn-image{
   margin-left: 150px;
+  align-self: flex-end;
 }
 
 .text-center{
@@ -26,7 +27,7 @@
   height: 100%;
   width: 100%;
   position: fixed;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.8);
   margin: 0;
   padding: 15px;
   top: 0;

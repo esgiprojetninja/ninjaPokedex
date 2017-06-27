@@ -88,7 +88,7 @@ export default class Carousel extends React.PureComponent {
         )
       } else {
         return (
-          <div>
+          <div className="align full-height" style={{height: '49vh'}}>
             Loading...
           </div>
         )

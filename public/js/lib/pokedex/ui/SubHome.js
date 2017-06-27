@@ -63,12 +63,12 @@ export default class SubHome extends React.PureComponent {
 
     render () {
         return (
-          <div className="align">
+          <div className="align full-height">
             <div className="subtitle-wrapper">
               {this.renderSubTitle()}
               {this.renderSubtitleBtn()}
             </div>
-            <div>
+            <div className="full-height align">
               <img className="random-btn-image" src="img/randomBtn.png"/>
             </div>
           </div>

@@ -6,9 +6,13 @@ import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
 import LocationSVG from 'material-ui/svg-icons/action/room';
 import Card from '../container/Card';
+import AddCircleOutlineSVG from 'material-ui/svg-icons/content/add-circle-outline';
 
 const styles = {
-
+  button: {
+    width: '100%',
+    margin: '15px 0'
+  }
 };
 
 export default class Table extends React.PureComponent {
@@ -34,9 +38,33 @@ export default class Table extends React.PureComponent {
     render () {
       if(this.props.pokemons.all) {
         return (
-          <Grid>
-            <Row>
-              <Col md={12} style={{textAlign: 'center'}}>
+          <Grid className="full-height" style={{padding: '50px 20px'}}>
+            <Row className="full-height">
+              <Col md={2} className="align full-height">
+              <div className="text-center">
+                <RaisedButton
+                  target="_blank"
+                  label="Ajouter"
+                  labelColor="#ffffff"
+                  backgroundColor="#a4c639"
+                  style={styles.button}
+                  icon={<AddCircleOutlineSVG/>}
+                />
+                <RaisedButton
+                  target="_blank"
+                  label="Voir la map"
+                  labelColor="#ffffff"
+                  secondary={true}
+                  style={styles.button}
+                  buttonStyle={{backgroundColor: this.props.theme.current.palette.primary1Color}}
+                  icon={<LocationSVG/>}
+                  onClick={() => {
+                    console.log('this', this.props.theme.current.palette.primary1Color);
+                  }}
+                />
+              </div>
+              </Col>
+              <Col md={10} style={{textAlign: 'center', overflowY: 'auto'}} className="full-height">
                 {(this.props.pokemons.all.map((p, key) => this.renderCards(p, key)))}
                 {(this.props.pokemons.all.map((p, key) => this.renderCards(p, key)))}
                 {(this.props.pokemons.all.map((p, key) => this.renderCards(p, key)))}

@@ -10,6 +10,8 @@ import FontIcon from 'material-ui/FontIcon';
 import LocationSVG from 'material-ui/svg-icons/action/room';
 import AddCircleOutlineSVG from 'material-ui/svg-icons/content/add-circle-outline';
 import PokeSearch from '../container/PokeSearch';
+import jQuery from 'jquery';
+import Screenfull from 'screenfull';
 
 export default class Home extends React.PureComponent {
     constructor(props) {
@@ -32,8 +34,8 @@ export default class Home extends React.PureComponent {
 
     renderHomeTable() {
       return (
-        <Row className="show-grid">
-          <Col md={12}>
+        <Row className="show-grid full-height">
+          <Col md={12} className="full-height">
             <Table/>
           </Col>
         </Row>
@@ -42,11 +44,11 @@ export default class Home extends React.PureComponent {
 
     renderHomeCarousel() {
       return (
-        <Row className="show-grid">
+        <Row className="show-grid" style={{height: '50vh'}}>
           <Col md={8} mdOffset={2}>
             <Carousel/>
           </Col>
-          <Col md={12}>
+          <Col md={12} style={{height: '50vh'}}>
             <SubHome/>
           </Col>
         </Row>
@@ -65,7 +67,17 @@ export default class Home extends React.PureComponent {
         return (
           <Grid className="container full-height full-width" style={{padding: 0}}>
             <section className="index-wrapper full-height full-width">
-              <button onClick={this.props.toggleView}>toggleView</button>
+              <img src="img/pokemon-logo.png" className="index-logo"/>
+              <div style={{position: 'absolute', bottom: 0, right: 0, zIndex: 10000, opacity: 0.5, margin: '15px'}}>
+                <button onClick={this.props.toggleView}>toggleView</button>
+                <button onClick={
+                  () => {
+                    if (Screenfull.enabled) {
+                      Screenfull.toggle();
+                    }
+                  }
+                }>fullScreen</button>
+              </div>
               {this.renderOnToggleView()}
               {this.renderSearchWrapper()}
             </section>
