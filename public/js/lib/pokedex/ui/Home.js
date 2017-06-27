@@ -8,10 +8,20 @@ import {Grid, Row, Col} from 'react-bootstrap';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import LocationSVG from 'material-ui/svg-icons/action/room';
+import DashboardSVG from 'material-ui/svg-icons/action/dashboard';
+import IconButton from 'material-ui/IconButton';
+import FullscreenSVG from 'material-ui/svg-icons/navigation/fullscreen';
 import AddCircleOutlineSVG from 'material-ui/svg-icons/content/add-circle-outline';
 import PokeSearch from '../container/PokeSearch';
 import jQuery from 'jquery';
 import Screenfull from 'screenfull';
+
+const styles = {
+  icon: {
+    height: '30px',
+    color: 'white'
+  }
+};
 
 export default class Home extends React.PureComponent {
     constructor(props) {
@@ -69,14 +79,14 @@ export default class Home extends React.PureComponent {
             <section className="index-wrapper full-height full-width">
               <img src="img/pokemon-logo.png" className="index-logo"/>
               <div style={{position: 'absolute', bottom: 0, right: 0, zIndex: 10000, opacity: 0.5, margin: '15px'}}>
-                <button onClick={this.props.toggleView}>toggleView</button>
-                <button onClick={
+                <IconButton onTouchTap={this.props.toggleView} iconStyle={styles.icon} tooltipPosition="top-center" tooltip="Changer de vue" children={<DashboardSVG/>}/>
+                <IconButton onTouchTap={
                   () => {
                     if (Screenfull.enabled) {
                       Screenfull.toggle();
                     }
                   }
-                }>fullScreen</button>
+                } iconStyle={styles.icon} tooltipPosition="top-center" tooltip="Fullscreen" children={<FullscreenSVG/>}/>
               </div>
               {this.renderOnToggleView()}
               {this.renderSearchWrapper()}
