@@ -1,15 +1,15 @@
 import * as types from "../actions/carouselTypes";
 
 const initialSate = {
-    show: true
+    showDetails: false
 };
 
 const carousel = (state = initialSate, action) => {
     switch (action.type) {
-        case types.TOGGLE_DISPLAY:
+        case types.TOGGLE_DETAILS:
             return {
                 ...state,
-                show: !state.show
+                showDetails: !state.showDetails
             }
         default:
             return state;

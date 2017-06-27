@@ -4,13 +4,14 @@ import Slider from 'react-slick';
 import Card from '../container/Card';
 import IconButton from 'material-ui/IconButton';
 import LocationSVG from 'material-ui/svg-icons/action/room';
+import DescriptionSVG from 'material-ui/svg-icons/action/description';
 
 const styles = {
   cardWrapper : {
     display: 'flex'
     // height: '433px'
   },
-  cardIconLocationWrapper : {
+  cardIconDescriptionWrapper : {
     width: '25px',
     height: '25px',
     position: 'absolute',
@@ -18,7 +19,7 @@ const styles = {
     top: '0',
     padding: '3px'
   },
-  cardIconLocation : {
+  cardIconDescription : {
     width: '20px',
     height: '20px',
     color: 'white'
@@ -56,13 +57,29 @@ export default class Carousel extends React.PureComponent {
         super(props);
     }
 
+    renderDetails () {
+        return (
+          <div className="card-details">
+            testDetails
+          </div>
+        )
+    }
+
     renderCards (p, key) {
       return (
         <div key={key} className="align" style={styles.cardWrapper}>
             <div className="card">
               <span className="card-number">{this.props.pokemons.all[key].id_national}</span>
               <img src={this.props.pokemons.all[key].icon} className="card-pokemon"/>
-              <IconButton style={styles.cardIconLocationWrapper} iconStyle={styles.cardIconLocation} tooltipPosition="top-center" tooltip="Position" children={<LocationSVG/>}/>
+              {this.renderDetails()}
+              <IconButton
+                style={styles.cardIconDescriptionWrapper}
+                iconStyle={styles.cardIconDescription}
+                tooltipPosition="top-center"
+                tooltip="Détails"
+                children={<DescriptionSVG/>}
+                onTouchTap={this.props.toggleDetails}
+              />
               <span className="card-title">
                 {this.props.pokemons.all[key].name}
               </span>

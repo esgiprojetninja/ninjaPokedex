@@ -76,3 +76,12 @@
   min-width: 80px;
   text-align: center;
 }
+
+.card-details {
+  position: fixed;
+  top: -200px;
+  left: 0;
+  height: 500px;
+  background: red;
+  margin-top: 50px;
+}
