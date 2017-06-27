@@ -6,56 +6,95 @@ export default class PokemonApi {
     constructor () {
     }
 
-    getAll(callback) {
-        $.ajax({
-            method: "GET",
-            url: base_url
-        }).done( response => {
-            callback(response);
-        }).fail( response => {
-            callback({error: response})
+    getAll() {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                method: "GET",
+                url: base_url
+            }).done( response => {
+                resolve(response);
+            }).fail( response => {
+                reject({error: response})
+            });
         });
     }
-    get(id = 1, callback) {
-        $.ajax({
-            method: "GET",
-            url: base_url + `/${id}`
-        }).done( response => {
-            callback(response);
-        }).fail( response => {
-            callback({error: response})
+    get(id = 1) {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                method: "GET",
+                url: base_url + `/${id}`
+            }).done( response => {
+                resolve(response);
+            }).fail( response => {
+                reject({error: response})
+            });
         });
     }
-    create(data = {name: "blabla", osef: "ahok"}, callback) {
-        $.ajax({
-            method: "POST",
-            url: base_url + "/create",
-            data
-        }).done( response => {
-            callback(response);
-        }).fail( response  => {
-            callback({error: response})
+    create(data = {name: "blabla", osef: "ahok"}) {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                method: "POST",
+                url: base_url + "/create",
+                data
+            }).done( response => {
+                resolve(response);
+            }).fail( response  => {
+                reject({error: response})
+            });
         });
     }
-    update(id = 1, data = {name: "blabla", osef: "ahok"}, callback) {
-        $.ajax({
-            method: "PUT",
-            url: base_url + "/update/" + id,
-            data
-        }).done( response => {
-            callback(response);
-        }).fail( response  => {
-            callback({error: response})
+    update(id = 1, data = {name: "blabla", osef: "ahok"}) {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                method: "PUT",
+                url: base_url + "/update/" + id,
+                data
+            }).done( response => {
+                resolve(response);
+            }).fail( response  => {
+                reject({error: response})
+            });
         });
     }
     delete(id = 1, callback) {
-        $.ajax({
-            method: "DELETE",
-            url: base_url + "/delete/" + id
-        }).done( response => {
-            callback(response);
-        }).fail( response  => {
-            callback({error: response})
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                method: "DELETE",
+                url: base_url + "/delete/" + id
+            }).done( response => {
+                resolve(response);
+            }).fail( response  => {
+                reject({error: response})
+            });
+        });
+    }
+    getMarked() {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                method: "GET",
+                url: base_url + "/marked"
+            }).done( response => {
+                resolve(response);
+            }).fail( response => {
+                reject({error: response})
+            });
+        });
+    }
+    signal(id_national, lat, lng) {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                method: "POST",
+                url: base_url + "/signal",
+                data: {
+                    id_national,
+                    lat,
+                    lng
+                }
+            }).done( response => {
+                resolve(response);
+            }).fail( response => {
+                reject({error: response})
+            });
         });
     }
     marked(callback){

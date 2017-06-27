@@ -3,7 +3,8 @@ import NavbarComponent from "../ui/Navbar";
 
 import {
     toggleNavbar,
-    testAction
+    testAction,
+    toggleSearch
 } from "../actions/navbarActions";
 
 const mapStateToProps = state => state;
@@ -13,8 +14,8 @@ const mapDispatchToProps = dispatch => {
         toggleNavbar() {
             dispatch(toggleNavbar());
         },
-        testAction() {
-            dispatch(testAction());
+        toggleSearch() {
+            dispatch(toggleSearch());
         }
     };
 }

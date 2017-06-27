@@ -40,6 +40,7 @@ class PokemonsController extends AbstractRestfulController {
     return new JsonModel([$message]);
   }
 
+
   public function update($id, $data) {
     try {
       $message = "error";
@@ -59,6 +60,7 @@ class PokemonsController extends AbstractRestfulController {
     } catch (\Exception $e) {
       $message = $e->getMessage();
     }
+
     return new JsonModel([$message]);
   }
 
@@ -123,6 +125,7 @@ class PokemonsController extends AbstractRestfulController {
         $pokemon->setType1($data['type1']);
       }
     }
+
     if(isset($data['type2'])){
       if($data['type2'] != NULL){
         $pokemon->setType2($data['type2']);

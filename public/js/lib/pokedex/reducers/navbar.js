@@ -1,7 +1,8 @@
 import * as types from "../actions/navbarTypes";
 
 const initialSate = {
-    show: true
+    show: true,
+    showSearch: false
 };
 
 const navbar = (state = initialSate, action) => {
@@ -9,7 +10,12 @@ const navbar = (state = initialSate, action) => {
         case types.TOGGLE_DISPLAY:
             return {
                 ...state,
-                show: !state.display
+                show: !state.show
+            }
+        case types.TOGGLE_SEARCH:
+            return {
+                ...state,
+                showSearch: !state.showSearch
             }
         default:
             return state;
