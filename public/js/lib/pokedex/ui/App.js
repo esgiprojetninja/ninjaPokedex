@@ -1,7 +1,7 @@
 import React from "react";
 import {PropTypes as T} from 'prop-types';
 import Navbar from "../container/Navbar";
-import Home from "../ui/Home";
+import Home from "../container/Home";
 import muiThemeable from 'material-ui/styles/muiThemeable';
 
 class App extends React.PureComponent {

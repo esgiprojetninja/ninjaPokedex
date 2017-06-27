@@ -13,6 +13,17 @@
         <!-- Le styles -->
         <?= $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'])
         ?>
+
+        <!-- Slick carousel -->
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
+
+        <!-- Latest compiled and minified CSS of react-bootstrap for the grid -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+
+        <!-- Optional theme for react-bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap-theme.min.css">
+
         <link rel="stylesheet" href="<?= $this->basePath() ?>/css/reset.css" type="text/css" media="screen, projection">
         <link rel="stylesheet" href="<?= $this->basePath() ?>/css/index-wrapper.css" type="text/css" media="screen, projection">
         <link rel="stylesheet" href="<?= $this->basePath() ?>/css/map-wrapper.css" type="text/css" media="screen, projection">
@@ -26,6 +37,7 @@
         <link rel="stylesheet" href="<?= $this->basePath() ?>/css/modules/position.css" type="text/css" media="screen, projection">
         <link rel="stylesheet" href="<?= $this->basePath() ?>/css/navbar.css" type="text/css" media="screen, projection">
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCg4RtnNrFMj-kDzssqzfICe4XPJGa1d1A"></script>
+        <link rel="stylesheet" href="<?= $this->basePath() ?>/css/global.css" type="text/css" media="screen, projection">
     </head>
     <body>
         <div id="pokedexApp" class="full-height"></div>
