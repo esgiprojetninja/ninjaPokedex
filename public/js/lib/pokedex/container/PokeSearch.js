@@ -9,9 +9,6 @@ const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => {
     return {
-        testAction() {
-            dispatch(testAction());
-        },
         toggleSearch() {
             dispatch(toggleSearch());
         }

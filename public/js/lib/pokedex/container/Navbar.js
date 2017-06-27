@@ -14,9 +14,6 @@ const mapDispatchToProps = dispatch => {
         toggleNavbar() {
             dispatch(toggleNavbar());
         },
-        testAction() {
-            dispatch(testAction());
-        },
         toggleSearch() {
             dispatch(toggleSearch());
         }

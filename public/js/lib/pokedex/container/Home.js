@@ -12,9 +12,6 @@ const mapDispatchToProps = dispatch => {
     return {
         toggleView() {
             dispatch(toggleView());
-        },
-        testAction() {
-            dispatch(testAction());
         }
     };
 }

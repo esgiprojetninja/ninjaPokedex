@@ -53,9 +53,6 @@ export default class SubHome extends React.PureComponent {
             buttonStyle={{backgroundColor: this.props.theme.current.palette.primary1Color}}
             style={styles.button}
             icon={<LocationSVG/>}
-            onClick={() => {
-              console.log('this', this.props.theme.current.palette.primary1Color);
-            }}
           />
         </div>
       )
