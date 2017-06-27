@@ -35,16 +35,16 @@ class AdminController extends AbstractActionController {
 
     public function indexAction() {
         $form = new Connection();
-
+        var_dump($form);
         if ( $this->getRequest()->isPost() ) {
             $form->setInputFilter(new ConnectionPost());
             $data = $this->request->getPost();
             $form->setData($data);
+            var_dump($data);
             if ($form->isValid()) {
                 var_dump("it's all good brother !");
-                var_dump($data);
                 // $this->pokemonService->save($connectionPost);
-                // return $this->redirect()->toRoute('blog_home');
+                // return $this->redirect()->toRoute('admin_home');
             } else {
                 var_dump("fucking form is invalid dude");
             }

@@ -18,21 +18,21 @@ class Connection extends Form
         $password->setLabel('Mot de passe');
         $password->setAttribute('class','form-control');
 
-        $confirm_password = new Element\Password('confirm_password');
-        $confirm_password->setLabel('Confirmation de mot de passe');
-        $confirm_password->setAttribute('class','form-control');
-
-        $csrf = new Element\Csrf('csrf');
-        $csrf->setCsrfValidatorOptions(['timeout' => 600]);
-
         $submit = new Element\Submit('submit');
         $submit->setValue('Se connecter');
         $submit->setAttribute('class', 'btn btn-primary');
 
         $this->add($login);
         $this->add($password);
-        $this->add($confirm_password);
-        $this->add($csrf);
         $this->add($submit);
+        $this->add([
+            'type' => Element\Csrf::class,
+            'name' => 'csrf',
+            'options' => [
+                'csrf_options' => [
+                   'timeout' => 180,
+                ],
+            ]
+        ]);
     }
 }
