@@ -133,7 +133,6 @@ export default class Navbar extends React.PureComponent {
 
 Navbar.propTypes = {
     toggleNavbar: T.func.isRequired,
-    testAction: T.func.isRequired,
     navbar: T.shape({
         show: T.bool.isRequired,
     }).isRequired,
