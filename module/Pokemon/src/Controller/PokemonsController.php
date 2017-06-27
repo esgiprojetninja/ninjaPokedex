@@ -23,7 +23,7 @@ class PokemonsController extends AbstractRestfulController {
 
   public function getList() {
     return new JsonModel(
-      $this->pokemonService->getAll()
+      ['data'=>$this->pokemonService->getAll()]
     );
   }
 
