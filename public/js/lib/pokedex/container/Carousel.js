@@ -9,8 +9,8 @@ const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => {
     return {
-      toggleDetails() {
-          dispatch(toggleDetails());
+      toggleDetails(p, key) {
+          dispatch(toggleDetails(p, key));
       }
     };
 }

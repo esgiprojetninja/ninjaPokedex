@@ -57,28 +57,19 @@ export default class Carousel extends React.PureComponent {
         super(props);
     }
 
-    renderDetails () {
-        return (
-          <div className="card-details">
-            testDetails
-          </div>
-        )
-    }
-
     renderCards (p, key) {
       return (
         <div key={key} className="align" style={styles.cardWrapper}>
             <div className="card">
               <span className="card-number">{this.props.pokemons.all[key].id_national}</span>
               <img src={this.props.pokemons.all[key].icon} className="card-pokemon"/>
-              {this.renderDetails()}
               <IconButton
                 style={styles.cardIconDescriptionWrapper}
                 iconStyle={styles.cardIconDescription}
                 tooltipPosition="top-center"
                 tooltip="Détails"
                 children={<DescriptionSVG/>}
-                onTouchTap={this.props.toggleDetails}
+                onTouchTap={this.props.toggleDetails(p, key)}
               />
               <span className="card-title">
                 {this.props.pokemons.all[key].name}

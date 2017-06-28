@@ -1,7 +1,8 @@
 import * as types from "../actions/carouselTypes";
 
 const initialSate = {
-    showDetails: false
+    showDetails: false,
+    selectedPokemon: {}
 };
 
 const carousel = (state = initialSate, action) => {
@@ -9,7 +10,8 @@ const carousel = (state = initialSate, action) => {
         case types.TOGGLE_DETAILS:
             return {
                 ...state,
-                showDetails: !state.showDetails
+                showDetails: !state.showDetails,
+                selectedPokemon: {}
             }
         default:
             return state;
