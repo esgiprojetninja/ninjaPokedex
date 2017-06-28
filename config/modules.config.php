@@ -11,6 +11,9 @@
  */
 
 return [
+    'Zend\InputFilter',
+    'Zend\Filter',
+    'Zend\Hydrator',
     'Zend\Db',
     'Zend\I18n',
     'Zend\Router',
@@ -18,6 +21,5 @@ return [
     'Zend\Paginator',
     'Application',
     'Zend\Form',
-    'Blog',
     'Pokemon'
 ];

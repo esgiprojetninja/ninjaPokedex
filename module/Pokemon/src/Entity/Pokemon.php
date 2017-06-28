@@ -3,35 +3,36 @@
 namespace Pokemon\Entity;
 
 class Pokemon {
-    protected $id;
+    protected $id_pokemon;
     protected $name;
-    protected $type;
-    protected $health;
-    protected $number;
-    protected $parent;
-    protected $attacks;
+    protected $description;
+    protected $id_parent;
+    protected $image;
+    protected $id_national;
+    protected $type1;
+    protected $type2;
 
 
     /**
-     * Get the value of Id
+     * Get the value of Id Pokemon
      *
      * @return mixed
      */
-    public function getId()
+    public function getIdPokemon()
     {
-        return $this->id;
+        return $this->id_pokemon;
     }
 
     /**
-     * Set the value of Id
+     * Set the value of Id Pokemon
      *
-     * @param mixed id
+     * @param mixed id_pokemon
      *
      * @return self
      */
-    public function setId($id)
+    public function setIdPokemon($id_pokemon)
     {
-        $this->id = $id;
+        $this->id_pokemon = $id_pokemon;
 
         return $this;
     }
@@ -61,121 +62,146 @@ class Pokemon {
     }
 
     /**
+     * Get the value of Description
+     *
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set the value of Description
+     *
+     * @param mixed description
+     *
+     * @return self
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Id Parent
+     *
+     * @return mixed
+     */
+    public function getIdParent()
+    {
+        return $this->id_parent;
+    }
+
+    /**
+     * Set the value of Id Parent
+     *
+     * @param mixed id_parent
+     *
+     * @return self
+     */
+    public function setIdParent($id_parent)
+    {
+        $this->id_parent = $id_parent;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Image
+     *
+     * @return mixed
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Set the value of Image
+     *
+     * @param mixed image
+     *
+     * @return self
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Id National
+     *
+     * @return mixed
+     */
+    public function getIdNational()
+    {
+        return $this->id_national;
+    }
+
+    /**
+     * Set the value of Id National
+     *
+     * @param mixed id_national
+     *
+     * @return self
+     */
+    public function setIdNational($id_national)
+    {
+        $this->id_national = $id_national;
+
+        return $this;
+    }
+
+
+    /**
      * Get the value of Type
      *
      * @return mixed
      */
-    public function getType()
+    public function getType1()
     {
-        return $this->type;
+        return $this->type1;
     }
 
     /**
      * Set the value of Type
      *
-     * @param mixed type
+     * @param mixed type1
      *
      * @return self
      */
-    public function setType($type)
+    public function setType1($type1)
     {
-        $this->type = $type;
+        $this->type1 = $type1;
 
         return $this;
     }
 
     /**
-     * Get the value of Health
+     * Get the value of Type
      *
      * @return mixed
      */
-    public function getHealth()
+    public function getType2()
     {
-        return $this->health;
+        return $this->type2;
     }
 
     /**
-     * Set the value of Health
+     * Set the value of Type
      *
-     * @param mixed health
+     * @param mixed type2
      *
      * @return self
      */
-    public function setHealth($health)
+    public function setType2($type2)
     {
-        $this->health = $health;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of Number
-     *
-     * @return mixed
-     */
-    public function getNumber()
-    {
-        return $this->number;
-    }
-
-    /**
-     * Set the value of Number
-     *
-     * @param mixed number
-     *
-     * @return self
-     */
-    public function setNumber($number)
-    {
-        $this->number = $number;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of Parent
-     *
-     * @return mixed
-     */
-    public function getParent()
-    {
-        return $this->parent;
-    }
-
-    /**
-     * Set the value of Parent
-     *
-     * @param mixed parent
-     *
-     * @return self
-     */
-    public function setParent($parent)
-    {
-        $this->parent = $parent;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of Attacks
-     *
-     * @return mixed
-     */
-    public function getAttacks()
-    {
-        return $this->attacks;
-    }
-
-    /**
-     * Set the value of Attacks
-     *
-     * @param mixed attacks
-     *
-     * @return self
-     */
-    public function setAttacks($attacks)
-    {
-        $this->attacks = $attacks;
+        $this->type2 = $type2;
 
         return $this;
     }

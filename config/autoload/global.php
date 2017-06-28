@@ -11,7 +11,7 @@
  * file.
  */
 
-return [
+/*return [
     'service_manager' => [
         'factories' => [
             'Zend\Db\Adapter\Adapter' => 'Zend\Db\Adapter\AdapterServiceFactory',
@@ -22,4 +22,28 @@ return [
             }
         ]
     ]
+];*/
+
+use Zend\Db\Adapter;
+use Zend\ServiceManager\Factory\InvokableFactory;
+
+return [
+ 'service_manager' => [
+  'abstract_factories' => [
+   Adapter\AdapterAbstractServiceFactory::class,
+  ],
+  'factories' => [
+   Adapter\AdapterInterface::class => Adapter\AdapterServiceFactory::class,
+  ],
+  'aliases' => [
+   Adapter\Adapter::class => Adapter\AdapterInterface::class,
+  ],
+ ],
+ 'db' => [
+  'driver' => 'Pdo',
+  'dsn' => 'mysql:dbname=zf3;hostname=localhost',
+  'driver_options' => [
+   PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
+  ],
+ ]
 ];

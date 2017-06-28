@@ -97,6 +97,15 @@ export default class PokemonApi {
             });
         });
     }
-
+    marked(callback){
+      $.ajax({
+          method: "GET",
+          url: base_url + "/marked"
+      }).done( response => {
+          callback(response);
+      }).fail( response => {
+          callback({error: response})
+      });
+    }
 
 }
