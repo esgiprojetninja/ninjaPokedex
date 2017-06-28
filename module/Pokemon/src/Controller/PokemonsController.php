@@ -17,7 +17,7 @@ class PokemonsController extends AbstractRestfulController {
 
     public function get($id) {
       return new JsonModel(
-        $this->pokemonService->findById($id)
+        ['data'=>$this->pokemonService->findById($id)]
       );
     }
 
@@ -37,7 +37,7 @@ class PokemonsController extends AbstractRestfulController {
       } catch (\Exception $e) {
         $message = $e->getMessage();
       }
-      return new JsonModel([$message]);
+      return new JsonModel(['data'=>$message]);
     }
 
 
@@ -50,7 +50,7 @@ class PokemonsController extends AbstractRestfulController {
       } catch (\Exception $e) {
         $message = $e->getMessage();
       }
-      return new JsonModel([$message]);
+      return new JsonModel(['data'=>$message]);
     }
 
     public function delete($id) {
@@ -61,12 +61,12 @@ class PokemonsController extends AbstractRestfulController {
         $message = $e->getMessage();
       }
 
-      return new JsonModel([$message]);
+      return new JsonModel(['data'=>$message]);
     }
 
     public function markedAction() {
       return new JsonModel(
-        $this->pokemonService->marked()
+        ['data'=>$this->pokemonService->marked()]
       );
     }
 
@@ -80,7 +80,7 @@ class PokemonsController extends AbstractRestfulController {
       } catch (\Exception $e) {
         $message = $e->getMessage();
       }
-      return new JsonModel([$message]);
+      return new JsonModel(['data'=>$message]);
     }
 
     public function methodNotAllowed() {

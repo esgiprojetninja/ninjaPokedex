@@ -78,6 +78,7 @@ return [
                         'type'    => 'Literal',
                         'options' => [
                             'route'    => '/marked',
+                            'verb'  => 'get',
                             'defaults' => [
                                 'controller' => 'Pokemon\Controller\Pokemons',
                                 'action' => 'marked'
