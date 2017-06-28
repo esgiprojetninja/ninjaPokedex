@@ -18,30 +18,30 @@ import Screenfull from 'screenfull';
 import Close from 'material-ui/svg-icons/action/highlight-off';
 
 const styles = {
-  buttonClose : {
-    position: 'absolute',
-    top: '0',
-    right: '0',
-    margin: '15px',
-    height: '100px',
-    width: '100px'
-  },
-  iconClose : {
-    color: 'white',
-    height: '80px',
-    width: '80px'
-  },
-  icon: {
-    height: '30px',
-    color: 'white'
-  },
-  pokemonName: {
-    fontSize: '35px',
-    fontWeight: 800
-  },
-  pokemonId: {
-    fontSize: '25px'
-  }
+    buttonClose : {
+        position: 'absolute',
+        top: '0',
+        right: '0',
+        margin: '15px',
+        height: '100px',
+        width: '100px'
+    },
+    iconClose : {
+        color: 'white',
+        height: '80px',
+        width: '80px'
+    },
+    icon: {
+        height: '30px',
+        color: 'white'
+    },
+    pokemonName: {
+        fontSize: '35px',
+        fontWeight: 800
+    },
+    pokemonId: {
+        fontSize: '25px'
+    }
 };
 
 export default class Home extends React.PureComponent {
@@ -97,31 +97,30 @@ export default class Home extends React.PureComponent {
     renderPokemonDetails() {
       if(this.props.carousel.showDetails) {
         return (
-          <div className="card-details align full-height full-width">
-          <IconButton onClick={this.props.openDetails} style={styles.buttonClose} iconStyle={styles.iconClose} children={<Close/>}/>
+            <div className="card-details align full-height full-width">
+            <IconButton onClick={this.props.openDetails} style={styles.buttonClose} iconStyle={styles.iconClose} children={<Close/>}/>
             <Col md={4} className="card-details-content">
-              <div className="align">
-                <img src={this.props.carousel.selectedPokemonForDetails.icon}/>
-              </div>
-              <div className="card-details-body full-width">
-                <ul>
-                  <li className="text-center">
-                    <span style={styles.pokemonId}>No. {this.props.carousel.selectedPokemonForDetails.id_national}</span>
-                  </li>
-                  <li className="text-center">
-                    <span style={styles.pokemonName}>{this.props.carousel.selectedPokemonForDetails.name}</span>
-                  </li>
-                  <li>
-                  </li>
-                  <li>
-
-                  </li>
-                  <li>
-                  </li>
-                </ul>
-              </div>
+                <div className="align">
+                    <img src={this.props.carousel.selectedPokemonForDetails.icon}/>
+                </div>
+                <div className="card-details-body full-width">
+                    <ul>
+                        <li className="text-center">
+                            <span style={styles.pokemonId}>No. {this.props.carousel.selectedPokemonForDetails.id_national}</span>
+                        </li>
+                        <li className="text-center">
+                            <span style={styles.pokemonName}>{this.props.carousel.selectedPokemonForDetails.name}</span>
+                        </li>
+                        <li>
+                        </li>
+                        <li>
+                        </li>
+                        <li>
+                        </li>
+                    </ul>
+                </div>
             </Col>
-          </div>
+            </div>
         )
       }
     }
