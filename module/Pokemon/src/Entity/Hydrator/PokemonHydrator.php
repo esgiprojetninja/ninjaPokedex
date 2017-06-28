@@ -10,8 +10,6 @@ class PokemonHydrator implements HydratorInterface{
       if ( !($object instanceof Pokemon))
           return [];
 
-                      echo " TEST extract ";
-
       return [
           'id_pokemon'    => $object->getIdPokemon(),
           'name'          => $object->getName(),
@@ -25,8 +23,6 @@ class PokemonHydrator implements HydratorInterface{
     public function hydrate(array $data, $object) {
         if ( !($object instanceof Pokemon) )
             return $object;
-
-            echo " TEST hydrate ";
 
         $poke->setIdPokemon( isset($data['id_pokemon']) ? intval($data['id_pokemon']) : null );
         $poke->setName( isset($data['name']) ? $data['name'] : null );

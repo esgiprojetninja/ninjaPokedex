@@ -15,7 +15,6 @@ class PostRepositoryImpl implements PostRepository
     use AdapterAwareTrait;
 
     public function save(Post $post) {
-        var_dump($post);
         try {
             $this->adapter->getDriver()
               ->getConnection()

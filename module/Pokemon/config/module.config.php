@@ -67,7 +67,7 @@ return [
                         'type'    => 'Literal',
                         'options' => [
                             'route' => '/signal',
-                            'verb'  => 'post,put',
+                            'verb'  => 'post',
                             'defaults' => [
                                 'controller' => 'Pokemon\Controller\Pokemons',
                                 'action' => 'signal'
