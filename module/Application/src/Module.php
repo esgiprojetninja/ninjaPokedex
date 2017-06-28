@@ -6,6 +6,8 @@
  */
 
 namespace Application;
+use Zend\Db\Adapter;
+use Zend\ModuleManager\Feature\ConfigProviderInterface;
 
 class Module
 {
@@ -15,4 +17,15 @@ class Module
     {
         return include __DIR__ . '/../config/module.config.php';
     }
+
+    public function getServiceConfig()
+    {
+        return [
+            Adaper\Adapter::class => function($container) {
+                $config = $container->get('config');
+                return new Adapter\Adapter($config['db']);
+            }
+        ];
+    }
+
 }

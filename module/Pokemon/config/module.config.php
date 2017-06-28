@@ -39,12 +39,9 @@ return [
                         ],
                     ],
                     'create' => [
-                        'type'    => Segment::class,
+                        'type'    => Literal::class,
                         'options' => [
-                            'route'    => '/create[/:id]',
-                             'constraints' => [
-                                 'id'     => '[0-9]+',
-                             ],
+                            'route'    => '/create',
                             'defaults' => [
                                 'controller' => 'Pokemon\Controller\Pokemons'
                             ],
@@ -62,10 +59,21 @@ return [
                             ],
                         ],
                     ],
+                    'marked' => [
+                        'type'    => Literal::class,
+                        'options' => [
+                            'route'    => '/marked',
+                            'defaults' => [
+                                'controller' => 'Pokemon\Controller\Pokemons',
+                                'action' => 'marked'
+                            ],
+                        ],
+                    ],
                     'signal' => [
                         'type'    => Literal::class,
                         'options' => [
-                            'route'    => '/signal',
+                            'route' => '/signal',
+                            'verb'  => 'post',
                             'defaults' => [
                                 'controller' => 'Pokemon\Controller\Pokemons',
                                 'action' => 'signal'
@@ -76,6 +84,7 @@ return [
                         'type'    => Literal::class,
                         'options' => [
                             'route'    => '/marked',
+                            'verb'  => 'get',
                             'defaults' => [
                                 'controller' => 'Pokemon\Controller\Pokemons',
                                 'action' => 'marked'

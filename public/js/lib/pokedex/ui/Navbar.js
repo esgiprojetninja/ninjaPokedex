@@ -49,6 +49,9 @@ const styles = {
         transition: 'all .4s ease-in-out',
         width: 'cancer',
         height: 'cancer'
+    },
+    icon: {
+      color: 'white'
     }
 };
 
@@ -65,19 +68,19 @@ export default class Navbar extends React.PureComponent {
 
     renderSearchElement() {
         return (
-            <IconButton className="animate slow fadeInHeaderIcon" style={styles.iconHide} tooltip="EXPLORER" children={<SearchSVG/>}/>
+            <IconButton className="animate slow fadeInHeaderIcon" onTouchTap={this.props.toggleSearch} style={styles.iconHide} iconStyle={styles.icon} tooltip="EXPLORER" children={<SearchSVG/>}/>
         )
     }
 
     renderMapElement() {
         return (
-            <IconButton className="animate slow fadeInHeaderIcon" style={styles.iconHide} tooltip="MAP" children={<LocationSVG/>}/>
+            <IconButton className="animate slow fadeInHeaderIcon" style={styles.iconHide} iconStyle={styles.icon} tooltip="MAP" children={<LocationSVG/>}/>
         )
     }
 
     renderContactElement() {
         return (
-            <IconButton className="animate slow fadeInHeaderIcon" style={styles.iconHide} tooltip="CONTACT" children={<MailSVG/>}/>
+            <IconButton className="animate slow fadeInHeaderIcon" style={styles.iconHide} iconStyle={styles.icon} tooltip="CONTACT" children={<MailSVG/>}/>
         )
     }
 
@@ -130,7 +133,6 @@ export default class Navbar extends React.PureComponent {
 
 Navbar.propTypes = {
     toggleNavbar: T.func.isRequired,
-    testAction: T.func.isRequired,
     navbar: T.shape({
         show: T.bool.isRequired,
     }).isRequired,

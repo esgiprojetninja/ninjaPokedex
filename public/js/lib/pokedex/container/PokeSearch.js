@@ -1,9 +1,7 @@
 import {connect} from "react-redux";
-import NavbarComponent from "../ui/Navbar";
+import PokeSearchComponent from "../ui/PokeSearch";
 
 import {
-    toggleNavbar,
-    testAction,
     toggleSearch
 } from "../actions/navbarActions";
 
@@ -11,18 +9,15 @@ const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => {
     return {
-        toggleNavbar() {
-            dispatch(toggleNavbar());
-        },
-        toggleSearch() {
+        toggleSearch() {
             dispatch(toggleSearch());
         }
     };
 }
 
-const Navbar = connect(
+const PokeSearch = connect(
     mapStateToProps,
     mapDispatchToProps
-)(NavbarComponent);
+)(PokeSearchComponent);
 
-export default Navbar;
+export default PokeSearch;
