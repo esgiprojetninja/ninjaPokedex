@@ -29,7 +29,7 @@ export default class Table extends React.PureComponent {
               {this.props.pokemons.all[key].name}
             </span>
             <div className="card-type table-type align">
-              <img src="img/feu.png"/>
+              <span className="type">Feu</span>
             </div>
           </div>
         )

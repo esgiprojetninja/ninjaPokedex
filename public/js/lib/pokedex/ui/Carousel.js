@@ -70,7 +70,7 @@ export default class Carousel extends React.PureComponent {
                 Reptincel est tiré du dinosaure, il possède de grandes et puissantes griffes acérées, qui laident notamment à déchirer la peau de ses ennemis.
               </span>
               <div className="card-type align">
-                <img src="img/feu.png"/>
+                <span className="type">Feu</span>
               </div>
             </div>
           </div>
