@@ -21,6 +21,5 @@ return [
     'Zend\Paginator',
     'Application',
     'Zend\Form',
-    'Blog',
     'Pokemon'
 ];

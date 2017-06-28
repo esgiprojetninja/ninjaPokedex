@@ -1,11 +1,9 @@
 <?php
 namespace Pokemon\Repository;
 
-use Zend\Hydrator\Aggregate\AggregateHydrator;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Db\Adapter\AdapterAwareTrait;
 
-use Pokemon\Entity\Hydrator\PokemonHydrator;
 use Pokemon\Repository\PokemonRepository;
 use Pokemon\Entity\Pokemon;
 use Pokemon\Entity\Location;
