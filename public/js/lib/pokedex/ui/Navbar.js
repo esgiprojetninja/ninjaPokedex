@@ -7,6 +7,7 @@ import ToggleSVG from 'material-ui/svg-icons/image/dehaze';
 import LocationSVG from 'material-ui/svg-icons/action/room';
 import SearchSVG from 'material-ui/svg-icons/action/search';
 import MailSVG from 'material-ui/svg-icons/content/mail';
+import scrollToElement from 'scroll-to-element';
 
 const styles = {
     navShow: {
@@ -74,7 +75,18 @@ export default class Navbar extends React.PureComponent {
 
     renderMapElement() {
         return (
-            <IconButton className="animate slow fadeInHeaderIcon" style={styles.iconHide} iconStyle={styles.icon} tooltip="MAP" children={<LocationSVG/>}/>
+            <IconButton
+                className="animate slow fadeInHeaderIcon"
+                style={styles.iconHide}
+                iconStyle={styles.icon}
+                tooltip="MAP"
+                children={<LocationSVG/>}
+                onTouchTap={
+                    () => {
+                        scrollToElement('.map-wrapper');
+                    }
+                }
+            />
         )
     }
 
@@ -100,7 +112,7 @@ export default class Navbar extends React.PureComponent {
 
     renderToggleBtn() {
         return (
-            <IconButton style={{...styles.toggleNavbar, background: this.props.theme.current.palette.primary2Color}} onTouchTap={this.props.toggleNavbar} children={<ToggleSVG color={this.props.theme.current.palette.textColor}/>}/>
+            <IconButton style={{...styles.toggleNavbar, background: this.props.theme.current.palette.primary2Color}} onTouchTap={this.props.toggleNavbar} children={<ToggleSVG color="white"/>}/>
         );
     }
 
