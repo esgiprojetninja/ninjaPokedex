@@ -5,6 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import LocationSVG from 'material-ui/svg-icons/action/room';
 import AddCircleOutlineSVG from 'material-ui/svg-icons/content/add-circle-outline';
+import scrollToElement from 'scroll-to-element';
 
 const styles = {
   button: {
@@ -53,6 +54,11 @@ export default class SubHome extends React.PureComponent {
             buttonStyle={{backgroundColor: this.props.theme.current.palette.primary1Color}}
             style={styles.button}
             icon={<LocationSVG/>}
+            onTouchTap={
+                () => {
+                    scrollToElement('.map-wrapper');
+                }
+            }
           />
         </div>
       )
