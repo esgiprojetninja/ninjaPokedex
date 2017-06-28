@@ -1,15 +1,21 @@
 import * as types from "../actions/carouselTypes";
 
 const initialSate = {
-    show: true
+    showDetails: false,
+    selectedPokemonForDetails: {}
 };
 
 const carousel = (state = initialSate, action) => {
     switch (action.type) {
-        case types.TOGGLE_DISPLAY:
+        case types.SELECT_POKEMON:
             return {
                 ...state,
-                show: !state.show
+                selectedPokemonForDetails: action.pokemon || {}
+            }
+        case types.TOGGLE_DETAILS:
+            return {
+                ...state,
+                showDetails: !state.showDetails
             }
         default:
             return state;
