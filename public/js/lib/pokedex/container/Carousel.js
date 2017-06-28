@@ -2,7 +2,8 @@ import {connect} from "react-redux";
 import CarouselComponent from "../ui/Carousel";
 
 import {
-    setSelectedPokemonForDetails
+    setSelectedPokemonForDetails,
+    openDetails
 } from "../actions/carouselActions";
 
 const mapStateToProps = state => state;
@@ -10,7 +11,10 @@ const mapStateToProps = state => state;
 const mapDispatchToProps = dispatch => {
     return {
       setSelectedPokemonForDetails(pokemon) {
-        dispatch(setSelectedPokemonForDetails(pokemon))
+        dispatch(setSelectedPokemonForDetails(pokemon));
+      },
+      openDetails() {
+        dispatch(openDetails());
       }
     };
 }

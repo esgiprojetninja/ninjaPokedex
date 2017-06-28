@@ -4,6 +4,7 @@ import Slider from 'react-slick';
 import Card from '../container/Card';
 import IconButton from 'material-ui/IconButton';
 import LocationSVG from 'material-ui/svg-icons/action/room';
+import DescriptionSVG from 'material-ui/svg-icons/action/description';
 
 const styles = {
   cardWrapper : {
@@ -66,12 +67,12 @@ export default class Carousel extends React.PureComponent {
                 style={styles.cardIconLocationWrapper}
                 iconStyle={styles.cardIconLocation}
                 tooltipPosition="top-center"
-                tooltip="Position"
-                children={<LocationSVG/>}
+                tooltip="Détails"
+                children={<DescriptionSVG/>}
                 onTouchTap={
                   () => {
                     this.props.setSelectedPokemonForDetails(this.props.pokemons.all[key]);
-                    console.log('this', this);
+                    this.props.openDetails();
                   }
                 }
               />

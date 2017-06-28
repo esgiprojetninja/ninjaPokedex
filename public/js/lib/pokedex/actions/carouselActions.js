@@ -6,3 +6,9 @@ export const setSelectedPokemonForDetails = pokemon => {
         pokemon
     }
 }
+
+export const openDetails = () => {
+    return {
+        type: types.TOGGLE_DETAILS
+    }
+}

@@ -15,8 +15,22 @@ import AddCircleOutlineSVG from 'material-ui/svg-icons/content/add-circle-outlin
 import PokeSearch from '../container/PokeSearch';
 import jQuery from 'jquery';
 import Screenfull from 'screenfull';
+import Close from 'material-ui/svg-icons/action/highlight-off';
 
-const styles = {
+const styles = {
+  buttonClose : {
+    position: 'absolute',
+    top: '0',
+    right: '0',
+    margin: '15px',
+    height: '100px',
+    width: '100px'
+  },
+  iconClose : {
+    color: 'white',
+    height: '80px',
+    width: '80px'
+  },
   icon: {
     height: '30px',
     color: 'white'
@@ -73,11 +87,25 @@ export default class Home extends React.PureComponent {
       }
     }
 
+    renderPokemonDetails() {
+      if(this.props.carousel.showDetails) {
+        return (
+          <div className="card-details align full-height full-width">
+          <IconButton onClick={this.props.openDetails} style={styles.buttonClose} iconStyle={styles.iconClose} children={<Close/>}/>
+            <Col md={6} className="card-details-content">
+              <img src={this.props.carousel.selectedPokemonForDetails.icon}/>
+            </Col>
+          </div>
+        )
+      }
+    }
+
     render () {
         return (
           <Grid className="container full-height full-width" style={{padding: 0}}>
             <section className="index-wrapper full-height full-width">
               <img src="img/pokemon-logo.png" className="index-logo"/>
+              {this.renderPokemonDetails()}
               <div style={{position: 'absolute', bottom: 0, right: 0, zIndex: 10000, opacity: 0.5, margin: '15px'}}>
                 <IconButton onTouchTap={this.props.toggleView} iconStyle={styles.icon} tooltipPosition="top-center" tooltip="Changer de vue" children={<DashboardSVG/>}/>
                 <IconButton onTouchTap={

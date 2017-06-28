@@ -1,1 +1,2 @@
 export const SELECT_POKEMON = 'SELECT_POKEMON';
+export const TOGGLE_DETAILS = 'TOGGLE_DETAILS';
