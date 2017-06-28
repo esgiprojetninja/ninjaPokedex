@@ -72,7 +72,7 @@ class PokemonsController extends AbstractRestfulController {
 
     public function signalAction() {
       try {
-        $location = $this->setLocation($_POST);
+        $location = $this->setLocation($this->getRequest()->getPost());
         $message = "error";
         if($this->pokemonService->signal($location)){
           $message = "success";
