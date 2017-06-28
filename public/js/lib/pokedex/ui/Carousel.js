@@ -62,7 +62,19 @@ export default class Carousel extends React.PureComponent {
             <div className="card">
               <span className="card-number">{this.props.pokemons.all[key].id_national}</span>
               <img src={this.props.pokemons.all[key].icon} className="card-pokemon"/>
-              <IconButton style={styles.cardIconLocationWrapper} iconStyle={styles.cardIconLocation} tooltipPosition="top-center" tooltip="Position" children={<LocationSVG/>}/>
+              <IconButton
+                style={styles.cardIconLocationWrapper}
+                iconStyle={styles.cardIconLocation}
+                tooltipPosition="top-center"
+                tooltip="Position"
+                children={<LocationSVG/>}
+                onTouchTap={
+                  () => {
+                    this.props.setSelectedPokemonForDetails(this.props.pokemons.all[key]);
+                    console.log('this', this);
+                  }
+                }
+              />
               <span className="card-title">
                 {this.props.pokemons.all[key].name}
               </span>
