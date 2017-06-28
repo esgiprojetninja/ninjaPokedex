@@ -24,7 +24,7 @@ export default class Table extends React.PureComponent {
       return (
           <div key={key} className="card text-center table-card" style={{display: 'inline-block', margin: '15px'}}>
             <span className="card-number">{this.props.pokemons.all[key].id_national}</span>
-            <img src={this.props.pokemons.all[key].icon} className="card-pokemon"/>
+            <img src={this.props.pokemons.all[key].image} className="card-pokemon"/>
             <span className="card-title table-title">
               {this.props.pokemons.all[key].name}
             </span>

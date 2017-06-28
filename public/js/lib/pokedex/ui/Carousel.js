@@ -62,7 +62,7 @@ export default class Carousel extends React.PureComponent {
         <div key={key} className="align" style={styles.cardWrapper}>
             <div className="card">
                 <span className="card-number">{this.props.pokemons.all[key].id_national}</span>
-                <img src={this.props.pokemons.all[key].icon} className="card-pokemon"/>
+                <img src={this.props.pokemons.all[key].image} className="card-pokemon"/>
                 <IconButton
                     style={styles.cardIconLocationWrapper}
                     iconStyle={styles.cardIconLocation}
@@ -71,16 +71,32 @@ export default class Carousel extends React.PureComponent {
                     children={<DescriptionSVG/>}
                     onTouchTap={
                         () => {
-                            this.props.setSelectedPokemonForDetails(this.props.pokemons.all[key]);
+                            let pokemon = {};
+                            pokemon.current = this.props.pokemons.all[key];
+                            pokemon.evolution = [];
+                            pokemon.starter = {};
+                            //Gère les évolutions
+                            for(var i = 0; i < this.props.pokemons.all.length; i++) {
+                                if(this.props.pokemons.all[i].id_parent === pokemon.current.id_national) {
+                                    pokemon.evolution.push(this.props.pokemons.all[i]);
+                                }
+                            }
+                            //Gère les starteurs
+                            for(var j = 0; j < this.props.pokemons.all.length; j++) {
+                                if(this.props.pokemons.all[j].id_national === pokemon.current.id_parent) {
+                                    pokemon.starter = this.props.pokemons.all[j];
+                                }
+                            }
+                            this.props.setSelectedPokemonForDetails(pokemon);
                             this.props.openDetails();
                         }
                     }
                 />
                 <span className="card-title">
-                {this.props.pokemons.all[key].name}
+                    {this.props.pokemons.all[key].name}
                 </span>
                 <span className="card-description">
-                    Reptincel est tiré du dinosaure, il possède de grandes et puissantes griffes acérées, qui laident notamment à déchirer la peau de ses ennemis.
+                    {this.props.pokemons.all[key].description}
                 </span>
                 <div className="card-type align">
                     <span className="type">Feu</span>

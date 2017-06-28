@@ -84,6 +84,14 @@
   margin: 5px;
 }
 
+.card-details-body ul li{
+    margin-top: 15px;
+}
+
+.card-details-body{
+    padding: 0 25px;
+}
+
 .card-details {
   position: fixed;
   top: 0;

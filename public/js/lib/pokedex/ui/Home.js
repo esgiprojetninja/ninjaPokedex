@@ -40,7 +40,8 @@ const styles = {
         fontWeight: 800
     },
     pokemonId: {
-        fontSize: '25px'
+        fontSize: '25px',
+        marginTop: 0
     }
 };
 
@@ -49,7 +50,7 @@ export default class Home extends React.PureComponent {
         super(props);
     }
 
-    renderSearch() {
+    renderSearch () {
       return (
         <div>
           <PokeSearch/>
@@ -57,13 +58,13 @@ export default class Home extends React.PureComponent {
       )
     }
 
-    renderSearchWrapper() {
+    renderSearchWrapper () {
       if( this.props.navbar.showSearch ) {
         return this.renderSearch();
       }
     }
 
-    renderHomeTable() {
+    renderHomeTable () {
       return (
         <Row className="show-grid full-height">
           <Col md={12} className="full-height">
@@ -73,7 +74,7 @@ export default class Home extends React.PureComponent {
       )
     }
 
-    renderHomeCarousel() {
+    renderHomeCarousel () {
       return (
         <Row className="show-grid" style={{height: '50vh'}}>
           <Col md={8} mdOffset={2}>
@@ -86,7 +87,7 @@ export default class Home extends React.PureComponent {
       )
     }
 
-    renderOnToggleView() {
+    renderOnToggleView () {
       if( this.props.home.showCarousel ) {
         return this.renderHomeCarousel();
       } else {
@@ -94,28 +95,68 @@ export default class Home extends React.PureComponent {
       }
     }
 
-    renderPokemonDetails() {
+    renderPokemonDetailsStarter () {
+        if(this.props.carousel.selectedPokemonForDetails.starter && this.props.carousel.selectedPokemonForDetails.starter.image) {
+            return (
+                <img src={this.props.carousel.selectedPokemonForDetails.starter.image}/>
+            )
+        }
+    }
+
+    renderPokemonDetailsCurrent () {
+        if(this.props.carousel.selectedPokemonForDetails.current && this.props.carousel.selectedPokemonForDetails.current.image) {
+            return (
+                <img src={this.props.carousel.selectedPokemonForDetails.current.image}/>
+            )
+        }
+    }
+
+    renderPokemonDetailsThisEvolution (thisP, thisKey) {
+        return (
+            <img src={this.props.carousel.selectedPokemonForDetails.evolution[thisKey].image}/>
+        )
+    }
+
+    renderPokemonDetailsEvolutions () {
+        if(this.props.carousel.selectedPokemonForDetails.evolution) {
+            return (
+                <div>
+                    {(this.props.carousel.selectedPokemonForDetails.evolution.map((thisP, thisKey) => this.renderPokemonDetailsThisEvolution(thisP, thisKey)))}
+                </div>
+            )
+        }
+    }
+
+    renderPokemonDetailsEvolution () {
+        return (
+            <div className="align">
+                {this.renderPokemonDetailsStarter()}
+                {this.renderPokemonDetailsCurrent()}
+                {this.renderPokemonDetailsEvolutions()}
+            </div>
+        )
+    }
+
+    renderPokemonDetails () {
       if(this.props.carousel.showDetails) {
         return (
             <div className="card-details align full-height full-width">
             <IconButton onClick={this.props.openDetails} style={styles.buttonClose} iconStyle={styles.iconClose} children={<Close/>}/>
             <Col md={4} className="card-details-content">
-                <div className="align">
-                    <img src={this.props.carousel.selectedPokemonForDetails.icon}/>
-                </div>
+                {this.renderPokemonDetailsEvolution()}
                 <div className="card-details-body full-width">
                     <ul>
                         <li className="text-center">
-                            <span style={styles.pokemonId}>No. {this.props.carousel.selectedPokemonForDetails.id_national}</span>
+                            <span style={styles.pokemonId}>No. {this.props.carousel.selectedPokemonForDetails.current.id_national}</span>
                         </li>
                         <li className="text-center">
-                            <span style={styles.pokemonName}>{this.props.carousel.selectedPokemonForDetails.name}</span>
+                            <span style={styles.pokemonName}>{this.props.carousel.selectedPokemonForDetails.current.name}</span>
                         </li>
                         <li>
+                            <span style={styles.pokemonDescription}>{this.props.carousel.selectedPokemonForDetails.current.description}</span>
                         </li>
                         <li>
-                        </li>
-                        <li>
+                            <span>Feu</span>
                         </li>
                     </ul>
                 </div>
