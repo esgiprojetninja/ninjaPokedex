@@ -34,6 +34,13 @@ const styles = {
   icon: {
     height: '30px',
     color: 'white'
+  },
+  pokemonName: {
+    fontSize: '35px',
+    fontWeight: 800
+  },
+  pokemonId: {
+    fontSize: '25px'
   }
 };
 
@@ -92,8 +99,27 @@ export default class Home extends React.PureComponent {
         return (
           <div className="card-details align full-height full-width">
           <IconButton onClick={this.props.openDetails} style={styles.buttonClose} iconStyle={styles.iconClose} children={<Close/>}/>
-            <Col md={6} className="card-details-content">
-              <img src={this.props.carousel.selectedPokemonForDetails.icon}/>
+            <Col md={4} className="card-details-content">
+              <div className="align">
+                <img src={this.props.carousel.selectedPokemonForDetails.icon}/>
+              </div>
+              <div className="card-details-body full-width">
+                <ul>
+                  <li className="text-center">
+                    <span style={styles.pokemonId}>No. {this.props.carousel.selectedPokemonForDetails.id_national}</span>
+                  </li>
+                  <li className="text-center">
+                    <span style={styles.pokemonName}>{this.props.carousel.selectedPokemonForDetails.name}</span>
+                  </li>
+                  <li>
+                  </li>
+                  <li>
+
+                  </li>
+                  <li>
+                  </li>
+                </ul>
+              </div>
             </Col>
           </div>
         )
