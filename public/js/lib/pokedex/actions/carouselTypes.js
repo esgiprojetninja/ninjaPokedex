@@ -1,2 +1,4 @@
-export const SELECT_POKEMON = 'SELECT_POKEMON';
+export const SET_CURRENT = 'SET_CURRENT';
+export const SET_STARTER = 'SET_STARTER';
+export const SET_EVOLUTION = 'SET_EVOLUTION';
 export const TOGGLE_DETAILS = 'TOGGLE_DETAILS';

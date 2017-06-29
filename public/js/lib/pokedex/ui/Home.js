@@ -96,30 +96,28 @@ export default class Home extends React.PureComponent {
     }
 
     renderPokemonDetailsStarter () {
-        if(this.props.carousel.selectedPokemonForDetails.starter && this.props.carousel.selectedPokemonForDetails.starter.image) {
+        if(this.props.carousel.selectedStarter && this.props.carousel.selectedStarter.id_national !== this.props.carousel.selectedCurrent.id_national && this.props.carousel.selectedStarter.image) {
             return (
                 <img
                     className="pokemon-details pokemon-starter"
-                    src={this.props.carousel.selectedPokemonForDetails.starter.image}
+                    src={this.props.carousel.selectedStarter.image}
                     onTouchTap={
                         () => {
-                            let pokemon = {};
-                            pokemon.current = this.props.carousel.selectedPokemonForDetails.starter;
-                            pokemon.evolution = [];
-                            pokemon.starter = {};
-                            //Gère les évolutions
-                            for(var i = 0; i < this.props.pokemons.all.length; i++) {
-                                if(this.props.pokemons.all[i].id_parent === pokemon.current.id_national) {
-                                    pokemon.evolution.push(this.props.pokemons.all[i]);
-                                }
-                            }
-                            //Gère les starteurs
-                            for(var j = 0; j < this.props.pokemons.all.length; j++) {
-                                if(this.props.pokemons.all[j].id_national === pokemon.current.id_parent) {
-                                    pokemon.starter = this.props.pokemons.all[j];
-                                }
-                            }
-                            this.props.setSelectedPokemonForDetails(pokemon);
+                            // let pokemon = {};
+                            // pokemon.current = this.props.carousel.selectedStarter;
+                            // pokemon.evolution = [];
+                            // pokemon.starter = {};
+                            // for(var i = 0; i < this.props.pokemons.all.length; i++) {
+                            //     if(this.props.pokemons.all[i].id_parent === pokemon.current.id_national) {
+                            //         pokemon.evolution.push(this.props.pokemons.all[i]);
+                            //     }
+                            // }
+                            // for(var j = 0; j < this.props.pokemons.all.length; j++) {
+                            //     if(this.props.pokemons.all[j].id_national === pokemon.current.id_parent) {
+                            //         pokemon.starter = this.props.pokemons.all[j];
+                            //     }
+                            // }
+                            // this.props.setSelectedPokemonForDetails(pokemon);
                         }
                     }
                 />
@@ -128,9 +126,9 @@ export default class Home extends React.PureComponent {
     }
 
     renderPokemonDetailsCurrent () {
-        if(this.props.carousel.selectedPokemonForDetails.current && this.props.carousel.selectedPokemonForDetails.current.image) {
+        if(this.props.carousel.selectedCurrent && this.props.carousel.selectedCurrent.image) {
             return (
-                <img className="pokemon-details pokemon-current" src={this.props.carousel.selectedPokemonForDetails.current.image}/>
+                <img className="pokemon-details pokemon-current" src={this.props.carousel.selectedCurrent.image}/>
             )
         }
     }
@@ -140,26 +138,24 @@ export default class Home extends React.PureComponent {
             <img
                 key={thisKey}
                 className="pokemon-details pokemon-evolution"
-                src={this.props.carousel.selectedPokemonForDetails.evolution[thisKey].image}
+                src={this.props.carousel.selectedEvolution[thisKey].image}
                 onTouchTap={
                     () => {
-                        let pokemon = {};
-                        pokemon.current = this.props.carousel.selectedPokemonForDetails.evolution[thisKey];
-                        pokemon.evolution = [];
-                        pokemon.starter = {};
-                        //Gère les évolutions
-                        for(var i = 0; i < this.props.pokemons.all.length; i++) {
-                            if(this.props.pokemons.all[i].id_parent === pokemon.current.id_national) {
-                                pokemon.evolution.push(this.props.pokemons.all[i]);
-                            }
-                        }
-                        //Gère les starteurs
-                        for(var j = 0; j < this.props.pokemons.all.length; j++) {
-                            if(this.props.pokemons.all[j].id_national === pokemon.current.id_parent) {
-                                pokemon.starter = this.props.pokemons.all[j];
-                            }
-                        }
-                        this.props.setSelectedPokemonForDetails(pokemon);
+                        // let pokemon = {};
+                        // pokemon.current = this.props.carousel.selectedEvolution[thisKey];
+                        // pokemon.evolution = [];
+                        // pokemon.starter = {};
+                        // for(var i = 0; i < this.props.pokemons.all.length; i++) {
+                        //     if(this.props.pokemons.all[i].id_parent === pokemon.current.id_national) {
+                        //         pokemon.evolution.push(this.props.pokemons.all[i]);
+                        //     }
+                        // }
+                        // for(var j = 0; j < this.props.pokemons.all.length; j++) {
+                        //     if(this.props.pokemons.all[j].id_national === pokemon.current.id_parent) {
+                        //         pokemon.starter = this.props.pokemons.all[j];
+                        //     }
+                        // }
+                        // this.props.setSelectedPokemonForDetails(pokemon);
                     }
                 }
             />
@@ -167,10 +163,10 @@ export default class Home extends React.PureComponent {
     }
 
     renderPokemonDetailsEvolutions () {
-        if(this.props.carousel.selectedPokemonForDetails.evolution) {
+        if(this.props.carousel.selectedEvolution) {
             return (
                 <div>
-                    {(this.props.carousel.selectedPokemonForDetails.evolution.map((thisP, thisKey) => this.renderPokemonDetailsThisEvolution(thisP, thisKey)))}
+                    {(this.props.carousel.selectedEvolution.map((thisP, thisKey) => this.renderPokemonDetailsThisEvolution(thisP, thisKey)))}
                 </div>
             )
         }
@@ -186,26 +182,34 @@ export default class Home extends React.PureComponent {
         )
     }
 
+    renderPokemonTypes (ps, ks) {
+        return (
+            <div key={ks} className="card-type card-type-size" style={{display: 'initial'}}>
+                <span className="type" style={{background: this.props.carousel.selectedCurrent.type[ks].color}}>{this.props.carousel.selectedCurrent.type[ks].nom_type}</span>
+            </div>
+        )
+    }
+
     renderPokemonDetails () {
       if(this.props.carousel.showDetails) {
         return (
             <div className="card-details align full-height full-width">
             <IconButton onClick={this.props.openDetails} style={styles.buttonClose} iconStyle={styles.iconClose} children={<Close/>}/>
             <Col md={4} className="card-details-content">
-                {this.renderPokemonDetailsEvolution()}
                 <div className="card-details-body full-width">
+                {this.renderPokemonDetailsEvolution()}
                     <ul>
                         <li className="text-center">
-                            <span style={styles.pokemonId}>No. {this.props.carousel.selectedPokemonForDetails.current.id_national}</span>
+                            <span style={styles.pokemonId}>No. {this.props.carousel.selectedCurrent.id_national}</span>
                         </li>
                         <li className="text-center">
-                            <span style={styles.pokemonName}>{this.props.carousel.selectedPokemonForDetails.current.name}</span>
+                            <span style={styles.pokemonName}>{this.props.carousel.selectedCurrent.name}</span>
                         </li>
                         <li>
-                            <span style={styles.pokemonDescription}>{this.props.carousel.selectedPokemonForDetails.current.description}</span>
+                            <span style={styles.pokemonDescription}>{this.props.carousel.selectedCurrent.description}</span>
                         </li>
-                        <li>
-                            <span>Feu</span>
+                        <li className="text-center">
+                            {(this.props.carousel.selectedCurrent.type.map((ps, ks) => this.renderPokemonTypes(ps, ks)))}
                         </li>
                     </ul>
                 </div>

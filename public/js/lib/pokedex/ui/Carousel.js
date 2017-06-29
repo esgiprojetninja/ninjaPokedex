@@ -71,23 +71,28 @@ export default class Carousel extends React.PureComponent {
                     children={<DescriptionSVG/>}
                     onTouchTap={
                         () => {
-                            let pokemon = {};
-                            pokemon.current = this.props.pokemons.all[key];
-                            pokemon.evolution = [];
-                            pokemon.starter = {};
-                            //Gère les évolutions
-                            for(var i = 0; i < this.props.pokemons.all.length; i++) {
-                                if(this.props.pokemons.all[i].id_parent === pokemon.current.id_national) {
-                                    pokemon.evolution.push(this.props.pokemons.all[i]);
+                            let evolutionsTmp = [];
+                            let _this = this;
+                            this.props.setSelectedPokemonForDetails(this.props.pokemons.all[key]);
+
+                            function getStarter(el) {
+                                if(_this.props.pokemons.all[key].id_parent && el.id_national === _this.props.pokemons.all[key].id_parent) {
+                                    _this.props.setSelectedPokemonStarter(el);
                                 }
                             }
-                            //Gère les starteurs
-                            for(var j = 0; j < this.props.pokemons.all.length; j++) {
-                                if(this.props.pokemons.all[j].id_national === pokemon.current.id_parent) {
-                                    pokemon.starter = this.props.pokemons.all[j];
+
+                            function getEvolution(el, i) {
+                                if(el.id_parent && el.id_parent === _this.props.pokemons.all[key].id_national) {
+                                    evolutionsTmp.push(el);
+                                }
+
+                                if(i === _this.props.pokemons.all.length-1) {
+                                    _this.props.setSelectedPokemonEvolution(evolutionsTmp);
                                 }
                             }
-                            this.props.setSelectedPokemonForDetails(pokemon);
+
+                            this.props.pokemons.all.filter(getStarter);
+                            this.props.pokemons.all.filter(getEvolution);
                             this.props.openDetails();
                         }
                     }
@@ -98,7 +103,7 @@ export default class Carousel extends React.PureComponent {
                 <span className="card-description">
                     {this.props.pokemons.all[key].description}
                 </span>
-                <div className="card-type align">
+                <div className="card-type align" style={{display: 'initial'}}>
                     <span className="type">Feu</span>
                 </div>
                 </div>
