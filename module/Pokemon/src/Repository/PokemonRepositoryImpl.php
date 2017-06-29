@@ -7,6 +7,7 @@ use Zend\Db\Adapter\AdapterAwareTrait;
 use Pokemon\Repository\PokemonRepository;
 use Pokemon\Entity\Pokemon;
 use Pokemon\Entity\Location;
+use Pokemon\Entity\Type;
 use Pokemon\Controller\PokemonsController;
 
 use Zend\Db\Adapter\Driver\ResultInterface;
@@ -194,7 +195,14 @@ class PokemonRepositoryImpl implements PokemonRepository
       $pokemons = [];
       foreach ($resultSet as $pokemon) {
         //Get type infos
-        $types = $this->getTypes($pokemon['id_pokemon']);
+        $types["type"] = [];
+        $typesTemp = $this->getTypes($pokemon['id_pokemon']);
+        foreach($typesTemp as $type){
+          if($type != NULL){
+            $typeData = $this->getTypeInformation($type);
+            $types["type"][] = ["nom_type" => $typeData->getNameType(), "color" => $typeData->getColor()];
+          }
+        }
         $pokemons[] = (object) array_merge((array) $pokemon, $types);
       }
       return $pokemons;
@@ -395,6 +403,27 @@ class PokemonRepositoryImpl implements PokemonRepository
     }
 
     return $types;
+  }
+
+  protected function getTypeInformation($idType){
+    try {
+      $sql = new \Zend\Db\Sql\Sql($this->adapter);
+      $select = $sql->select();
+      $select->from('type');
+      $select->where(array('id_type' => $idType));
+
+      $statement = $sql->prepareStatementForSqlObject($select);
+      $r = $statement->execute();
+
+      $resultSet = new ResultSet;
+      $resultSet->initialize($r);
+
+      foreach($resultSet as $type){
+        return PokemonsController::setType($type);
+      }
+    } catch ( \Exception $e ) {
+      return $e->getMessage();
+    }
   }
 
   public function getPokemonByName($name){
