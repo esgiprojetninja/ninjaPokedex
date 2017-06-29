@@ -138,6 +138,7 @@ export default class Home extends React.PureComponent {
     renderPokemonDetailsThisEvolution (thisP, thisKey) {
         return (
             <img
+                key={thisKey}
                 className="pokemon-details pokemon-evolution"
                 src={this.props.carousel.selectedPokemonForDetails.evolution[thisKey].image}
                 onTouchTap={
