@@ -115,3 +115,11 @@
 .pokemon-evolution{
     opacity: 0.5;
 }
+
+.pokemon-starter:hover{
+    opacity: 1;
+}
+
+.pokemon-evolution:hover{
+    opacity: 1;
+}
