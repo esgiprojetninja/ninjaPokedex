@@ -98,7 +98,31 @@ export default class Home extends React.PureComponent {
     renderPokemonDetailsStarter () {
         if(this.props.carousel.selectedPokemonForDetails.starter && this.props.carousel.selectedPokemonForDetails.starter.image) {
             return (
-                <img src={this.props.carousel.selectedPokemonForDetails.starter.image}/>
+                <img
+                    className="pokemon-details pokemon-starter"
+                    src={this.props.carousel.selectedPokemonForDetails.starter.image}
+                    onTouchTap={
+                        () => {
+                            let pokemon = {};
+                            pokemon.current = this.props.carousel.selectedPokemonForDetails.starter;
+                            pokemon.evolution = [];
+                            pokemon.starter = {};
+                            //Gère les évolutions
+                            for(var i = 0; i < this.props.pokemons.all.length; i++) {
+                                if(this.props.pokemons.all[i].id_parent === pokemon.current.id_national) {
+                                    pokemon.evolution.push(this.props.pokemons.all[i]);
+                                }
+                            }
+                            //Gère les starteurs
+                            for(var j = 0; j < this.props.pokemons.all.length; j++) {
+                                if(this.props.pokemons.all[j].id_national === pokemon.current.id_parent) {
+                                    pokemon.starter = this.props.pokemons.all[j];
+                                }
+                            }
+                            this.props.setSelectedPokemonForDetails(pokemon);
+                        }
+                    }
+                />
             )
         }
     }
@@ -106,14 +130,38 @@ export default class Home extends React.PureComponent {
     renderPokemonDetailsCurrent () {
         if(this.props.carousel.selectedPokemonForDetails.current && this.props.carousel.selectedPokemonForDetails.current.image) {
             return (
-                <img src={this.props.carousel.selectedPokemonForDetails.current.image}/>
+                <img className="pokemon-details pokemon-current" src={this.props.carousel.selectedPokemonForDetails.current.image}/>
             )
         }
     }
 
     renderPokemonDetailsThisEvolution (thisP, thisKey) {
         return (
-            <img src={this.props.carousel.selectedPokemonForDetails.evolution[thisKey].image}/>
+            <img
+                className="pokemon-details pokemon-evolution"
+                src={this.props.carousel.selectedPokemonForDetails.evolution[thisKey].image}
+                onTouchTap={
+                    () => {
+                        let pokemon = {};
+                        pokemon.current = this.props.carousel.selectedPokemonForDetails.evolution[thisKey];
+                        pokemon.evolution = [];
+                        pokemon.starter = {};
+                        //Gère les évolutions
+                        for(var i = 0; i < this.props.pokemons.all.length; i++) {
+                            if(this.props.pokemons.all[i].id_parent === pokemon.current.id_national) {
+                                pokemon.evolution.push(this.props.pokemons.all[i]);
+                            }
+                        }
+                        //Gère les starteurs
+                        for(var j = 0; j < this.props.pokemons.all.length; j++) {
+                            if(this.props.pokemons.all[j].id_national === pokemon.current.id_parent) {
+                                pokemon.starter = this.props.pokemons.all[j];
+                            }
+                        }
+                        this.props.setSelectedPokemonForDetails(pokemon);
+                    }
+                }
+            />
         )
     }
 

@@ -99,3 +99,19 @@
   background: rgba(0, 0, 0, 0.8);
   z-index: 9999;
 }
+
+.pokemon-details{
+    cursor: pointer;
+}
+
+.pokemon-starter{
+    opacity: 0.5;
+}
+
+.pokemon-current{
+
+}
+
+.pokemon-evolution{
+    opacity: 0.5;
+}
