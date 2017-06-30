@@ -3,7 +3,6 @@ import NavbarComponent from "../ui/Navbar";
 
 import {
     toggleNavbar,
-    testAction,
     toggleSearch
 } from "../actions/navbarActions";
 

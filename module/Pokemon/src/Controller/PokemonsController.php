@@ -6,6 +6,7 @@ use Zend\View\Model\JsonModel;
 
 use Pokemon\Entity\Pokemon;
 use Pokemon\Entity\Location;
+use Pokemon\Entity\Type;
 
 class PokemonsController extends AbstractRestfulController {
 
@@ -88,6 +89,14 @@ class PokemonsController extends AbstractRestfulController {
         \Zend\Http\PhpEnvironment\Response::STATUS_CODE_405
       );
       throw new Exception('Method Not Allowed');
+    }
+
+    public static function setType($data){
+      $type = new Type();
+      $type->setIdType($data['id_type']);
+      $type->setNameType($data['name_type']);
+      $type->setColor($data['color']);
+      return $type;
     }
 
     public function setLocation($data){
