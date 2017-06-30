@@ -27,19 +27,19 @@ const pokemons = (state = initialSate, action) => {
                 ...state,
                 isFetching: false,
                 all: action.pokemons
-                    .map(pokemon => {
-                        return {...pokemon, evolutions: action.pokemons
+                    .map(pokemon => ({...pokemon, evolutions: action.pokemons.find(poke => poke.id_parent === pokemon.id_national) ?
+                        action.pokemons
                             .filter(poke => poke.id_parent === pokemon.id_national)
-                            .map( pokemon_2 => {
-                                return {
+                            .map( pokemon_2 => ({
                                     ...pokemon_2,
                                     evolutions: action.pokemons.find( poke => poke.id_parent === pokemon_2.id_national ) ?
                                         action.pokemons.filter( poke => poke.id_parent === pokemon_2.id_national )  :
                                         false
                                 }
-                            })
+                            ))
+                        : false
                         }
-                    })
+                    ))
             }
         case types.RECEIVED_MARKED_POKEMONS:
             return {
