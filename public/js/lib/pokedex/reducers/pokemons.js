@@ -27,6 +27,9 @@ const pokemons = (state = initialSate, action) => {
                 ...state,
                 isFetching: false,
                 all: action.pokemons
+                    .map((pokemon, key, all_pokemons) => {
+                        return {...pokemon, evolutions: all_pokemons.filter(poke => poke.id_parent === pokemon.id_national)}
+                    })
             }
         case types.RECEIVED_MARKED_POKEMONS:
             return {
