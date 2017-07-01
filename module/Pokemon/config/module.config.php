@@ -103,6 +103,18 @@ return [
                         'action' => 'index',
                     ],
                 ],
+                'child_routes' => [
+                    'add_admin' => [
+                        'type'    => Literal::class,
+                        'options' => [
+                            'route'    => '/add/admin',
+                            'defaults' => [
+                                'controller' => 'Pokemon\Controller\Admin',
+                                'action' => 'addAdmin'
+                            ],
+                        ],
+                    ],
+                ],
                 'may_terminate' => true
             ],
         ],

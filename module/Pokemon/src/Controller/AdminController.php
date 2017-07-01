@@ -6,12 +6,13 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Zend\Mvc\MvcEvent;
-use Pokemon\Form\Connection;
+use Pokemon\Form\Connection as ConnectionForm;
 use Pokemon\InputFilter\ConnectionPost;
 
 class AdminController extends AbstractActionController {
 
     protected $pokemonService;
+    protected $adminService;
 
     /**
      * We override the parent class' onDispatch() method to
@@ -29,14 +30,29 @@ class AdminController extends AbstractActionController {
         return $response;
     }
 
-    public function __construct($pokemonService) {
+    public function __construct($pokemonService, $adminService) {
         $this->pokemonService = $pokemonService;
+        $this->adminService = $adminService;
+    }
+
+    public function loginAction() {
+
+    }
+
+    public function addAdminAction() {
+        $form = new ConnectionForm();
+        if ( $this->getRequest()->isPost() ) {
+
+        }
+        return new ViewModel([
+            'form' => $form
+        ]);
     }
 
     public function indexAction() {
-        $form = new Connection();
-        var_dump($form);
+        $form = new ConnectionForm();
         if ( $this->getRequest()->isPost() ) {
+            // var_dump($form);
             $form->setInputFilter(new ConnectionPost());
             $data = $this->request->getPost();
             $form->setData($data);
