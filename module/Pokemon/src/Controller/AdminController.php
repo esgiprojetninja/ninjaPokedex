@@ -6,8 +6,11 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Zend\Mvc\MvcEvent;
+use Pokemon\Entity\Admin;
 use Pokemon\Form\Connection as ConnectionForm;
 use Pokemon\InputFilter\ConnectionPost;
+use Pokemon\Form\AddAdmin as AddAdminForm;
+use Pokemon\InputFilter\AddAdminPost;
 
 class AdminController extends AbstractActionController {
 
@@ -40,16 +43,26 @@ class AdminController extends AbstractActionController {
     }
 
     public function addAdminAction() {
-        $form = new ConnectionForm();
+        $form = new AddAdminForm();
         if ( $this->getRequest()->isPost() ) {
-
+            $admin = new Admin();
+            $form->bind($admin);
+            $form->setInputFilter(new AddAdminPost());
+            $data = $this->request->getPost();
+            $form->setData($data);
+            if ($form->isValid()) {
+                var_dump("it's all good brother !", $admin);
+                $this->adminService->add($admin);
+            } else {
+                var_dump("fucking form is invalid dude");
+            }
         }
         return new ViewModel([
             'form' => $form
         ]);
     }
 
-    public function indexAction() {
+    public function loginAction() {
         $form = new ConnectionForm();
         if ( $this->getRequest()->isPost() ) {
             // var_dump($form);
@@ -68,5 +81,9 @@ class AdminController extends AbstractActionController {
         return new ViewModel([
             'form' => $form
         ]);
+    }
+
+    public function indexAction() {
+
     }
 }

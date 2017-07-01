@@ -1,13 +1,13 @@
 <?php
 namespace Pokemon\Form;
-
 use Zend\Form\Form;
 use Zend\Form\Element;
 
-class Connection extends Form {
-
+class AddAdmin extends Form {
     public function __construct() {
-        parent::__construct();
+        parent::__construct('add_admin');
+
+        $this->setHydrator(new \Zend\Hydrator\ClassMethods());
 
         $login = new Element\Text('login');
         $login->setLabel('Identifiant');
@@ -17,12 +17,17 @@ class Connection extends Form {
         $password->setLabel('Mot de passe');
         $password->setAttribute('class','form-control');
 
+        $repeatPassword = new Element\Password('repeatPassword');
+        $repeatPassword->setLabel('Confirmation du mot de passe');
+        $repeatPassword->setAttribute('class', 'form-control');
+
         $submit = new Element\Submit('submit');
         $submit->setValue('Se connecter');
         $submit->setAttribute('class', 'btn btn-primary');
 
         $this->add($login);
         $this->add($password);
+        $this->add($repeatPassword);
         $this->add($submit);
         $this->add([
             'type' => Element\Csrf::class,

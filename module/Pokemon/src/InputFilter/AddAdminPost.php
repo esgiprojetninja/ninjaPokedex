@@ -10,7 +10,7 @@ use Zend\Validator\Csrf;
 use Zend\I18n\Validator\Alnum;
 use Zend\Validator\Identical;
 
-class ConnectionPost extends InputFilter
+class AddAdminPost extends InputFilter
 {
 
     public function __construct() {
@@ -24,14 +24,16 @@ class ConnectionPost extends InputFilter
         $password->setFilterChain($this->getStringTrimFilterChain());
         $password->setValidatorChain($this->getPasswordValidatorChain());
 
+        $repeatPassword = new Input('repeatPassword');
+        $repeatPassword->setRequired(true);
+        $repeatPassword->setValidatorChain($this->getRepeatPasswordValidatorChain());
+
         $csrf = new Input('csrf');
         $csrf->setRequired(true);
 
-        var_dump($login->getValue());
-        var_dump($password->getValue());
-        var_dump($csrf->getValue());
         $this->add($login);
         $this->add($password);
+        $this->add($repeatPassword);
         $this->add($csrf);
     }
 
@@ -58,6 +60,15 @@ class ConnectionPost extends InputFilter
         $validatorChain = new ValidatorChain();
         $validatorChain->attach(new Alnum(true));
         $validatorChain->attach($stringLength);
+        return $validatorChain;
+    }
+
+    protected function getRepeatPasswordValidatorChain() {
+        $identical = new Identical();
+        $identical->setToken('password');
+        $identical->setMessage('Passwords must match');
+        $validatorChain = new ValidatorChain();
+        $validatorChain->attach($identical);
         return $validatorChain;
     }
 
