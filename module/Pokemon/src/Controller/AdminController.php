@@ -38,12 +38,9 @@ class AdminController extends AbstractActionController {
         $this->adminService = $adminService;
     }
 
-    public function loginAction() {
-
-    }
-
     public function addAdminAction() {
         $form = new AddAdminForm();
+        $messages = $this->flashMessenger()->getMessages();
         if ( $this->getRequest()->isPost() ) {
             $admin = new Admin();
             $form->bind($admin);
@@ -53,12 +50,11 @@ class AdminController extends AbstractActionController {
             if ($form->isValid()) {
                 var_dump("it's all good brother !", $admin);
                 $this->adminService->add($admin);
-            } else {
-                var_dump("fucking form is invalid dude");
-            }
+            } 
         }
         return new ViewModel([
-            'form' => $form
+            'form' => $form,
+            'messages' => $messages
         ]);
     }
 

@@ -11,6 +11,7 @@
  */
 
 return [
+    'Zend\Mvc\Plugin\FlashMessenger',
     'Zend\Session',
     'Zend\InputFilter',
     'Zend\Filter',
