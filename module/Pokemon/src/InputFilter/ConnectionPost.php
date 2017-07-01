@@ -27,9 +27,6 @@ class ConnectionPost extends InputFilter
         $csrf = new Input('csrf');
         $csrf->setRequired(true);
 
-        var_dump($login->getValue());
-        var_dump($password->getValue());
-        var_dump($csrf->getValue());
         $this->add($login);
         $this->add($password);
         $this->add($csrf);

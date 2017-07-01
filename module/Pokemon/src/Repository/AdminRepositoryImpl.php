@@ -13,7 +13,7 @@ class AdminRepositoryImpl implements AdminRepository {
     use AdapterAwareTrait;
     public function add(Admin $admin) {
         if ( true === $this->loginExists($admin) )
-            return false;
+            return "Admin already exists";
         try {
             $this->adapter->getDriver()->getConnection()->beginTransaction();
 
@@ -29,8 +29,10 @@ class AdminRepositoryImpl implements AdminRepository {
               $statement->execute();
 
               $this->adapter->getDriver()->getConnection()->commit();
+              return true;
         } catch (\Exception $e) {
             $this->adapter->getDriver()->getConnection()->rollback();
+            return false;
         }
     }
     public function generatePassword($clearPassword) {

@@ -8,7 +8,7 @@ class AdminServiceImpl implements AdminService {
     protected $adminRepository;
 
     public function add(Admin $admin) {
-        $this->adminRepository->add($admin);
+        return $this->adminRepository->add($admin);
     }
     public function getAdminRepository() {
         return $this->adminRepository;

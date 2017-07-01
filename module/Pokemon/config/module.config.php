@@ -107,10 +107,30 @@ return [
                     'add_admin' => [
                         'type'    => Literal::class,
                         'options' => [
-                            'route'    => '/add/admin',
+                            'route'    => '/add',
                             'defaults' => [
                                 'controller' => 'Pokemon\Controller\Admin',
                                 'action' => 'addAdmin'
+                            ],
+                        ],
+                    ],
+                    'admin_login' => [
+                        'type'    => Literal::class,
+                        'options' => [
+                            'route'    => '/login',
+                            'defaults' => [
+                                'controller' => 'Pokemon\Controller\Admin',
+                                'action' => 'login'
+                            ],
+                        ],
+                    ],
+                    'admin_logout' => [
+                        'type'    => Literal::class,
+                        'options' => [
+                            'route'    => '/logout',
+                            'defaults' => [
+                                'controller' => 'Pokemon\Controller\Admin',
+                                'action' => 'logout'
                             ],
                         ],
                     ],

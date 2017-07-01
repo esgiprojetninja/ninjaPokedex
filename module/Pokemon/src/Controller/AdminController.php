@@ -16,6 +16,7 @@ class AdminController extends AbstractActionController {
 
     protected $pokemonService;
     protected $adminService;
+    protected $identity;
 
     /**
      * We override the parent class' onDispatch() method to
@@ -36,11 +37,12 @@ class AdminController extends AbstractActionController {
     public function __construct($pokemonService, $adminService) {
         $this->pokemonService = $pokemonService;
         $this->adminService = $adminService;
+        $this->identity = $adminService->getAuthenticationService()->getIdentity();
     }
 
     public function addAdminAction() {
         $form = new AddAdminForm();
-        $messages = $this->flashMessenger()->getMessages();
+
         if ( $this->getRequest()->isPost() ) {
             $admin = new Admin();
             $form->bind($admin);
@@ -48,38 +50,57 @@ class AdminController extends AbstractActionController {
             $data = $this->request->getPost();
             $form->setData($data);
             if ($form->isValid()) {
-                var_dump("it's all good brother !", $admin);
-                $this->adminService->add($admin);
-            } 
+                $saveReturn = $this->adminService->add($admin);
+                if ( true === $saveReturn )
+                    return $this->redirect()->toRoute('admin_home/admin_login');
+                else if ( false === $saveReturn )
+                    $this->flashMessenger()->addMessage('An Error occurred while admin adding');
+                else
+                    $this->flashMessenger()->addMessage($saveReturn);
+            }
         }
         return new ViewModel([
             'form' => $form,
-            'messages' => $messages
+            'messages' => $this->flashMessenger()->getMessages()
         ]);
     }
 
     public function loginAction() {
+        if ( $this->identity != null )
+            return $this->redirect()->toRoute('admin_home');
         $form = new ConnectionForm();
         if ( $this->getRequest()->isPost() ) {
-            // var_dump($form);
             $form->setInputFilter(new ConnectionPost());
             $data = $this->request->getPost();
             $form->setData($data);
-            var_dump($data);
             if ($form->isValid()) {
-                var_dump("it's all good brother !");
-                // $this->pokemonService->save($connectionPost);
-                // return $this->redirect()->toRoute('admin_home');
-            } else {
-                var_dump("fucking form is invalid dude");
-            }
+                $data = $form->getData();
+                $loginResult = $this->adminService
+                  ->login(
+                    $data['login'],
+                    $data['password']
+                  );
+                if ( true === $loginResult )
+                    return $this->redirect()->toRoute('admin_home');
+                else
+                    $this->flashMessenger()->addMessage('Invalid credentials');
+            } else
+                $this->flashMessenger()->addMessage('Invalid form received');
         }
         return new ViewModel([
-            'form' => $form
+            'form' => $form,
+            'messages' => $this->flashMessenger()->getMessages()
         ]);
     }
 
-    public function indexAction() {
+    public function logoutAction() {
+        $authenticationService = $this->adminService->getAuthenticationService();
+        $authenticationService->clearIdentity();
+        return $this->redirect()->toRoute('admin_home/admin_login');
+    }
 
+    public function indexAction() {
+        if ( $this->identity == null )
+            return $this->redirect()->toRoute('admin_home/admin_login');
     }
 }

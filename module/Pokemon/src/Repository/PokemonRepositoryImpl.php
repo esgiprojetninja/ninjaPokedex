@@ -269,9 +269,9 @@ class PokemonRepositoryImpl implements PokemonRepository
       $return = true;
 
     } catch (\Exception $e) {
-      return $e->getMessage();
       $this->adapter->getDriver()
       ->getConnection()->rollback();
+      return $e->getMessage();
     }
     return $return;
   }
