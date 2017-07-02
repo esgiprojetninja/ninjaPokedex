@@ -135,12 +135,13 @@ class AdminController extends AbstractActionController {
         if ( $this->request->isPost() ) {
             $pokemon = new Pokemon();
             $form->bind($pokemon);
-            $form->setInputFilter(new AddPost());
+            $form->setInputFilter($this->updatePokemonFilter);
             $data = $this->request->getPost();
-            $form->setData($data); // KEY VALUE ARRAY
+            $form->setData($data);
             if ($form->isValid()) {
-              $this->blogService->update($pokemon);
-              return $this->redirect()->toRoute('blog_home');
+                var_dump("form detected valid", $data);
+                // $this->blogService->update($pokemon);
+                // return $this->redirect()->toRoute('blog_home');
             }
         }
 

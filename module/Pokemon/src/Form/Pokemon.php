@@ -26,6 +26,8 @@ class Pokemon extends Form {
         $national_id = new Element\Number('poke_id_national');
         $national_id->setLabel('Official id number');
         $national_id->setAttribute('class','form-control');
+        $national_id->setAttribute('min',1);
+        $national_id->setAttribute('max',151);
 
         $description = new Element\Text('poke_description');
         $description->setLabel('Description');
@@ -38,7 +40,7 @@ class Pokemon extends Form {
         $parent_id = new Element\Collection('poke_id_parent');
         $parent_id->setAllowAdd(true);
         $parent_id->setAllowRemove(true);
-        $parent_id->setLabel('Description');
+        $parent_id->setLabel('Parent');
         $parent_id->setAttribute('class','form-control');
 
         $type_1 = new Element\Collection('poke_type1');

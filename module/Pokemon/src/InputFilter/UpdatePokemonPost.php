@@ -2,6 +2,7 @@
 namespace Pokemon\InputFilter;
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\Input;
+use Zend\InputFilter\FileInput;
 use Zend\Filter\FilterChain;
 use Zend\Filter\StringTrim;
 use Zend\Validator\StringLength;
@@ -9,13 +10,14 @@ use Zend\Validator\Digits;
 use Zend\Validator\GreaterThan;
 use Zend\Validator\ValidatorChain;
 use Zend\Validator\File\IsImage;
+use Zend\Validator\Regex;
 use Zend\Validator\Csrf;
 use Zend\I18n\Validator\Alnum;
 use Zend\Validator\Db\RecordExists;
 
 class UpdatePokemonPost extends InputFilter {
     protected $dbAdapter;
-    
+
     public function __construct(\Zend\Db\Adapter\Adapter $dbAdapter) {
         $this->dbAdapter = $dbAdapter;
 
@@ -33,9 +35,15 @@ class UpdatePokemonPost extends InputFilter {
         $description->setFilterChain($this->getStringTrimFilterChain());
         $description->setValidatorChain($this->getDescriptionValidatorChain());
 
-        $image = new Input('poke_image');
+        $image = new FileInput('poke_image');
         $image->setRequired(false);
-        $image->setFilterChain($this->getStringTrimFilterChain());
+        $image->getFilterChain()->attachByName(
+            'filerenameupload',
+            [
+                'target'    => './data/tmpuploads/pokemon.png',
+                'randomize' => true,
+            ]
+        );
         $image->setValidatorChain($this->getImageValidatorChain());
 
         $id_parent = new Input('poke_id_parent');
@@ -119,7 +127,7 @@ class UpdatePokemonPost extends InputFilter {
         $stringLength->setMin(8);
         $stringLength->setMax(1000);
         $validatorChain = new ValidatorChain();
-        $validatorChain->attach(new Alnum(true));
+        $validatorChain->attach(new Regex(['pattern' => '/[A-z0-9\.,\s]/']));
         $validatorChain->attach($stringLength);
         return $validatorChain;
     }
