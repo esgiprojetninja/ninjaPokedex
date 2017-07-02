@@ -10,8 +10,7 @@ use Zend\Validator\Csrf;
 use Zend\I18n\Validator\Alnum;
 use Zend\Validator\Identical;
 
-class AddAdminPost extends InputFilter
-{
+class AddAdminPost extends InputFilter {
 
     public function __construct() {
         $login = new Input('login');

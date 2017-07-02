@@ -104,6 +104,16 @@ return [
                     ],
                 ],
                 'child_routes' => [
+                    'admin_list_pokemons' => [
+                        'type'    => Literal::class,
+                        'options' => [
+                            'route'    => '/pokemons',
+                            'defaults' => [
+                                'controller' => 'Pokemon\Controller\Admin',
+                                'action' => 'index'
+                            ],
+                        ],
+                    ],
                     'add_admin' => [
                         'type'    => Literal::class,
                         'options' => [
@@ -145,6 +155,34 @@ return [
                             'defaults' => [
                                 'controller' => 'Pokemon\Controller\Admin',
                                 'action' => 'showPokemon'
+                            ],
+                        ],
+                    ],
+                    'admin_pokemon_edit' => [
+                        'type'    => Segment::class,
+                        'options' => [
+                            'route'    => '/pokemon/edit/:id',
+                            'constraints' => [
+                                'id' => '[0-9]+'
+                            ],
+                            'verb'  => 'get, post',
+                            'defaults' => [
+                                'controller' => 'Pokemon\Controller\Admin',
+                                'action' => 'updatePokemon'
+                            ],
+                        ],
+                    ],
+                    'admin_pokemon_remove' => [
+                        'type'    => Segment::class,
+                        'options' => [
+                            'route'    => '/pokemon/delete/:id',
+                            'constraints' => [
+                                'id' => '[0-9]+'
+                            ],
+                            'verb'  => 'get',
+                            'defaults' => [
+                                'controller' => 'Pokemon\Controller\Admin',
+                                'action' => 'deletePokemon'
                             ],
                         ],
                     ],

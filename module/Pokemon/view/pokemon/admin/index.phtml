@@ -1,5 +1,11 @@
-<h3>Interface Admin</h3>
-<?php var_dump($this->pokemons) ?>
+<h3 class="text text-primary">Interface Admin</h3>
+<?php if ( (bool) count($this->messages) ) : ?>
+<ul class="messages">
+    <?php foreach ($this->messages as $msg): ?>
+    <li><?= $msg ?></li>
+    <?php endforeach; ?>
+</ul>
+<?php endif; ?>
 <?php if ( (bool) count($this->pokemons) ) : ?>
 <table class="table table-condenses table-hover">
     <thead>
@@ -11,6 +17,8 @@
             <th>Evolutions</th>
             <th>Types</th>
             <th>Show</th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
     </thead>
     <tbody>
@@ -43,7 +51,9 @@
                     None
                 <?php endif; ?>
             </td>
-            <td><button type="button" class="btn btn-warning btn-xs"><a href="/admin/pokemon/show/<?= $poke->id_pokemon ?>">Show</a></button></td>
+            <td><a href="/admin/pokemon/show/<?= $poke->id_pokemon ?>"><button type="button" class="btn btn-success btn-xs">Show</button></a></td>
+            <td><a href="/admin/pokemon/edit/<?= $poke->id_pokemon ?>"><button type="button" class="btn btn-warning btn-xs">Edit</button></a></td>
+            <td><a href="/admin/pokemon/delete/<?= $poke->id_pokemon ?>"><button type="button" class="btn btn-danger btn-xs">Remove</button></a></td>
         </tr>
     <?php endforeach; ?>
     </tbody>

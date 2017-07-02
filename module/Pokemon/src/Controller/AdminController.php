@@ -7,15 +7,19 @@ use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
 use Zend\Mvc\MvcEvent;
 use Pokemon\Entity\Admin;
+use Pokemon\Entity\Pokemon;
 use Pokemon\Form\Connection as ConnectionForm;
 use Pokemon\InputFilter\ConnectionPost;
 use Pokemon\Form\AddAdmin as AddAdminForm;
 use Pokemon\InputFilter\AddAdminPost;
+use Pokemon\Form\Pokemon as PokemonForm;
+use Pokemon\InputFilter\UpdatePokemonPost;
 
 class AdminController extends AbstractActionController {
 
     protected $pokemonService;
     protected $adminService;
+    protected $updatePokemonFilter;
     protected $identity;
 
     /**
@@ -34,9 +38,10 @@ class AdminController extends AbstractActionController {
         return $response;
     }
 
-    public function __construct($pokemonService, $adminService) {
+    public function __construct($pokemonService, $adminService, \Pokemon\InputFilter\UpdatePokemonPost $updatePokemonFilter) {
         $this->pokemonService = $pokemonService;
         $this->adminService = $adminService;
+        $this->updatePokemonFilter = $updatePokemonFilter;
         $this->identity = $adminService->getAuthenticationService()->getIdentity();
     }
 
@@ -80,8 +85,10 @@ class AdminController extends AbstractActionController {
                     $data['login'],
                     $data['password']
                   );
-                if ( true === $loginResult )
-                    return $this->redirect()->toRoute('admin_home');
+                if ( true === $loginResult ) {
+                    $url = $this->getRequest()->getHeader('Referer')->getUri();
+                    return $this->redirect()->toUrl($url);
+                }
                 else
                     $this->flashMessenger()->addMessage('Invalid credentials');
             } else
@@ -103,7 +110,8 @@ class AdminController extends AbstractActionController {
         if ( $this->identity == null )
             return $this->redirect()->toRoute('admin_home/admin_login');
         return new ViewModel([
-            'pokemons' => $this->pokemonService->getAll()
+            'pokemons' => $this->pokemonService->getAll(),
+            'messages' => $this->flashMessenger()->getMessages()
         ]);
     }
 
@@ -117,5 +125,42 @@ class AdminController extends AbstractActionController {
         return new ViewModel([
             'pokemon' => $this->pokemonService->findById((int) $this->params()->fromRoute('id'))
         ]);
+    }
+
+    public function updatePokemonAction() {
+        $form = new PokemonForm();
+        if ( $this->identity == null )
+            return $this->redirect()->toRoute('admin_home/admin_login');
+
+        if ( $this->request->isPost() ) {
+            $pokemon = new Pokemon();
+            $form->bind($pokemon);
+            $form->setInputFilter(new AddPost());
+            $data = $this->request->getPost();
+            $form->setData($data); // KEY VALUE ARRAY
+            if ($form->isValid()) {
+              $this->blogService->update($pokemon);
+              return $this->redirect()->toRoute('blog_home');
+            }
+        }
+
+        return new ViewModel([
+            'form' => $form,
+            'pokemon' => $this->pokemonService->findById((int) $this->params()->fromRoute('id')),
+            'messages' => $this->flashMessenger()->getMessages()
+        ]);
+    }
+
+    public function deletePokemonAction() {
+        if ( $this->identity == null )
+            return $this->redirect()->toRoute('admin_home/admin_login');
+
+        $poke = $this->pokemonService->findById((int) $this->params()->fromRoute('id'));
+        if ( $poke != null )
+            $this->flashMessenger()->addMessage('Pokemon deleted !');
+        else
+            $this->flashMessenger()->addMessage('Could not find the pokemon to delete');
+
+        return $this->redirect()->toRoute('admin_home');
     }
 }

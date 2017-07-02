@@ -6,7 +6,7 @@ class Type {
     protected $id_type;
     protected $name_type;
     protected $color;
-  
+
     /**
      * Get the value of Id Type
      *

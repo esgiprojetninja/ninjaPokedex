@@ -15,6 +15,10 @@ return [
             $adminService = new \Pokemon\Service\AdminServiceImpl();
             $adminService->setAdminRepository($sl->get('Pokemon\Repository\AdminRepository'));
             return $adminService;
+        },
+        'Pokemon\InputFilter\UpdatePokemonPost' => function(\Zend\ServiceManager\ServiceManager $sm) {
+            $updatePokemonFilter = new \Pokemon\InputFilter\UpdatePokemonPost($sm->get('Zend\Db\Adapter\Adapter'));
+            return $updatePokemonFilter;
         }
     ],
     'initializers' => [

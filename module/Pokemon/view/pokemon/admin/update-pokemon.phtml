@@ -1,0 +1,49 @@
+<?php if ( $this->pokemon != null ) :?>
+    <h1>Update pokemon</h1>
+    <?php $poke = $this->pokemon; var_dump($poke); ?>
+
+    <?php if ( (bool) count($this->messages) ) : ?>
+    <ul class="messages">
+        <?php foreach ($this->messages as $msg): ?>
+        <li><?= $msg ?></li>
+        <?php endforeach; ?>
+    </ul>
+    <?php endif; ?>
+
+    <?php
+    $form = $this->form;
+    $form->prepare();
+    echo $this->form()->openTag($form); //<form method="post">
+    ?>
+    <div class="form-group">
+        <?= $this->formRow($form->get('poke_name')); ?>
+        <?php $form_name = $form->get('poke_name');
+        $form_name->setValue($poke['name']);
+        // $form_name->setAttribute('value', $poke['name']);
+        $this->formRow($form_name); ?>
+    </div>
+    <div class="form-group">
+        <?php $form_img = $form->get('poke_image');
+        // var_dump($form_img);
+        $form_img->setAttribute('src', $poke['image']);
+        $form_img->setAttribute('value', $poke['image']);
+        $this->formRow($form_img); ?>
+    </div>
+    <div class="form-group">
+        <?= $this->formRow($form->get('poke_description')); ?>
+    </div>
+    <div class="form-group">
+        <?= $this->formRow($form->get('poke_type1')); ?>
+    </div>
+    <div class="form-group">
+        <?= $this->formRow($form->get('poke_type2')); ?>
+    </div>
+    <div class="form-group">
+        <?= $this->formRow($form->get('poke_id_national')); ?>
+    </div>
+    <?= $this->formElement($form->get('csrf')); ?>
+    <?= $this->formSubmit($form->get('submit')); ?>
+    <?= $this->form()->closeTag();?>
+<?php else: ?>
+    <h1>No matched pokemon</h1>
+<?php endif; ?>
