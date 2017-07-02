@@ -8,6 +8,7 @@ use Zend\View\Model\JsonModel;
 use Zend\Mvc\MvcEvent;
 use Pokemon\Entity\Admin;
 use Pokemon\Entity\Pokemon;
+use Pokemon\Entity\Hydrator\PokemonHydrator;
 use Pokemon\Form\Connection as ConnectionForm;
 use Pokemon\InputFilter\ConnectionPost;
 use Pokemon\Form\AddAdmin as AddAdminForm;
@@ -20,6 +21,7 @@ class AdminController extends AbstractActionController {
     protected $pokemonService;
     protected $adminService;
     protected $updatePokemonFilter;
+    protected $pokeHydrator;
     protected $identity;
 
     /**
@@ -43,6 +45,7 @@ class AdminController extends AbstractActionController {
         $this->adminService = $adminService;
         $this->updatePokemonFilter = $updatePokemonFilter;
         $this->identity = $adminService->getAuthenticationService()->getIdentity();
+        $this->pokeHydrator = new PokemonHydrator();
     }
 
     public function addAdminAction() {
@@ -144,10 +147,13 @@ class AdminController extends AbstractActionController {
                 // return $this->redirect()->toRoute('blog_home');
             }
         }
+        $pokemon = $this->pokemonService->findById((int) $this->params()->fromRoute('id'));
 
+        $pokemon = ($pokemon != null) ? $this->pokeHydrator->hydrate($pokemon, new Pokemon()) : null;
+        //PokemonHydrator
         return new ViewModel([
             'form' => $form,
-            'pokemon' => $this->pokemonService->findById((int) $this->params()->fromRoute('id')),
+            'pokemon' => $pokemon,
             'messages' => $this->flashMessenger()->getMessages()
         ]);
     }
