@@ -26,9 +26,18 @@ class PokemonRepositoryImpl implements PokemonRepository
       ->beginTransaction();
       $sql = new \Zend\Db\Sql\Sql($this->adapter);
       $verifPokemon = $this->verifPokemonInsert($pokemon);
+
+      $verifPokemon['error'] = FALSE;
       if($verifPokemon['error'] == TRUE){
         return $verifPokemon['message'];
       }else{
+        $type1 = $pokemon->getType1();
+        $type2 = $pokemon->getType2();
+
+        if($type1 == $type2){
+          return "Les deux types sont identiques";
+        }
+
         $insert = $sql->insert()
         ->values([
           'id_national' => $pokemon->getIdNational(),
@@ -43,9 +52,6 @@ class PokemonRepositoryImpl implements PokemonRepository
         $this->adapter->getDriver()
         ->getConnection()
         ->commit();
-
-        $type1 = $pokemon->getType1();
-        $type2 = $pokemon->getType2();
 
         $this->saveTypes($this->getPokemonByName($pokemon->getName()), $type1, $type2);
         return "success";
@@ -333,7 +339,11 @@ class PokemonRepositoryImpl implements PokemonRepository
       }
 
       if($updateType){
-        $this->updateTypes($pokemon, $typeToUpdate['type1'], $typeToUpdate['type2']);
+        if($typeToUpdate['type1'] == $typeToUpdate['type2']){
+          return "Les deux types sont identiques";
+        }else{
+          $this->updateTypes($pokemon, $typeToUpdate['type1'], $typeToUpdate['type2']);
+        }
       }
 
       $update = $sql->update();

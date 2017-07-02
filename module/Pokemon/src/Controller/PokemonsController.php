@@ -41,10 +41,7 @@ class PokemonsController extends AbstractRestfulController {
 
     public function update($id, $data) {
       try {
-        $message = "error";
-        if($this->pokemonService->update($id, $data)){
-          $message = "success";
-        }
+        $message = $this->pokemonService->update($id, $data);
       } catch (\Exception $e) {
         $message = $e->getMessage();
       }
