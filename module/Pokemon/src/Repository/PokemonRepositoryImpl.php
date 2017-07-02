@@ -25,7 +25,10 @@ class PokemonRepositoryImpl implements PokemonRepository
       ->getConnection()
       ->beginTransaction();
       $sql = new \Zend\Db\Sql\Sql($this->adapter);
-      if($this->verifPokemonInsert($pokemon)){
+      $verifPokemon = $this->verifPokemonInsert($pokemon);
+      if($verifPokemon['error'] == TRUE){
+        return $verifPokemon['message'];
+      }else{
         $insert = $sql->insert()
         ->values([
           'id_national' => $pokemon->getIdNational(),
@@ -45,14 +48,13 @@ class PokemonRepositoryImpl implements PokemonRepository
         $type2 = $pokemon->getType2();
 
         $this->saveTypes($this->getPokemonByName($pokemon->getName()), $type1, $type2);
-        $return = true;
+        return "success";
       }
     } catch (\Exception $e) {
       return $e->getMessage();
       $this->adapter->getDriver()
       ->getConnection()->rollback();
     }
-    return $return;
   }
 
   public function saveTypes(Pokemon $pokemon, $type1, $type2) {
@@ -449,15 +451,15 @@ class PokemonRepositoryImpl implements PokemonRepository
 
   public function verifPokemonInsert(Pokemon $pokemon){
     //Verif name
-    if($this->verifPokemonName($pokemon->getName()) > 0){
-      return false;
+    if($this->verifPokemonName($pokemon->getName()) > 0 || $pokemon->getName() == NULL){
+      return ["error" => TRUE, "message" => "Nom pokemon déjà existant ou vide."];
     }
     //Verif id_national
-    if($this->verifPokemonIdNationnal($pokemon->getIdNational()) > 0){
-      return false;
+    if($this->verifPokemonIdNationnal($pokemon->getIdNational()) > 0 || $pokemon->getIdNational() == NULL){
+      return ["error" => TRUE, "message" => "Id national déjà existant ou vide."];
     }
     //Verif type différent
-    return true;
+    return ["error" => FALSE];
   }
 
   public function verifPokemonName($name){

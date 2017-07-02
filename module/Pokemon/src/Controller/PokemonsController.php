@@ -31,10 +31,7 @@ class PokemonsController extends AbstractRestfulController {
     public function create($data) {
       try {
         $pokemon = $this->setPokemon($data);
-        $message = "error";
-        if($this->pokemonService->save($pokemon)){
-          $message = "success";
-        }
+        $message = $this->pokemonService->save($pokemon);
       } catch (\Exception $e) {
         $message = $e->getMessage();
       }
@@ -119,15 +116,15 @@ class PokemonsController extends AbstractRestfulController {
     public static function setPokemon($data){
       $pokemon = new Pokemon();
       if(isset($data['id_pokemon'])){
-        $pokemon->setIdPokemon($data['id_pokemon']);
+        $pokemon->setIdPokemon(intval($data['id_pokemon']));
       }
-      $pokemon->setIdNational($data['id_national']);
+      $pokemon->setIdNational(intval($data['id_national']));
       $pokemon->setName($data['name']);
       $pokemon->setDescription($data['description']);
       if(strlen($data['id_parent']) == 0 ){
         $pokemon->setIdParent(NULL);
       }else{
-        $pokemon->setIdParent($data['id_parent']);
+        $pokemon->setIdParent(intval($data['id_parent']));
       }
       if(isset($data['type1'])){
         if($data['type1'] != NULL){
