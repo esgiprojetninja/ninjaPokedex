@@ -1,1 +1,51 @@
 <h3>Interface Admin</h3>
+<?php var_dump($this->pokemons) ?>
+<?php if ( (bool) count($this->pokemons) ) : ?>
+<table class="table table-condenses table-hover">
+    <thead>
+        <tr>
+            <th>national ID</th>
+            <th>Name</th>
+            <th>Image</th>
+            <th>Description</th>
+            <th>Evolutions</th>
+            <th>Types</th>
+            <th>Show</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($this->pokemons as $poke): ?>
+        <tr id="poke-<?= $poke->id_national ?>">
+            <td><?= $poke->id_national ?></td>
+            <td><?= $poke->name ?></td>
+            <td><img src="<?= $poke->image ?>" alt="<?= $poke->name ?> image"></td>
+            <td><?= $poke->description ?></td>
+            <td>
+            <?php if ( is_array($poke->evolutions) ) : ?>
+                <div class="evolutions row">
+                <?php foreach ($poke->evolutions as $evo): ?>
+                    <a href="#poke-<?= $evo->id_national ?>"><?= $evo->name ?></a>
+                    <?php if ( is_array($evo->evolutions) ) : ?>
+                        <div class="next-evolutions">
+                        <?php foreach ($evo->evolutions as $next_evo): ?>
+                            <a href="#poke-<?= $next_evo->id_national ?>"><?= $next_evo->name ?></a>
+                        <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+            </td>
+            <td>
+                <?php if ( (bool) count($poke->type) ) : ?>
+                    <?= join(', ', $poke->type) ?>
+                <?php else: ?>
+                    None
+                <?php endif; ?>
+            </td>
+            <td><button type="button" class="btn btn-warning btn-xs"><a href="/admin/pokemon/show/<?= $poke->id_pokemon ?>">Show</a></button></td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+<?php endif; ?>

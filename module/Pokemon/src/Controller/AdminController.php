@@ -102,5 +102,20 @@ class AdminController extends AbstractActionController {
     public function indexAction() {
         if ( $this->identity == null )
             return $this->redirect()->toRoute('admin_home/admin_login');
+        return new ViewModel([
+            'pokemons' => $this->pokemonService->getAll()
+        ]);
+    }
+
+    public function showPokemonAction() {
+        if ( $this->identity == null )
+            return $this->redirect()->toRoute('admin_home/admin_login');
+        if ( !$this->getRequest()->isGet() ) {
+            $url = $this->getRequest()->getHeader('Referer')->getUri();
+            return $this->redirect()->toUrl($url);
+        }
+        return new ViewModel([
+            'pokemon' => $this->pokemonService->findById((int) $this->params()->fromRoute('id'))
+        ]);
     }
 }

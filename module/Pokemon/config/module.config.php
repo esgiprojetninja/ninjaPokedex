@@ -134,6 +134,20 @@ return [
                             ],
                         ],
                     ],
+                    'admin_pokemon_show' => [
+                        'type'    => Segment::class,
+                        'options' => [
+                            'route'    => '/pokemon/show/:id',
+                            'constraints' => [
+                                'id' => '[0-9]+'
+                            ],
+                            'verb'  => 'get',
+                            'defaults' => [
+                                'controller' => 'Pokemon\Controller\Admin',
+                                'action' => 'showPokemon'
+                            ],
+                        ],
+                    ],
                 ],
                 'may_terminate' => true
             ],

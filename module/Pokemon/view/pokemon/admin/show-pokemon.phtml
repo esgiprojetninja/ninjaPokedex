@@ -1,0 +1,13 @@
+<?php if ( $this->pokemon != null ) : ?>
+<h1>Pokemon details</h1>
+<?php $poke = $this->pokemon; var_dump($poke); ?>
+<div class="row">
+    <h2 class="text text-primary"><?= $poke['name'] ?></h2>
+</div>
+<div class="row">
+    <img class="height-auto col-lg-2" src="<?= $poke['image'] ?>" alt="<?= $poke['name'] ?>">
+    <p><?= $poke['description'] ?></p>
+</div>
+<?php else : ?>
+<h1>No pokemon matched</h1>
+<?php endif; ?>
