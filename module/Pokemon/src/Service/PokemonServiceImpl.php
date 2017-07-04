@@ -45,4 +45,7 @@ class PokemonServiceImpl implements PokemonService
     function signal(Location $location) {
         return $this->pokemonRepository->signal($location);
     }
+    function getEvolutionDispo($idPokemon) {
+        return $this->pokemonRepository->getEvolutionDispo($idPokemon);
+    }
 }

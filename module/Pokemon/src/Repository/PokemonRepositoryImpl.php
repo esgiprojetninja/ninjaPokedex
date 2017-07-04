@@ -389,6 +389,75 @@ class PokemonRepositoryImpl implements PokemonRepository
     $statement->execute();
   }
 
+  public function getEvolutionDispo($idPokemon) {
+    try {
+      $sql = new \Zend\Db\Sql\Sql($this->adapter);
+
+      //Get pokemon infos
+      $select = $sql->select();
+      $select->from('pokemon');
+      $select->columns(['name','id_parent','id_pokemon']);
+
+      $statement = $sql->prepareStatementForSqlObject($select);
+      $r = $statement->execute();
+
+      $resultSet = new ResultSet;
+      $resultSet->initialize($r);
+      $pokemons = [];
+      $notDispo = [];
+      foreach ($resultSet as $pokemon) {
+        //Toutes les familles avec 2 evolutions successives sont retirés, comme Salameche Reptincel Dracaufeu
+        $firstPokemon = $pokemon->id_pokemon;
+        $secondPokemon = $this->getByIdParent($firstPokemon);
+        if(count($secondPokemon) > 0){
+          $secondPokemon['id_pokemon'];
+          $thirdPokemon = $this->getByIdParent($secondPokemon['id_pokemon']);
+            if(count($thirdPokemon) > 0){
+              $secondPokemon = $secondPokemon['id_pokemon'];
+              $thirdPokemon = $thirdPokemon['id_pokemon'];
+              $notDispo[] = $firstPokemon;
+              $notDispo[] = $secondPokemon;
+              $notDispo[] = $thirdPokemon;
+            }
+        }
+        echo $idPokemon;
+        $pokemons[] = $pokemon;
+      }
+      var_dump($notDispo);
+      return $pokemons;
+    } catch ( \Exception $e ) {
+      $this->adapter->getDriver()
+      ->getConnection()
+      ->rollback();
+    }
+  }
+
+  /**
+  * @return Pokemon|null
+  **/
+  public function getByIdParent($pokemonId) {
+    try {
+      $sql = new \Zend\Db\Sql\Sql($this->adapter);
+      $select = $sql->select();
+      $select->from('pokemon');
+      $select->where(array('id_parent' => $pokemonId));
+
+      $statement = $sql->prepareStatementForSqlObject($select);
+      $r = $statement->execute();
+
+      $resultSet = new ResultSet;
+      $resultSet->initialize($r);
+
+      $pokemon = NULL;
+      foreach ($resultSet as $pokemon) {
+        $pokemon =  $pokemon;
+      }
+      return $pokemon;
+    } catch ( \Exception $e ) {
+      return $e->getMessage();
+    }
+  }
+
   protected function getTypes($idPokemon){
     $sql = new \Zend\Db\Sql\Sql($this->adapter);
     $select = $sql->select();

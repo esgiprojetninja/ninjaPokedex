@@ -84,7 +84,17 @@ return [
                                 'action' => 'marked'
                             ],
                         ],
-                    ]
+                    ],
+                    'getEvolutionDispo' => [
+                        'type'    => Segment::class,
+                        'options' => [
+                            'route'    => '/getEvolutionDispo[/:id]',
+                            'defaults' => [
+                                'controller' => Controller\PokemonsController::class,
+                                'action'     => 'getEvolutionDispo',
+                            ],
+                        ],
+                    ],
                 ],
                 'may_terminate' => true,
             ],

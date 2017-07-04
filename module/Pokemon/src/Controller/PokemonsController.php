@@ -78,6 +78,10 @@ class PokemonsController extends AbstractRestfulController {
       return new JsonModel(['data'=>$message]);
     }
 
+    public function getEvolutionDispoAction($idPokemon) {
+        return new JsonModel(['data'=>$this->pokemonService->getEvolutionDispo($idPokemon)]);
+    }
+
     public function methodNotAllowed() {
       $this->response->setStatusCode(
         \Zend\Http\PhpEnvironment\Response::STATUS_CODE_405
