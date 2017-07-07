@@ -208,4 +208,9 @@ return [
             __DIR__ . '/../view',
         ],
     ],
+    'service_manager' => [
+        'factories' => [
+            'Pokemon\Service\ImageManager' => InvokableFactory::class,
+        ],
+    ],
 ];

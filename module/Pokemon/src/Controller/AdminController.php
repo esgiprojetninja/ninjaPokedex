@@ -23,6 +23,7 @@ class AdminController extends AbstractActionController {
     protected $updatePokemonFilter;
     protected $pokeHydrator;
     protected $identity;
+    protected $imageManager;
 
     /**
      * We override the parent class' onDispatch() method to
@@ -40,10 +41,11 @@ class AdminController extends AbstractActionController {
         return $response;
     }
 
-    public function __construct($pokemonService, $adminService, \Pokemon\InputFilter\UpdatePokemonPost $updatePokemonFilter) {
+    public function __construct($pokemonService, $adminService, $updatePokemonFilter, $imageManager) {
         $this->pokemonService = $pokemonService;
         $this->adminService = $adminService;
         $this->updatePokemonFilter = $updatePokemonFilter;
+        $this->imageManager = $imageManager;
         $this->identity = $adminService->getAuthenticationService()->getIdentity();
         $this->pokeHydrator = new PokemonHydrator();
     }
