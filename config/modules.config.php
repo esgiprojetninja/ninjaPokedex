@@ -11,6 +11,9 @@
  */
 
 return [
+    'Zend\Mvc\Plugin\Identity',
+    'Zend\Mvc\Plugin\FlashMessenger',
+    'Zend\Session',
     'Zend\InputFilter',
     'Zend\Filter',
     'Zend\Hydrator',
