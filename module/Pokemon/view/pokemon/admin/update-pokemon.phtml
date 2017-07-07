@@ -22,9 +22,9 @@
         <?php
             $form_img = $form->get('poke_image');
             echo $form_img->getLabel();
-            $form_img->setAttribute('src', $poke->getImage());
-            // echo $this->formFile($form_img);
-            echo $this->formImage($form_img);
+            // $form_img->setAttribute('src', $poke->getImage());
+            echo $this->formFile($form_img);
+            // echo $this->formImage($form_img);
         ?>
     </div>
     <div class="form-group">
@@ -33,7 +33,7 @@
             if ( (bool) (int) ($poke->getIdParent()) )
                 $parent_id_input->setValue($poke->getIdParent());
 
-            $this->formCollection($parent_id_input);
+            $this->formRow($parent_id_input);
         ?>
     </div>
     <div class="form-group">

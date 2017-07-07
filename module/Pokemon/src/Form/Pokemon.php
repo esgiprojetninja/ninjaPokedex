@@ -11,7 +11,7 @@ use Zend\Hydrator\Aggregate\AggregateHydrator;
 
 class Pokemon extends Form {
 
-    public function __construct() {
+    public function __construct($pokemonService) {
         parent::__construct('pokemon');
 
         $hydrator = new AggregateHydrator();
@@ -27,21 +27,25 @@ class Pokemon extends Form {
         $national_id->setLabel('Official id number');
         $national_id->setAttribute('class','form-control');
         $national_id->setAttribute('min',1);
-        $national_id->setAttribute('max',151);
 
-        $description = new Element\Text('poke_description');
+        $description = new Element\Textarea('poke_description');
         $description->setLabel('Description');
         $description->setAttribute('class','form-control');
 
-        $img = new Element\Image('poke_image');
+        $img = new Element\File('poke_image');
         $img->setLabel('Image');
-        $img->setAttribute('class','form-control');
+        $img->setAttribute('class','form-control height-auto width-auto');
 
-        $parent_id = new Element\Collection('poke_id_parent');
-        $parent_id->setAllowAdd(true);
-        $parent_id->setAllowRemove(true);
+        $parent_id = new Element\Select('poke_id_parent');
         $parent_id->setLabel('Parent');
         $parent_id->setAttribute('class','form-control');
+
+        $options = [];
+        foreach ( $pokemonService->getAll() as $possible_parent_pokemon ) {
+            (int) $options[$possible_parent_pokemon->id_national] = $possible_parent_pokemon->name;
+        }
+        var_dump($options);
+        $parent_id->setValueOptions($options);
 
         $type_1 = new Element\Collection('poke_type1');
         $type_1->setAllowAdd(true);
@@ -57,7 +61,7 @@ class Pokemon extends Form {
 
         $submit = new Element\Submit('submit');
         $submit->setValue('Send');
-        $submit->setAttribute('class', 'btn btn-primary');
+        $submit->setAttribute('class', 'btn btn-primary btn-lg');
 
         $this->add($name);
         $this->add($national_id);

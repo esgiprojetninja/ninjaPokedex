@@ -131,7 +131,7 @@ class AdminController extends AbstractActionController {
     }
 
     public function updatePokemonAction() {
-        $form = new PokemonForm();
+        $form = new PokemonForm($this->pokemonService);
         if ( $this->identity == null )
             return $this->redirect()->toRoute('admin_home/admin_login');
 
