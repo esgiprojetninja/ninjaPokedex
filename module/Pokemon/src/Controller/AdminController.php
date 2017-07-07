@@ -139,9 +139,15 @@ class AdminController extends AbstractActionController {
             $pokemon = new Pokemon();
             $form->bind($pokemon);
             $form->setInputFilter($this->updatePokemonFilter);
-            $data = $this->request->getPost();
+
+            $data = array_merge_recursive(
+                $this->request->getPost()->toArray(),
+                $this->params()->fromFiles()
+            );
             $form->setData($data);
+            var_dump($data);
             if ($form->isValid()) {
+                $data = $form->getData();
                 var_dump("form detected valid", $data);
                 // $this->blogService->update($pokemon);
                 // return $this->redirect()->toRoute('blog_home');
@@ -154,7 +160,10 @@ class AdminController extends AbstractActionController {
         return new ViewModel([
             'form' => $form,
             'pokemon' => $pokemon,
-            'messages' => $this->flashMessenger()->getMessages()
+            'messages' => array_merge_recursive(
+                $this->flashMessenger()->getMessages(),
+                $form->getMessages()
+            )
         ]);
     }
 

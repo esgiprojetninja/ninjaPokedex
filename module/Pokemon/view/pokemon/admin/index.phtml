@@ -45,8 +45,10 @@
             <?php endif; ?>
             </td>
             <td>
-                <?php if ( (bool) count($poke->type) ) : ?>
-                    <?= join(', ', $poke->type) ?>
+                <?php if ( is_array($poke->type) && count($poke->type) > 0 ) : ?>
+                    <?php foreach ($poke->type as $type_arr) : ?>
+                        <span style="color: <?= $type_arr['color']; ?>;"><?= $type_arr['nom_type']; ?></span>
+                    <?php endforeach; ?>
                 <?php else: ?>
                     None
                 <?php endif; ?>

@@ -9,11 +9,13 @@ use Zend\Validator\StringLength;
 use Zend\Validator\Digits;
 use Zend\Validator\GreaterThan;
 use Zend\Validator\ValidatorChain;
-use Zend\Validator\File\IsImage;
+use Zend\Validator\File\IsImage as FileIsImage;
+use Zend\Validator\File\ImageSize as FileImageSize;
 use Zend\Validator\Regex;
 use Zend\Validator\Csrf;
 use Zend\I18n\Validator\Alnum;
 use Zend\Validator\Db\RecordExists;
+use Zend\Validator\Db\NoRecordExists;
 
 class UpdatePokemonPost extends InputFilter {
     protected $dbAdapter;
@@ -35,16 +37,6 @@ class UpdatePokemonPost extends InputFilter {
         $description->setFilterChain($this->getStringTrimFilterChain());
         $description->setValidatorChain($this->getDescriptionValidatorChain());
 
-        $image = new FileInput('poke_image');
-        $image->setRequired(false);
-        $image->getFilterChain()->attachByName(
-            'filerenameupload',
-            [
-                'target'    => './data/tmpuploads/pokemon.png',
-                'randomize' => true,
-            ]
-        );
-        $image->setValidatorChain($this->getImageValidatorChain());
 
         $id_parent = new Input('poke_id_parent');
         $id_parent->setRequired(false);
@@ -61,11 +53,11 @@ class UpdatePokemonPost extends InputFilter {
         $csrf = new Input('csrf');
         $csrf->setRequired(true);
 
+        $this->addImageValidator();
         $this->add($name);
         $this->add($id_national);
         $this->add($id_parent);
         $this->add($description);
-        $this->add($image);
         $this->add($type_1);
         $this->add($type_2);
         $this->add($csrf);
@@ -88,7 +80,7 @@ class UpdatePokemonPost extends InputFilter {
     }
 
     protected function getIdNationalValidatorChain() {
-        $validator = new RecordExists([
+        $validator = new NoRecordExists([
             'table'   => 'pokemon',
             'field'   => 'id_national',
             'adapter' => $this->dbAdapter,
@@ -110,14 +102,7 @@ class UpdatePokemonPost extends InputFilter {
             'field'   => 'id_national',
             'adapter' => $this->dbAdapter,
         ]);
-        $valid = new GreaterThan([
-            'min' => 1,
-            'inclusive' => true,
-            'max' => 151
-        ]);
         $validatorChain = new ValidatorChain();
-        $validatorChain->attach(new Digits());
-        $validatorChain->attach($valid);
         $validatorChain->attach($validator);
         return $validatorChain;
     }
@@ -132,11 +117,43 @@ class UpdatePokemonPost extends InputFilter {
         return $validatorChain;
     }
 
-    protected function getImageValidatorChain() {
-        $validator = new IsImage();
-        $validatorChain = new ValidatorChain();
-        $validatorChain->attach($validator);
-        return $validatorChain;
+    protected function addImageValidator() {
+        $this->add([
+            'type'     => 'Zend\InputFilter\FileInput',
+            'name'     => 'poke_image',
+            'required' => true,
+            'validators' => [
+                ['name'    => 'FileUploadFile'],
+                [
+                    'name'    => 'FileMimeType',
+                    'options' => [
+                        'mimeType'  => ['image/jpeg', 'image/png', 'image/jpg', 'image/gif']
+                    ]
+                ],
+                ['name'    => 'FileIsImage'],
+                [
+                    'name'    => 'FileImageSize',
+                    'options' => [
+                        'minWidth'  => 40,
+                        'minHeight' => 40,
+                        'maxWidth'  => 40,
+                        'maxHeight' => 40
+                    ]
+                ],
+            ],
+            'filters'  => [
+                [
+                    'name' => 'FileRenameUpload',
+                    'options' => [
+                        'target'=>'./data/upload',
+                        'useUploadName'=>true,
+                        'useUploadExtension'=>true,
+                        'overwrite'=>true,
+                        'randomize'=>false
+                    ]
+                ]
+            ],
+        ]);
     }
 
     protected function getTypeValidatorChain() {
