@@ -44,7 +44,6 @@ class Pokemon extends Form {
         foreach ( $pokemonService->getAll() as $possible_parent_pokemon ) {
             (int) $options[$possible_parent_pokemon->id_national] = $possible_parent_pokemon->name;
         }
-        var_dump($options);
         $parent_id->setValueOptions($options);
 
         $type_1 = new Element\Collection('poke_type1');

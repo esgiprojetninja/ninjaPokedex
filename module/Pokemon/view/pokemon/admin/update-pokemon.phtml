@@ -33,7 +33,7 @@
             if ( (bool) (int) ($poke->getIdParent()) )
                 $parent_id_input->setValue($poke->getIdParent());
 
-            $this->formRow($parent_id_input);
+            echo $this->formRow($form->get('poke_id_parent'));
         ?>
     </div>
     <div class="form-group">
