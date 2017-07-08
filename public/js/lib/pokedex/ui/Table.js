@@ -49,23 +49,7 @@ export default class Table extends React.PureComponent {
                 children={<DescriptionSVG/>}
                 onTouchTap={
                     () => {
-                        let pokemon = {};
-                        pokemon.current = this.props.pokemons.all[key];
-                        pokemon.evolution = [];
-                        pokemon.starter = {};
-                        //Gère les évolutions
-                        for(var i = 0; i < this.props.pokemons.all.length; i++) {
-                            if(this.props.pokemons.all[i].id_parent === pokemon.current.id_national) {
-                                pokemon.evolution.push(this.props.pokemons.all[i]);
-                            }
-                        }
-                        //Gère les starteurs
-                        for(var j = 0; j < this.props.pokemons.all.length; j++) {
-                            if(this.props.pokemons.all[j].id_national === pokemon.current.id_parent) {
-                                pokemon.starter = this.props.pokemons.all[j];
-                            }
-                        }
-                        this.props.setSelectedPokemonForDetails(pokemon);
+                        this.props.setSelectedPokemonForDetails(this.props.pokemons.all[key]);
                         this.props.openDetails();
                     }
                 }
@@ -73,10 +57,16 @@ export default class Table extends React.PureComponent {
             <span className="card-title table-title">
               {this.props.pokemons.all[key].name}
             </span>
-            <div className="card-type table-type align">
-              <span className="type">Feu</span>
+            <div className="card-type align">
+                {(this.props.pokemons.all[key].type.map((ps, ks) => this.renderType(ps, ks)))}
             </div>
           </div>
+        )
+    }
+
+    renderType (ps, ks) {
+        return (
+            <span key={ks} className="type" style={{backgroundColor: ps.color}}>{ps.nom_type}</span>
         )
     }
 
