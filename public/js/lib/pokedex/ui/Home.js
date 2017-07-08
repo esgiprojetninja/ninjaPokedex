@@ -231,26 +231,41 @@ export default class Home extends React.PureComponent {
       if(this.props.carousel.showDetails) {
         return (
             <div className="card-details align full-height full-width">
-            <IconButton onClick={this.props.openDetails} style={styles.buttonClose} iconStyle={styles.iconClose} children={<Close/>}/>
-            <Col md={4} className="card-details-content">
-                <div className="card-details-body full-width">
-                {this.renderPokemonDetailsEvolution()}
-                    <ul>
-                        <li className="text-center">
-                            <span style={styles.pokemonId}>No. {this.props.carousel.selectedCurrent.id_national}</span>
-                        </li>
-                        <li className="text-center">
+                <IconButton onClick={this.props.openDetails} style={styles.buttonClose} iconStyle={styles.iconClose} children={<Close/>}/>
+                <Col md={4} className="card-details-content">
+                    <div className="card-details-body full-width">
+                    <div className="align">
+                        <img
+                            className="pokemon-details"
+                            src={this.props.carousel.selectedCurrent.image}
+                        />
+                    </div>
+                        <div className="card-details-title-wrapper text-center">
                             <span style={styles.pokemonName}>{this.props.carousel.selectedCurrent.name}</span>
-                        </li>
-                        <li>
-                            <span style={styles.pokemonDescription}>{this.props.carousel.selectedCurrent.description}</span>
-                        </li>
-                        <li className="text-center">
-                            {(this.props.carousel.selectedCurrent.type.map((ps, ks) => this.renderPokemonTypes(ps, ks)))}
-                        </li>
-                    </ul>
-                </div>
-            </Col>
+                            <div className="align" style={{marginBottom: "15px"}}>
+                                <div className="card-details-title-line"></div>
+                            </div>
+                        </div>
+                        <div className="card-details-section bottom-line align">
+                            <Col md={6} className="card-details-section-type text-center">
+                                {(this.props.carousel.selectedCurrent.type.map((ps, ks) => this.renderPokemonTypes(ps, ks)))}
+                                <span className="card-details-section-title">Type</span>
+                            </Col>
+                            <Col md={6} className="card-details-section-number left-line text-center">
+                                {this.props.carousel.selectedCurrent.id_national}
+                                <span className="card-details-section-title">No.</span>
+                            </Col>
+                        </div>
+                        <Col md={12} className="card-details-section-description text-center bottom-line">
+                            {this.props.carousel.selectedCurrent.description}
+                            <span className="card-details-section-title">Description</span>
+                        </Col>
+                        <Col md={12}>
+                            {this.renderPokemonDetailsEvolution()}
+                            <span style={{marginTop: 0}} className="card-details-section-title text-center">Evolutions</span>
+                        </Col>
+                    </div>
+                </Col>
             </div>
         )
       }

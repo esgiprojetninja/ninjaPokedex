@@ -109,10 +109,6 @@
     opacity: 0.5;
 }
 
-.pokemon-current{
-
-}
-
 .pokemon-evolution{
     opacity: 0.5;
 }
@@ -123,4 +119,32 @@
 
 .pokemon-evolution:hover{
     opacity: 1;
+}
+
+.card-details-title-line{
+    height: 8px;
+    width: 60%;
+    margin: 10px 0;
+    border-radius: 10px;
+    background-color: rgb(164, 198, 57);
+}
+
+.bottom-line{
+    padding-bottom: 15px;
+    border-bottom: 1px solid #E6E6E6;
+}
+
+.card-details-section-title{
+    margin: 20px 0 0 0;
+    display: block;
+    opacity: .8;
+    font-size: 14px;
+}
+
+.card-details-section-description{
+    margin-top: 15px;
+}
+
+.left-line{
+    border-left: 1px solid #E6E6E6;
 }
