@@ -205,6 +205,15 @@ class PokemonRepositoryImpl implements PokemonRepository
         }
         $pokemons[] = (object) array_merge((array) $pokemon, $types);
       }
+      foreach ($pokemons as $poke) {
+          $evolutions = $this->getPokemonEvolutions($pokemons, $poke);
+          foreach ($evolutions as $evo) {
+              $next_evolutions = $this->getPokemonEvolutions($pokemons, $evo);
+              $evo->evolutions = ((bool) count($next_evolutions)) ? $next_evolutions : false;
+          }
+          $poke->evolutions = ((bool) count($evolutions)) ? $evolutions : false;
+      }
+
       return $pokemons;
     } catch ( \Exception $e ) {
       $this->adapter->getDriver()
@@ -269,9 +278,9 @@ class PokemonRepositoryImpl implements PokemonRepository
       $return = true;
 
     } catch (\Exception $e) {
-      return $e->getMessage();
       $this->adapter->getDriver()
       ->getConnection()->rollback();
+      return $e->getMessage();
     }
     return $return;
   }
@@ -496,6 +505,15 @@ class PokemonRepositoryImpl implements PokemonRepository
     } catch ( \Exception $e ) {
       return $e->getMessage();
     }
+  }
+
+  protected function getPokemonEvolutions($pokemons, $pokemon) {
+      $evolutions = [];
+      foreach ($pokemons as $poke) {
+          if ( (int) $poke->id_parent == (int) $pokemon->id_national )
+              $evolutions[] = $poke;
+      }
+      return $evolutions;
   }
 
 }
