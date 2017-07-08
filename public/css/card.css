@@ -75,6 +75,7 @@
   font-size: 11px;
   min-width: 80px;
   text-align: center;
+  color: white;
 }
 
 .card-details-content {
@@ -84,10 +85,42 @@
   margin: 5px;
 }
 
+.card-details-body ul li{
+    margin-top: 15px;
+}
+
+.card-details-body{
+    padding: 0 25px;
+}
+
 .card-details {
   position: fixed;
   top: 0;
   left: 0;
   background: rgba(0, 0, 0, 0.8);
   z-index: 9999;
+}
+
+.pokemon-details{
+    cursor: pointer;
+}
+
+.pokemon-starter{
+    opacity: 0.5;
+}
+
+.pokemon-current{
+
+}
+
+.pokemon-evolution{
+    opacity: 0.5;
+}
+
+.pokemon-starter:hover{
+    opacity: 1;
+}
+
+.pokemon-evolution:hover{
+    opacity: 1;
 }

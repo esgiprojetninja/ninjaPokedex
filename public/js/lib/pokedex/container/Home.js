@@ -6,6 +6,7 @@ import {
 } from "../actions/homeActions";
 
 import {
+    setSelectedPokemonForDetails,
     openDetails
 } from "../actions/carouselActions";
 
@@ -13,6 +14,9 @@ const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => {
     return {
+        setSelectedPokemonForDetails(pokemon) {
+            dispatch(setSelectedPokemonForDetails(pokemon));
+        },
         toggleView() {
             dispatch(toggleView());
         },
