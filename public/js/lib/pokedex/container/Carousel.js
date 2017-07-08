@@ -2,9 +2,7 @@ import {connect} from "react-redux";
 import CarouselComponent from "../ui/Carousel";
 
 import {
-    setSelectedPokemonForDetails,
-    setSelectedPokemonStarter,
-    setSelectedPokemonEvolution,
+    setSelectedPokemonForDetails
     openDetails
 } from "../actions/carouselActions";
 
@@ -14,13 +12,7 @@ const mapDispatchToProps = dispatch => {
     return {
         setSelectedPokemonForDetails(currentPokemon) {
             dispatch(setSelectedPokemonForDetails(currentPokemon));
-        },
-        setSelectedPokemonStarter(starterPokemon) {
-            dispatch(setSelectedPokemonStarter(starterPokemon));
-        },
-        setSelectedPokemonEvolution(evolutionPokemon) {
-            dispatch(setSelectedPokemonEvolution(evolutionPokemon));
-        },
+        }
         openDetails() {
             dispatch(openDetails());
         }

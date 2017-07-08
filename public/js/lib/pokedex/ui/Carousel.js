@@ -71,28 +71,8 @@ export default class Carousel extends React.PureComponent {
                     children={<DescriptionSVG/>}
                     onTouchTap={
                         () => {
-                            let evolutionsTmp = [];
-                            let _this = this;
+
                             this.props.setSelectedPokemonForDetails(this.props.pokemons.all[key]);
-
-                            function getStarter(el) {
-                                if(_this.props.pokemons.all[key].id_parent && el.id_national === _this.props.pokemons.all[key].id_parent) {
-                                    _this.props.setSelectedPokemonStarter(el);
-                                }
-                            }
-
-                            function getEvolution(el, i) {
-                                if(el.id_parent && el.id_parent === _this.props.pokemons.all[key].id_national) {
-                                    evolutionsTmp.push(el);
-                                }
-
-                                if(i === _this.props.pokemons.all.length-1) {
-                                    _this.props.setSelectedPokemonEvolution(evolutionsTmp);
-                                }
-                            }
-
-                            this.props.pokemons.all.filter(getStarter);
-                            this.props.pokemons.all.filter(getEvolution);
                             this.props.openDetails();
                         }
                     }
