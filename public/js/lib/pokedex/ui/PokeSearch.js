@@ -68,7 +68,6 @@ export default class PokeSearch extends React.PureComponent {
     }
 
     render () {
-        // {(this.props.carousel.selectedCurrent.type.map((ps, ks) => this.renderTypes(ps, ks)))}
         return (
           <div className="search-fixed">
             <IconButton onClick={this.props.toggleSearch} style={styles.buttonClose} iconStyle={styles.iconClose} children={<Close/>}/>
