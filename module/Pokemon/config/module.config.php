@@ -10,6 +10,7 @@ return [
         'factories' => [
             'Pokemon\Controller\Pokemons' => 'Pokemon\Controller\PokemonsControllerFactory',
             'Pokemon\Controller\Admin' => 'Pokemon\Controller\AdminControllerFactory',
+            'Pokemon\Controller\Types' => 'Pokemon\Controller\TypesControllerFactory',
         ],
     ],
     'router' => [
@@ -91,6 +92,19 @@ return [
                             ],
                         ],
                     ]
+                ],
+                'may_terminate' => true,
+            ],
+            'types' => [
+                'type'    => Segment::class,
+                'options' => [
+                   'route'    => '/types[/:id]',
+                    'constraints' => [
+                        'id'     => '[0-9]+',
+                    ],
+                    'defaults' => [
+                        'controller' => 'Pokemon\Controller\Types',
+                    ],
                 ],
                 'may_terminate' => true,
             ],

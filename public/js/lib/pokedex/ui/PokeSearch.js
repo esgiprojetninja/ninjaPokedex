@@ -52,7 +52,23 @@ export default class PokeSearch extends React.PureComponent {
         super(props);
     }
 
+    renderTypes() {
+        return (
+            <li>
+              <Checkbox
+                checkedIcon={<ActionFavorite />}
+                uncheckedIcon={<ActionFavoriteBorder style={{fill: 'white'}} />}
+                label="Normal"
+                labelStyle={styles.checkboxLabel}
+                iconStyle={styles.checkboxIcon}
+                style={styles.checkbox}
+              />
+            </li>
+        )
+    }
+
     render () {
+        // {(this.props.carousel.selectedCurrent.type.map((ps, ks) => this.renderTypes(ps, ks)))}
         return (
           <div className="search-fixed">
             <IconButton onClick={this.props.toggleSearch} style={styles.buttonClose} iconStyle={styles.iconClose} children={<Close/>}/>
@@ -66,166 +82,9 @@ export default class PokeSearch extends React.PureComponent {
                   <span className="search-found"><span className="search-found-count">1</span> Pokémon trouvé</span>
                   <div className="filters filters-type">
                       <span className="filters-name">Types :</span>
+                      {this.renderTypes()}
                       <ul>
-                        <li>
-                          <Checkbox
-                            checkedIcon={<ActionFavorite />}
-                            uncheckedIcon={<ActionFavoriteBorder style={{fill: 'white'}} />}
-                            label="Normal"
-                            labelStyle={styles.checkboxLabel}
-                            iconStyle={styles.checkboxIcon}
-                            style={styles.checkbox}
-                          />
-                        </li>
-                        <li>
-                          <Checkbox
-                            checkedIcon={<ActionFavorite />}
-                            uncheckedIcon={<ActionFavoriteBorder style={{fill: 'white'}} />}
-                            label="Acier"
-                            labelStyle={styles.checkboxLabel}
-                            iconStyle={styles.checkboxIcon}
-                            style={styles.checkbox}
-                          />
-                        </li>
-                        <li>
-                          <Checkbox
-                            checkedIcon={<ActionFavorite />}
-                            uncheckedIcon={<ActionFavoriteBorder style={{fill: 'white'}} />}
-                            label="Glace"
-                            labelStyle={styles.checkboxLabel}
-                            iconStyle={styles.checkboxIcon}
-                            style={styles.checkbox}
-                          />
-                        </li>
-                      </ul>
-                      <ul>
-                        <li>
-                          <Checkbox
-                            checkedIcon={<ActionFavorite />}
-                            uncheckedIcon={<ActionFavoriteBorder style={{fill: 'white'}} />}
-                            label="Feu"
-                            labelStyle={styles.checkboxLabel}
-                            iconStyle={styles.checkboxIcon}
-                            style={styles.checkbox}
-                          />
-                        </li>
-                        <li>
-                          <Checkbox
-                            checkedIcon={<ActionFavorite />}
-                            uncheckedIcon={<ActionFavoriteBorder style={{fill: 'white'}} />}
-                            label="Eau"
-                            labelStyle={styles.checkboxLabel}
-                            iconStyle={styles.checkboxIcon}
-                            style={styles.checkbox}
-                          />
-                        </li>
-                        <li>
-                          <Checkbox
-                            checkedIcon={<ActionFavorite />}
-                            uncheckedIcon={<ActionFavoriteBorder style={{fill: 'white'}} />}
-                            label="Plante"
-                            labelStyle={styles.checkboxLabel}
-                            iconStyle={styles.checkboxIcon}
-                            style={styles.checkbox}
-                          />
-                        </li>
-                      </ul>
-                      <ul>
-                        <li>
-                          <Checkbox
-                            checkedIcon={<ActionFavorite />}
-                            uncheckedIcon={<ActionFavoriteBorder style={{fill: 'white'}} />}
-                            label="Psy"
-                            labelStyle={styles.checkboxLabel}
-                            iconStyle={styles.checkboxIcon}
-                            style={styles.checkbox}
-                          />
-                        </li>
-                        <li>
-                          <Checkbox
-                            checkedIcon={<ActionFavorite />}
-                            uncheckedIcon={<ActionFavoriteBorder style={{fill: 'white'}} />}
-                            label="Poison"
-                            labelStyle={styles.checkboxLabel}
-                            iconStyle={styles.checkboxIcon}
-                            style={styles.checkbox}
-                          />
-                        </li>
-                        <li>
-                          <Checkbox
-                            checkedIcon={<ActionFavorite />}
-                            uncheckedIcon={<ActionFavoriteBorder style={{fill: 'white'}} />}
-                            label="Fée"
-                            labelStyle={styles.checkboxLabel}
-                            iconStyle={styles.checkboxIcon}
-                            style={styles.checkbox}
-                          />
-                        </li>
-                      </ul>
-                      <ul>
-                        <li>
-                          <Checkbox
-                            checkedIcon={<ActionFavorite />}
-                            uncheckedIcon={<ActionFavoriteBorder style={{fill: 'white'}} />}
-                            label="Combat"
-                            labelStyle={styles.checkboxLabel}
-                            iconStyle={styles.checkboxIcon}
-                            style={styles.checkbox}
-                          />
-                        </li>
-                        <li>
-                          <Checkbox
-                            checkedIcon={<ActionFavorite />}
-                            uncheckedIcon={<ActionFavoriteBorder style={{fill: 'white'}} />}
-                            label="Electrik"
-                            labelStyle={styles.checkboxLabel}
-                            iconStyle={styles.checkboxIcon}
-                            style={styles.checkbox}
-                          />
-                        </li>
-                        <li>
-                          <Checkbox
-                            checkedIcon={<ActionFavorite />}
-                            uncheckedIcon={<ActionFavoriteBorder style={{fill: 'white'}} />}
-                            label="Vol"
-                            labelStyle={styles.checkboxLabel}
-                            iconStyle={styles.checkboxIcon}
-                            style={styles.checkbox}
-                          />
-                        </li>
-                      </ul>
-                      <ul>
-                        <li>
-                          <Checkbox
-                            checkedIcon={<ActionFavorite />}
-                            uncheckedIcon={<ActionFavoriteBorder style={{fill: 'white'}} />}
-                            label="Roche"
-                            labelStyle={styles.checkboxLabel}
-                            iconStyle={styles.checkboxIcon}
-                            style={styles.checkbox}
-                          />
-                        </li>
-                        <li>
-                          <Checkbox
-                            checkedIcon={<ActionFavorite />}
-                            uncheckedIcon={<ActionFavoriteBorder style={{fill: 'white'}} />}
-                            label="Insecte"
-                            labelStyle={styles.checkboxLabel}
-                            iconStyle={styles.checkboxIcon}
-                            style={styles.checkbox}
-                          />
-                        </li>
-                        <li>
-                          <Checkbox
-                            checkedIcon={<ActionFavorite />}
-                            uncheckedIcon={<ActionFavoriteBorder style={{fill: 'white'}} />}
-                            label="Sol"
-                            labelStyle={styles.checkboxLabel}
-                            iconStyle={styles.checkboxIcon}
-                            style={styles.checkbox}
-                          />
-                        </li>
-                      </ul>
+                    </ul>
                   </div>
                   <div className="filters filters-evolution">
                       <span className="filters-name">Evolution :</span>
