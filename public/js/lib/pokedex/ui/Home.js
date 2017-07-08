@@ -98,7 +98,9 @@ export default class Home extends React.PureComponent {
     renderPokemonDetailsCurrent () {
         if(this.props.carousel.selectedCurrent && this.props.carousel.selectedCurrent.image) {
             return (
-                <img className="pokemon-details pokemon-current" src={this.props.carousel.selectedCurrent.image}/>
+                <div>
+                    <img className="pokemon-details pokemon-current" src={this.props.carousel.selectedCurrent.image}/>
+                </div>
             )
         }
     }
@@ -122,7 +124,7 @@ export default class Home extends React.PureComponent {
 
     renderPokemonDetailsThisEvolution (thisP, thisKey) {
         return (
-            <div>
+            <div className="align">
                 <img
                     key={thisKey}
                     className="pokemon-details pokemon-evolution"
@@ -185,7 +187,8 @@ export default class Home extends React.PureComponent {
         if(this.props.carousel.selectedCurrent.id_parent) {
             const starter = this.props.pokemons.all.find(element => element.id_national === this.props.carousel.selectedCurrent.id_parent)
             return (
-                <div>
+                <div className="align">
+                    {this.renderPokemonDetailsSecondStarter(starter)}
                     <img
                         className="pokemon-details pokemon-evolution"
                         src={starter.image}
@@ -195,7 +198,6 @@ export default class Home extends React.PureComponent {
                             }
                         }
                     />
-                    {this.renderPokemonDetailsSecondStarter(starter)}
                 </div>
             )
         }
