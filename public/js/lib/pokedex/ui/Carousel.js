@@ -83,11 +83,17 @@ export default class Carousel extends React.PureComponent {
                 <span className="card-description">
                     {this.props.pokemons.all[key].description}
                 </span>
-                <div className="card-type align" style={{display: 'initial'}}>
-                    <span className="type">Feu</span>
+                <div className="card-type align">
+                    {(this.props.pokemons.all[key].type.map((ps, ks) => this.renderType(ps, ks)))}
                 </div>
                 </div>
           </div>
+        )
+    }
+
+    renderType (ps, ks) {
+        return (
+            <span key={ks} className="type" style={{backgroundColor: ps.color}}>{ps.nom_type}</span>
         )
     }
 
