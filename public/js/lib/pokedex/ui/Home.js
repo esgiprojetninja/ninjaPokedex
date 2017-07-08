@@ -12,6 +12,8 @@ import DashboardSVG from 'material-ui/svg-icons/action/dashboard';
 import IconButton from 'material-ui/IconButton';
 import FullscreenSVG from 'material-ui/svg-icons/navigation/fullscreen';
 import AddCircleOutlineSVG from 'material-ui/svg-icons/content/add-circle-outline';
+import ArrowForwardSVG from 'material-ui/svg-icons/navigation/arrow-forward';
+import ArrowBackSVG from 'material-ui/svg-icons/navigation/arrow-back';
 import PokeSearch from '../container/PokeSearch';
 import jQuery from 'jquery';
 import Screenfull from 'screenfull';
@@ -107,7 +109,8 @@ export default class Home extends React.PureComponent {
 
     renderPokemonDetailsSecondThisEvolution (thisPp, thisKeyy) {
         return (
-            <div>
+            <div className="align">
+                <IconButton children={<ArrowForwardSVG/>}/>
                 <img
                     key={thisKeyy}
                     className="pokemon-details pokemon-evolution"
@@ -125,6 +128,7 @@ export default class Home extends React.PureComponent {
     renderPokemonDetailsThisEvolution (thisP, thisKey) {
         return (
             <div className="align">
+                <IconButton children={<ArrowForwardSVG/>}/>
                 <img
                     key={thisKey}
                     className="pokemon-details pokemon-evolution"
@@ -168,7 +172,7 @@ export default class Home extends React.PureComponent {
         if(starter.id_parent) {
             const starter2 = this.props.pokemons.all.find(element => element.id_national === starter.id_parent)
             return (
-                <div>
+                <div className="align">
                     <img
                         className="pokemon-details pokemon-evolution"
                         src={starter2.image}
@@ -178,6 +182,7 @@ export default class Home extends React.PureComponent {
                             }
                         }
                     />
+                    <IconButton children={<ArrowForwardSVG/>}/>
                 </div>
             )
         }
@@ -198,6 +203,7 @@ export default class Home extends React.PureComponent {
                             }
                         }
                     />
+                    <IconButton children={<ArrowForwardSVG/>}/>
                 </div>
             )
         }
