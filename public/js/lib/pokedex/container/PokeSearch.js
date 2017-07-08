@@ -2,14 +2,14 @@ import {connect} from "react-redux";
 import PokeSearchComponent from "../ui/PokeSearch";
 
 import {
-    toggleSearch
+    toggleSearch,
 } from "../actions/navbarActions";
 
 const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => {
     return {
-        toggleSearch() {
+        toggleSearch() {
             dispatch(toggleSearch());
         }
     };

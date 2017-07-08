@@ -8,6 +8,7 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import TextField from 'material-ui/TextField';
+import StringSimilarity from 'string-similarity';
 
 const colors = [
   'Red',
@@ -60,9 +61,17 @@ export default class PokeSearch extends React.PureComponent {
               <Row>
                 <Col md={12} className="search-content">
                   <div className="search-intro">Tape le nom dun Pokémon et appuies sur entrée</div>
-                  <input onChange={() => {
-                    console.log('Search for a pokemon');
-                  }} className="search-input" type="text" placeholder="Rechercher"/>
+                  <input
+                      onChange={(event) => {
+                         const target = this.props.pokemons.all.find(pokemon => StringSimilarity.compareTwoStrings(pokemon.name, event.target.value) > 0.7);
+                         if(target) {
+                             //Update slickGoTo https://github.com/akiran/react-slick
+                         }
+                      }}
+                      className="search-input"
+                      type="text"
+                      placeholder="Rechercher"
+                  />
                   <span className="search-found"><span className="search-found-count">1</span> Pokémon trouvé</span>
                   <div className="filters filters-type">
                       <span className="filters-name">Types :</span>

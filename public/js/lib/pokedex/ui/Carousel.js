@@ -85,7 +85,7 @@ export default class Carousel extends React.PureComponent {
                 <div className="card-type align">
                     <span className="type">Feu</span>
                 </div>
-                </div>
+            </div>
           </div>
         )
     }
