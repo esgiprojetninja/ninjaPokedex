@@ -19,9 +19,11 @@ use Zend\Validator\Db\NoRecordExists;
 
 class UpdatePokemonPost extends InputFilter {
     protected $dbAdapter;
+    protected $imageManager;
 
-    public function __construct(\Zend\Db\Adapter\Adapter $dbAdapter) {
+    public function __construct(\Zend\Db\Adapter\Adapter $dbAdapter, $imageManager) {
         $this->dbAdapter = $dbAdapter;
+        $this->imageManager = $imageManager;
 
         $name = new Input('poke_name');
         $name->setRequired(true);
@@ -117,6 +119,23 @@ class UpdatePokemonPost extends InputFilter {
         return $validatorChain;
     }
 
+    protected function getTypeValidatorChain() {
+        $validator = new RecordExists([
+            'table'   => 'type',
+            'field'   => 'id_type',
+            'adapter' => $this->dbAdapter,
+        ]);
+        $valid = new GreaterThan([
+            'min' => 0,
+            'inclusive' => true
+        ]);
+        $validatorChain = new ValidatorChain();
+        $validatorChain->attach(new Digits());
+        $validatorChain->attach($valid);
+        $validatorChain->attach($validator);
+        return $validatorChain;
+    }
+
     protected function addImageValidator() {
         $this->add([
             'type'     => 'Zend\InputFilter\FileInput',
@@ -145,32 +164,15 @@ class UpdatePokemonPost extends InputFilter {
                 [
                     'name' => 'FileRenameUpload',
                     'options' => [
-                        'target'=>'./data/upload',
-                        'useUploadName'=>true,
+                        'target'=> trim($this->imageManager->getSaveToDir(), '/'),
+                        'useUploadName'=>false,
                         'useUploadExtension'=>true,
                         'overwrite'=>true,
-                        'randomize'=>false
+                        'randomize'=>true
                     ]
                 ]
             ],
         ]);
-    }
-
-    protected function getTypeValidatorChain() {
-        $validator = new RecordExists([
-            'table'   => 'type',
-            'field'   => 'id_type',
-            'adapter' => $this->dbAdapter,
-        ]);
-        $valid = new GreaterThan([
-            'min' => 0,
-            'inclusive' => true
-        ]);
-        $validatorChain = new ValidatorChain();
-        $validatorChain->attach(new Digits());
-        $validatorChain->attach($valid);
-        $validatorChain->attach($validator);
-        return $validatorChain;
     }
 
 }

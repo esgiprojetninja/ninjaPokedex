@@ -11,8 +11,7 @@ class ImageManager {
     public function getSavedFiles() {
         if(!is_dir($this->saveToDir)) {
             if(!mkdir($this->saveToDir)) {
-                throw new \Exception('Could not create directory for uploads: ' .
-                             error_get_last());
+                throw new \Exception('Could not create directory for uploads: ' . error_get_last());
             }
         }
         $files = [];
