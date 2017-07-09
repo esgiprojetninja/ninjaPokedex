@@ -49,7 +49,7 @@ export default class MapContainer extends React.PureComponent {
     componentDidMount() {
         this.ticketFunc = window.setInterval(()=>{
             this.props.tickMarkers();
-        }, 1200)
+        }, 1000)
     }
 
     componentWillUnmount() {
