@@ -19,25 +19,27 @@ class Pokemon extends Form {
         $hydrator->add(new TypeHydrator());
         $this->setHydrator($hydrator);
 
-        $name = new Element\Text('poke_name');
+        $name = new Element\Text('name');
         $name->setLabel('Name');
         $name->setAttribute('class','form-control');
 
-        $national_id = new Element\Number('poke_id_national');
+        $poke_id = new Element\Hidden('id_pokemon');
+
+        $national_id = new Element\Number('id_national');
         $national_id->setLabel('Official id number');
         $national_id->setAttribute('class','form-control');
         $national_id->setAttribute('min',1);
 
-        $description = new Element\Textarea('poke_description');
+        $description = new Element\Textarea('description');
         $description->setLabel('Description');
         $description->setAttribute('class','form-control');
 
-        $img = new Element\File('poke_image');
+        $img = new Element\File('image');
         $img->setLabel('Image');
         $img->setAttribute('class','form-control height-auto width-auto');
         $img->setAttribute('id','poke_image_input');
 
-        $parent_id = new Element\Select('poke_id_parent');
+        $parent_id = new Element\Select('id_parent');
         $parent_id->setLabel('Parent');
         $parent_id->setAttribute('class','form-control');
 
@@ -47,11 +49,11 @@ class Pokemon extends Form {
         }
         $parent_id->setValueOptions($options);
 
-        $type_1 = new Element\Select('poke_type1');
+        $type_1 = new Element\Select('type1');
         $type_1->setLabel('First type');
         $type_1->setAttribute('class','form-control');
 
-        $type_2 = new Element\Select('poke_type2');
+        $type_2 = new Element\Select('type2');
         $type_2->setLabel('Second type');
         $type_2->setAttribute('class','form-control');
 
@@ -60,6 +62,7 @@ class Pokemon extends Form {
         $submit->setAttribute('class', 'btn btn-primary btn-lg');
 
         $this->add($name);
+        $this->add($poke_id);
         $this->add($national_id);
         $this->add($description);
         $this->add($img);

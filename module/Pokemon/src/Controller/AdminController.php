@@ -147,18 +147,28 @@ class AdminController extends AbstractActionController {
                 $this->params()->fromFiles()
             );
             $form->setData($data);
-            var_dump($data);
             if ($form->isValid()) {
-                $data = $form->getData();
-                var_dump("form detected valid", $data);
-                // $this->blogService->update($pokemon);
-                // return $this->redirect()->toRoute('blog_home');
+                // Move uploaded file to its destination directory.
+                $form->getData();
+                $data['image'] = $this->updatePokemonFilter->getRenamedFile();
+                $id_poke = (int) $data['id_pokemon'];
+                unset($data['submit']);
+                unset($data['csrf']);
+                if ( false === $data['image'] )
+                    unset($data['image']);
+                else {
+                    $baseUrl = sprintf('%s://%s%s', $this->getEvent()->getRouter()->getRequestUri()->getScheme(), $this->getEvent()->getRouter()->getRequestUri()->getHost(), $this->getEvent()->getRequest()->getBaseUrl());
+                    $data['image'] = $baseUrl . $this->imageManager->getPublicWebPath() . $data['image'];
+                }
+                if ( $this->pokemonService->update($id_poke, $data))
+                    return $this->redirect()->toRoute('admin_home');
+                else
+                    $this->flashMessenger()->addMessage('Pokemon could not be updated !');
             }
         }
         $pokemon = $this->pokemonService->findById((int) $this->params()->fromRoute('id'));
 
         $pokemon = ($pokemon != null) ? $this->pokeHydrator->hydrate($pokemon, new Pokemon()) : null;
-        //PokemonHydrator
         return new ViewModel([
             'form' => $form,
             'pokemon' => $pokemon,

@@ -20,49 +20,60 @@ use Zend\Validator\Db\NoRecordExists;
 class UpdatePokemonPost extends InputFilter {
     protected $dbAdapter;
     protected $imageManager;
+    protected $filesBefore;
 
     public function __construct(\Zend\Db\Adapter\Adapter $dbAdapter, $imageManager) {
         $this->dbAdapter = $dbAdapter;
         $this->imageManager = $imageManager;
 
-        $name = new Input('poke_name');
+        $name = new Input('name');
         $name->setRequired(true);
         $name->setFilterChain($this->getStringTrimFilterChain());
         $name->setValidatorChain($this->getNameValidatorChain());
 
-        $id_national = new Input('poke_id_national');
+        $id_national = new Input('id_national');
         $id_national->setRequired(true);
         $id_national->setValidatorChain($this->getIdNationalValidatorChain());
 
-        $description = new Input('poke_description');
+        $description = new Input('description');
         $description->setRequired(true);
         $description->setFilterChain($this->getStringTrimFilterChain());
         $description->setValidatorChain($this->getDescriptionValidatorChain());
 
 
-        $id_parent = new Input('poke_id_parent');
+        $id_parent = new Input('id_parent');
         $id_parent->setRequired(false);
         $id_parent->setValidatorChain($this->getIdParentValidatorChain());
 
-        $type_1 = new Input('poke_type1');
+        $type_1 = new Input('type1');
         $type_1->setRequired(false);
         $type_1->setValidatorChain($this->getTypeValidatorChain());
 
-        $type_2 = new Input('poke_type2');
+        $type_2 = new Input('type2');
         $type_2->setRequired(false);
         $type_2->setValidatorChain($this->getTypeValidatorChain());
 
         $csrf = new Input('csrf');
         $csrf->setRequired(true);
 
+        $id_poke = new Input('id_pokemon');
+        $id_poke->setValidatorChain($this->getIdPokeValidatorChain());
+        $id_poke->setRequired(true);
+
         $this->addImageValidator();
         $this->add($name);
+        $this->add($id_poke);
         $this->add($id_national);
         $this->add($id_parent);
         $this->add($description);
         $this->add($type_1);
         $this->add($type_2);
         $this->add($csrf);
+    }
+
+    public function getRenamedFile() {
+        $diff = array_diff($this->imageManager->getSavedFiles(), $this->filesBefore);
+        return ((bool) count($diff)) ? $diff[0] : false;
     }
 
     protected function getStringTrimFilterChain() {
@@ -81,6 +92,23 @@ class UpdatePokemonPost extends InputFilter {
         return $validatorChain;
     }
 
+    protected function getIdPokeValidatorChain() {
+        $validator = new RecordExists([
+            'table'   => 'pokemon',
+            'field'   => 'id_pokemon',
+            'adapter' => $this->dbAdapter,
+        ]);
+        $valid = new GreaterThan([
+            'min' => 0,
+            'inclusive' => true
+        ]);
+        $validatorChain = new ValidatorChain();
+        $validatorChain->attach(new Digits());
+        $validatorChain->attach($valid);
+        $validatorChain->attach($validator);
+        return $validatorChain;
+    }
+
     protected function getIdNationalValidatorChain() {
         $validator = new NoRecordExists([
             'table'   => 'pokemon',
@@ -89,8 +117,7 @@ class UpdatePokemonPost extends InputFilter {
         ]);
         $valid = new GreaterThan([
             'min' => 1,
-            'inclusive' => true,
-            'max' => 151
+            'inclusive' => true
         ]);
         $validatorChain = new ValidatorChain();
         $validatorChain->attach($valid);
@@ -137,10 +164,11 @@ class UpdatePokemonPost extends InputFilter {
     }
 
     protected function addImageValidator() {
+        $this->filesBefore = $this->imageManager->getSavedFiles();
         $this->add([
             'type'     => 'Zend\InputFilter\FileInput',
-            'name'     => 'poke_image',
-            'required' => true,
+            'name'     => 'image',
+            'required' => false,
             'validators' => [
                 ['name'    => 'FileUploadFile'],
                 [
@@ -164,7 +192,7 @@ class UpdatePokemonPost extends InputFilter {
                 [
                     'name' => 'FileRenameUpload',
                     'options' => [
-                        'target'=> trim($this->imageManager->getSaveToDir(), '/'),
+                        'target'=> $this->imageManager->getSaveToDir(),
                         'useUploadName'=>false,
                         'useUploadExtension'=>true,
                         'overwrite'=>true,
