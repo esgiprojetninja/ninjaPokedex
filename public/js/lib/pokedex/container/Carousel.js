@@ -10,8 +10,8 @@ const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => {
     return {
-        setSelectedPokemonForDetails(pokemon) {
-            dispatch(setSelectedPokemonForDetails(pokemon));
+        setSelectedPokemonForDetails(currentPokemon) {
+            dispatch(setSelectedPokemonForDetails(currentPokemon));
         },
         openDetails() {
             dispatch(openDetails());
