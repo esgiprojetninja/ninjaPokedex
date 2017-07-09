@@ -3,6 +3,7 @@ import HomeComponent from "../ui/Home";
 
 import {
     toggleView,
+    getTableView
 } from "../actions/homeActions";
 
 import {
@@ -20,8 +21,11 @@ const mapDispatchToProps = dispatch => {
         toggleView() {
             dispatch(toggleView());
         },
-        openDetails() {
+        openDetails() {
             dispatch(openDetails());
+        },
+        getTableView() {
+            dispatch(getTableView());
         }
     };
 }

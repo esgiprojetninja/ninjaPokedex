@@ -5,3 +5,9 @@ export const toggleView = () => {
         type: types.TOGGLE_CAROUSEL
     }
 }
+
+export const getTableView = () => {
+    return {
+        type: types.GET_TABLE_VIEW
+    }
+}

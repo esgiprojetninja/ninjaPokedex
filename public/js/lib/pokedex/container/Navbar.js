@@ -6,6 +6,10 @@ import {
     toggleSearch
 } from "../actions/navbarActions";
 
+import {
+    getTableView
+} from "../actions/homeActions";
+
 const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => {
@@ -15,6 +19,9 @@ const mapDispatchToProps = dispatch => {
         },
         toggleSearch() {
             dispatch(toggleSearch());
+        },
+        getTableView() {
+            dispatch(getTableView());
         }
     };
 }

@@ -73,7 +73,7 @@ export default class Table extends React.PureComponent {
     render () {
       if(this.props.pokemons.all) {
         return (
-          <Grid className="full-height" style={{padding: '50px 20px'}}>
+          <Grid className="animate fadeInLeft full-height" style={{padding: '50px 20px'}}>
             <Row className="full-height">
               <Col md={2} className="align full-height">
               <div className="text-center">

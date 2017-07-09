@@ -11,6 +11,11 @@ const home = (state = initialSate, action) => {
                 ...state,
                 showCarousel: !state.showCarousel
             }
+        case types.GET_TABLE_VIEW:
+            return {
+                ...state,
+                showCarousel: false
+            }
         default:
             return state;
     }
