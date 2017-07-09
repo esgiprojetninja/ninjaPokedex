@@ -1,1 +1,1 @@
-export const testAction = "testAction";
+export const SET_SEARCHED_POKEMONS = "SET_SEARCHED_POKEMONS";

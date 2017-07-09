@@ -63,9 +63,10 @@ export default class PokeSearch extends React.PureComponent {
                   <div className="search-intro">Tape le nom dun Pokémon et appuies sur entrée</div>
                   <input
                       onChange={(event) => {
-                         const target = this.props.pokemons.all.find(pokemon => StringSimilarity.compareTwoStrings(pokemon.name, event.target.value) > 0.7);
+                         const target = this.props.pokemons.all.filter(pokemon => StringSimilarity.compareTwoStrings(pokemon.name, event.target.value) > 0.6);
                          if(target) {
                              //Update slickGoTo https://github.com/akiran/react-slick
+                             this.props.setSearchedPokemons(target);
                          }
                       }}
                       className="search-input"
