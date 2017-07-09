@@ -19,10 +19,6 @@ const styles = {
         maxWidth: '200px',
         bottom: '15px',
         left: 'calc(50% - 40px)'
-    },
-    labelStyle: {
-        position: 'absolute',
-        bottom: 0
     }
 };
 
@@ -39,8 +35,6 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
                   {...marker}
                   key={key}
                   onRightClick={props.onMarkerRightClick}
-                  labelStyle={styles.labelStyle}
-                  className="react-g-marker"
                 />
             );
         })}
