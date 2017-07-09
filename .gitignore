@@ -6,6 +6,10 @@ data/*.png
 data/*.jpg
 data/*.gif
 data/*.jpeg
+data/*/*.png
+data/*/*.jpg
+data/*/*.gif
+data/*/*.jpeg
 !data/cache/.gitkeep
 phpunit.xml
 ubuntu-xenial-16.04-cloudimg-console.log
