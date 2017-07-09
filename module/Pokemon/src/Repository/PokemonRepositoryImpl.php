@@ -97,6 +97,19 @@ class PokemonRepositoryImpl implements PokemonRepository
 
   public function updateTypes(Pokemon $pokemon, $type1, $type2) {
     try {
+      $type1 = ((int) $type1 == 0 ) ? NULL : $type1;
+      $type2 = ((int) $type2 == 0 ) ? NULL : $type2;
+
+      if ( $type1 == NULL ) {
+          $this->deleteTypes($pokemon->getIdPokemon());
+          if ( $type1 == NULL && $type2 != NULL ) {
+              $type1 = $type2;
+              $type2 = NULL;
+          }
+      }
+      else if ( $type2 == NULL ) {
+          $this->deleteTypes($pokemon->getIdPokemon());
+      }
       $this->adapter
       ->getDriver()
       ->getConnection()

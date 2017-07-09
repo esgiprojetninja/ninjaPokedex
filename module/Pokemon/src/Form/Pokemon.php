@@ -11,7 +11,7 @@ use Zend\Hydrator\Aggregate\AggregateHydrator;
 
 class Pokemon extends Form {
 
-    public function __construct($pokemonService) {
+    public function __construct($pokemonService, $typeService, $pokemon = null) {
         parent::__construct('pokemon');
 
         $hydrator = new AggregateHydrator();
@@ -43,11 +43,13 @@ class Pokemon extends Form {
         $parent_id->setLabel('Parent');
         $parent_id->setAttribute('class','form-control');
 
-        $options = [0 => null];
+        $parent_options = [0 => null];
         foreach ( $pokemonService->getAll() as $possible_parent_pokemon ) {
-            (int) $options[$possible_parent_pokemon->id_national] = $possible_parent_pokemon->name;
+            (int) $parent_options[$possible_parent_pokemon->id_national] = $possible_parent_pokemon->name;
         }
-        $parent_id->setValueOptions($options);
+        $parent_id->setValueOptions($parent_options);
+
+
 
         $type_1 = new Element\Select('type1');
         $type_1->setLabel('First type');
@@ -56,6 +58,30 @@ class Pokemon extends Form {
         $type_2 = new Element\Select('type2');
         $type_2->setLabel('Second type');
         $type_2->setAttribute('class','form-control');
+
+        $all_types = $typeService->getAllTypes();
+        $type1_options = [];
+        $type2_options = [];
+        $type1_options['0'] = 'Pas de types';
+        $type2_options['0'] = 'Pas de second type';
+        foreach ($all_types as $type) {
+            $type1_options[$type['id_type']] = $type['name_type'];
+            $type2_options[$type['id_type']] = $type['name_type'];
+        }
+        // update case
+        if ( $pokemon != NULL ) {
+            $poke_types = $typeService->getPokemonTypes($pokemon->getIdPokemon());
+            if ( $poke_types['type1'] != NULL ) {
+                unset($type1_options[$poke_types['type1']['id_type']]);
+                $type1_options = array($poke_types['type1']['id_type'] => $poke_types['type1']['name_type']) + $type1_options;
+            }
+            if ( $poke_types['type2'] != NULL ) {
+                unset($type2_options[$poke_types['type2']['id_type']]);
+                $type2_options = array($poke_types['type2']['id_type'] => $poke_types['type2']['name_type']) + $type2_options;
+            }
+        }
+        $type_1->setValueOptions($type1_options);
+        $type_2->setValueOptions($type2_options);
 
         $submit = new Element\Submit('submit');
         $submit->setValue('Send');

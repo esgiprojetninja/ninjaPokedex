@@ -10,7 +10,8 @@ class AdminControllerFactory {
             $container->get('Pokemon\Service\PokemonService'),
             $container->get('Pokemon\Service\AdminService'),
             $container->get('Pokemon\InputFilter\UpdatePokemonPost'),
-            $container->get('Pokemon\Service\ImageManager')
+            $container->get('Pokemon\Service\ImageManager'),
+            $container->get('Pokemon\Service\TypeService')
         );
     }
 }

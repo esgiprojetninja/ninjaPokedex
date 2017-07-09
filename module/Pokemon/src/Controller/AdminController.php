@@ -20,6 +20,7 @@ class AdminController extends AbstractActionController {
 
     protected $pokemonService;
     protected $adminService;
+    protected $typeService;
     protected $updatePokemonFilter;
     protected $pokeHydrator;
     protected $identity;
@@ -41,9 +42,10 @@ class AdminController extends AbstractActionController {
         return $response;
     }
 
-    public function __construct($pokemonService, $adminService, $updatePokemonFilter, $imageManager) {
+    public function __construct($pokemonService, $adminService, $updatePokemonFilter, $imageManager, $typeService) {
         $this->pokemonService = $pokemonService;
         $this->adminService = $adminService;
+        $this->typeService = $typeService;
         $this->updatePokemonFilter = $updatePokemonFilter;
         $this->imageManager = $imageManager;
         $this->identity = $adminService->getAuthenticationService()->getIdentity();
@@ -133,9 +135,12 @@ class AdminController extends AbstractActionController {
     }
 
     public function updatePokemonAction() {
-        $form = new PokemonForm($this->pokemonService);
         if ( $this->identity == null )
             return $this->redirect()->toRoute('admin_home/admin_login');
+
+        $viewed_pokemon = $this->pokemonService->findById((int) $this->params()->fromRoute('id'));
+        $viewed_pokemon = ($viewed_pokemon != null) ? $this->pokeHydrator->hydrate($viewed_pokemon, new Pokemon()) : null;
+        $form = new PokemonForm($this->pokemonService, $this->typeService, $viewed_pokemon);
 
         if ( $this->request->isPost() ) {
             $data = array_merge_recursive(
@@ -152,7 +157,6 @@ class AdminController extends AbstractActionController {
             $form->bind($pokemon);
             $form->setInputFilter($this->updatePokemonFilter);
             $form->setData($data);
-
             if ($form->isValid()) {
                 // Move uploaded file to its destination directory.
                 $form->getData();
@@ -172,12 +176,10 @@ class AdminController extends AbstractActionController {
                     $this->flashMessenger()->addMessage('Pokemon could not be updated !');
             }
         }
-        $pokemon = $this->pokemonService->findById((int) $this->params()->fromRoute('id'));
 
-        $pokemon = ($pokemon != null) ? $this->pokeHydrator->hydrate($pokemon, new Pokemon()) : null;
         return new ViewModel([
             'form' => $form,
-            'pokemon' => $pokemon,
+            'pokemon' => $viewed_pokemon,
             'messages' => array_merge_recursive(
                 $this->flashMessenger()->getMessages(),
                 $form->getMessages()

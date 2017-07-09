@@ -19,8 +19,10 @@ class TypeServiceImpl implements TypeService
     function setTypeRepository($typeRepository) {
         $this->typeRepository = $typeRepository;
     }
-
     function getAllTypes() {
         return $this->typeRepository->getAllTypes();
+    }
+    function getPokemonTypes($idPoke) {
+        return $this->typeRepository->getPokemonTypes($idPoke);
     }
 }

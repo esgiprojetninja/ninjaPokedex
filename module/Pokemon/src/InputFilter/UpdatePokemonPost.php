@@ -147,11 +147,6 @@ class UpdatePokemonPost extends InputFilter {
     }
 
     protected function getTypeValidatorChain() {
-        $validator = new RecordExists([
-            'table'   => 'type',
-            'field'   => 'id_type',
-            'adapter' => $this->dbAdapter,
-        ]);
         $valid = new GreaterThan([
             'min' => 0,
             'inclusive' => true
@@ -159,7 +154,6 @@ class UpdatePokemonPost extends InputFilter {
         $validatorChain = new ValidatorChain();
         $validatorChain->attach(new Digits());
         $validatorChain->attach($valid);
-        $validatorChain->attach($validator);
         return $validatorChain;
     }
 
