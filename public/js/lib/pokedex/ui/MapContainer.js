@@ -47,7 +47,7 @@ export default class MapContainer extends React.PureComponent {
         if ( this.props.mapLegend.placingPokemon ) {
             this.props.changeMarker(new google.maps.Marker({
                 position: latLng,
-                icon: this.props.mapLegend.selectedPokemon.icon
+                icon: this.props.mapLegend.selectedPokemon.image
             }));
         }
     }
