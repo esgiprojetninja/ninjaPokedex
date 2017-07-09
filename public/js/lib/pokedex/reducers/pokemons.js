@@ -10,8 +10,7 @@ const initialSate = {
     marked: false,
     isFetching: false,
     addingPokemonMarker: false,
-    requestFailMsg: false,
-    tickFunc: false
+    requestFailMsg: false
 };
 
 const pokemons = (state = initialSate, action) => {
@@ -74,16 +73,12 @@ const pokemons = (state = initialSate, action) => {
                 ...state,
                 addingPokemonMarker: true
             }
-        case types.TICK:
+        case types.TICK_MARKERS:
             return {
                 ...state,
-                marked: isArray(state.marked) ? state.marked.map( poke => ({...poke, label: getTimeDropped(poke.date_created)}) ) : state.marked
-            }
-        case types.SET_TICK_FUNC:
-            action.tickFunc();
-            return {
-                ...state,
-                tickFunc: action.tickFunc
+                marked: isArray(state.marked) ?
+                    state.marked.map( poke => ({...poke, label: getTimeDropped(poke.date_created)}) ) :
+                    state.marked
             }
         default:
             return state;

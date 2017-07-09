@@ -3,8 +3,7 @@ import MapContainerComponent from "../ui/MapContainer";
 import {
     mapLoaded,
     cleanMarker,
-    changeMarker,
-    start_tick
+    changeMarker
 } from "../actions/mapWrapActions";
 import {
     toggleForm,
@@ -12,6 +11,7 @@ import {
 } from "../actions/mapLegendActions";
 import {
     signalPosition,
+    tickMarkers
 } from "../actions/pokemonActions";
 import {
     setNoticedAddingPokeLocationMsgTrue,
@@ -28,7 +28,9 @@ const mapDispatchToProps = dispatch => {
     return {
         mapLoaded(mapComponent){
             dispatch(mapLoaded(mapComponent))
-            dispatch(start_tick())
+        },
+        tickMarkers(){
+            dispatch(tickMarkers())
         },
         changeMarker(marker) {
             dispatch(changeMarker(marker))

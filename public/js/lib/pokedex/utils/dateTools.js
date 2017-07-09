@@ -1,6 +1,5 @@
 export const getTimeDropped = string_utc_date => {
     const parsed_date = Date.parse(string_utc_date);
-    console.log("mofooooooo", parsed_date)
     const diff = Math.abs(parsed_date - Date.now()) / 1000;
     const minutes_float = diff / 60;
     let minutes_int = Math.floor(minutes_float);

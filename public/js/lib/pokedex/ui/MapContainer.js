@@ -52,6 +52,16 @@ export default class MapContainer extends React.PureComponent {
         super(props);
     }
 
+    componentDidMount() {
+        this.ticketFunc = window.setInterval(()=>{
+            this.props.tickMarkers();
+        }, 1200)
+    }
+
+    componentWillUnmount() {
+        window.clearInterval(this.ticketFunc);
+    }
+
     handleMapClick = ({latLng}) => {
         if ( this.props.mapLegend.placingPokemon ) {
             this.props.changeMarker(new google.maps.Marker({
@@ -151,6 +161,7 @@ export default class MapContainer extends React.PureComponent {
 MapContainer.propTypes = {
     mapLoaded: T.func.isRequired,
     changeMarker: T.func.isRequired,
+    tickMarkers: T.func.isRequired,
     validateAddedMarker: T.func.isRequired,
     setNoticedAddingPokeLocationMsgTrue: T.func.isRequired,
     setNoticedAddingPokeLocationMsgFalse: T.func.isRequired,

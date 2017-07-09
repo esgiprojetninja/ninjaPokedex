@@ -92,10 +92,17 @@ export const signalPosition = addedMarker => {
                 } else {
                     dispatch(setNoticedAddEDPokeLocationMsgFalse())
                     dispatch(receivedSignalSucces(addedMarker));
+                    dispatch(getMarked());
                 }
             })
             .catch( err => {
                   dispatch(requestFailed(err))
             });
+    }
+}
+
+export const tickMarkers = () => {
+    return {
+        type: types.TICK_MARKERS
     }
 }
