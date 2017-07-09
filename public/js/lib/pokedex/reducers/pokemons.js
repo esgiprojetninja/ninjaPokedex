@@ -1,11 +1,17 @@
 import * as types from "../actions/pokemonTypes";
 
+import {getTimeDropped} from "../utils/dateTools";
+import {isArray} from "../utils/verifTools";
+
+const DEFAULT_MARKER_ANIMATION = 2;
+
 const initialSate = {
     all: false,
     marked: false,
     isFetching: false,
     addingPokemonMarker: false,
-    requestFailMsg: false
+    requestFailMsg: false,
+    tickFunc: false
 };
 
 const pokemons = (state = initialSate, action) => {
@@ -45,7 +51,17 @@ const pokemons = (state = initialSate, action) => {
             return {
                 ...state,
                 isFetching: false,
-                marked: action.pokemons
+                marked: action.pokemons.map( poke => (
+                    {
+                        ...poke,
+                        position: {
+                            lat: Number(poke.latitude),
+                            lng: Number(poke.longitude)
+                        },
+                        defaultAnimation: DEFAULT_MARKER_ANIMATION,
+                        label: getTimeDropped(poke.date_created)
+                    })
+                )
             }
         case types.RECEIVED_SIGNAL_SUCCESS:
             return {
@@ -57,6 +73,17 @@ const pokemons = (state = initialSate, action) => {
             return {
                 ...state,
                 addingPokemonMarker: true
+            }
+        case types.TICK:
+            return {
+                ...state,
+                marked: isArray(state.marked) ? state.marked.map( poke => ({...poke, label: getTimeDropped(poke.date_created)}) ) : state.marked
+            }
+        case types.SET_TICK_FUNC:
+            action.tickFunc();
+            return {
+                ...state,
+                tickFunc: action.tickFunc
             }
         default:
             return state;

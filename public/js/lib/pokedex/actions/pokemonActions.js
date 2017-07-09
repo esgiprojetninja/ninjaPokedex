@@ -82,8 +82,8 @@ export const signalPosition = addedMarker => {
         dispatch(addingLocation());
         const lat = getState().mapWrap.addedMarker.position.lat();
         const lng = getState().mapWrap.addedMarker.position.lng();
-        const id_national = getState().mapLegend.selectedPokemon.id_national;
-        pokemonApi.signal(id_national, lat, lng)
+        const id_pokemon = getState().mapLegend.selectedPokemon.id_pokemon;
+        pokemonApi.signal(id_pokemon, lat, lng)
             .then( response => {
                 if ( response.error ) {
                     dispatch(setNoticedFailedAddEDPokeLocationMsgFalse());
@@ -91,7 +91,7 @@ export const signalPosition = addedMarker => {
                     dispatch(requestFailed());
                 } else {
                     dispatch(setNoticedAddEDPokeLocationMsgFalse())
-                    dispatch(receivedSignalSucces(response.data));
+                    dispatch(receivedSignalSucces(addedMarker));
                 }
             })
             .catch( err => {

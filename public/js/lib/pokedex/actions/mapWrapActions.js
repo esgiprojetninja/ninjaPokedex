@@ -29,3 +29,24 @@ export const changeMarker = marker => {
         marker.setMap(getState().mapWrap.mapComponent.getStreetView())
     }
 };
+
+
+const setTickFunc = tickFunc => {
+    return {
+        type: types.SET_TICK_FUNC,
+        tickFunc
+    }
+}
+
+const tick = () => {
+    return {
+        type: types.TICK
+    }
+}
+
+export const start_tick = () => {
+    return dispatch => {
+        const tickFunc = setInterval(tick, 1500);
+        dispatch(setTickFunc(tickFunc));
+    }
+}

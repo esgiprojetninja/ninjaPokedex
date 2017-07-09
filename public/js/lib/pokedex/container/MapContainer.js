@@ -3,7 +3,8 @@ import MapContainerComponent from "../ui/MapContainer";
 import {
     mapLoaded,
     cleanMarker,
-    changeMarker
+    changeMarker,
+    start_tick
 } from "../actions/mapWrapActions";
 import {
     toggleForm,
@@ -27,6 +28,7 @@ const mapDispatchToProps = dispatch => {
     return {
         mapLoaded(mapComponent){
             dispatch(mapLoaded(mapComponent))
+            dispatch(start_tick())
         },
         changeMarker(marker) {
             dispatch(changeMarker(marker))

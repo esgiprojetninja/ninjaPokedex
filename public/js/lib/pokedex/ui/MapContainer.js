@@ -1,5 +1,6 @@
 import React from "react";
 import {PropTypes as T} from 'prop-types';
+import * as tools from '../utils/verifTools';
 import { withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 import MapLegend from '../container/MapLegend';
 import CircularProgress from 'material-ui/CircularProgress';
@@ -18,6 +19,10 @@ const styles = {
         maxWidth: '200px',
         bottom: '15px',
         left: 'calc(50% - 40px)'
+    },
+    labelStyle: {
+        position: 'absolute',
+        bottom: 0
     }
 };
 
@@ -28,13 +33,17 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
       defaultCenter={{ lat: -25.363882, lng: 131.044922 }}
       onClick={props.onMapClick}
     >
-        {props.markers.map( (marker, key) => (
-            <Marker
-              {...marker}
-              key={key}
-              onRightClick={props.onMarkerRightClick}
-            />
-        ))}
+        {props.markers.map( (marker, key) => {
+            return (
+                <Marker
+                  {...marker}
+                  key={key}
+                  onRightClick={props.onMarkerRightClick}
+                  labelStyle={styles.labelStyle}
+                  className="react-g-marker"
+                />
+            );
+        })}
     </GoogleMap>
 ));
 
@@ -134,7 +143,7 @@ export default class MapContainer extends React.PureComponent {
     }
 
     render () {
-        return ( this.props.pokemons.marked ) ?
+        return ( tools.isArray(this.props.pokemons.marked) ) ?
             this.renderMap():
             this.renderSpinner();
     }
