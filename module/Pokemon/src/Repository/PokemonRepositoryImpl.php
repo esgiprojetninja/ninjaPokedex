@@ -324,6 +324,32 @@ class PokemonRepositoryImpl implements PokemonRepository
       return $e->getMessage();
     }
   }
+  /**
+  * @return Pokemon|null
+  **/
+  public function findByIdNational($pokemonId) {
+    try {
+      $sql = new \Zend\Db\Sql\Sql($this->adapter);
+      $select = $sql->select();
+      $select->from('pokemon');
+      $select->where(array('id_national' => $pokemonId));
+
+      $statement = $sql->prepareStatementForSqlObject($select);
+      $r = $statement->execute();
+
+      $resultSet = new ResultSet;
+      $resultSet->initialize($r);
+
+      $pokemon = NULL;
+      foreach ($resultSet as $pokemon) {
+        $types = $this->getTypes($pokemon['id_pokemon']);
+        $pokemon =  array_merge((array) $pokemon, $types);
+      }
+      return $pokemon;
+    } catch ( \Exception $e ) {
+      return $e->getMessage();
+    }
+  }
 
   public function update($id, $data) {
     $return = false;
@@ -334,7 +360,7 @@ class PokemonRepositoryImpl implements PokemonRepository
       ->getConnection()
       ->beginTransaction();
       $sql = new \Zend\Db\Sql\Sql($this->adapter);
-
+      $data['id_parent'] = ( (int) $this->findByIdNational($data['id_parent']) != null ) ? $data['id_parent'] : null;
       $types = ['type1', 'type2'];
       $typeToUpdate = [];
       $updateType = false;

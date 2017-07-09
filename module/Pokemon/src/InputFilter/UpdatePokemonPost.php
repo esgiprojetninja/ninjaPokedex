@@ -126,13 +126,13 @@ class UpdatePokemonPost extends InputFilter {
     }
 
     protected function getIdParentValidatorChain() {
-        $validator = new RecordExists([
-            'table'   => 'pokemon',
-            'field'   => 'id_national',
-            'adapter' => $this->dbAdapter,
+        $valid = new GreaterThan([
+            'min' => 0,
+            'inclusive' => true
         ]);
         $validatorChain = new ValidatorChain();
-        $validatorChain->attach($validator);
+        $validatorChain->attach(new Digits());
+        $validatorChain->attach($valid);
         return $validatorChain;
     }
 
