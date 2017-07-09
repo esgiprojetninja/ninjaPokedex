@@ -17,4 +17,4 @@ config/autoload/load.php
 skeleton-application/vendor/*
 public/dist/js/
 public/node_modules/
-public/img/upload/
+public/img/upload/*
