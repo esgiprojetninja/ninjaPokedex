@@ -7,7 +7,13 @@
     <?php if ( (bool) count($this->messages) ) : ?>
     <ul class="list-unstyled messages">
         <?php foreach ($this->messages as $msg): ?>
-        <li><?php var_dump($msg); ?></li>
+            <?php if ( is_array($msg) ) : ?>
+                <?php foreach ($msg as $m): ?>
+                    <li><?= $m; ?></li>
+                <?php endforeach; ?>
+            <?php else : ?>
+                <li><?= $msg; ?></li>
+            <?php endif; ?>
         <?php endforeach; ?>
     </ul>
     <?php endif; ?>
@@ -18,11 +24,11 @@
         echo $this->form()->openTag($form); //<form method="post">
     ?>
     <div class="form-group">
-        <?= $this->formRow($form->get('poke_name')->setValue($poke->getName())); ?>
+        <?= $this->formRow($form->get('name')->setValue($poke->getName())); ?>
     </div>
     <div class="form-group">
         <?php
-            $form_img = $form->get('poke_image');
+            $form_img = $form->get('image');
             echo $form_img->getLabel();
             // $form_img->setAttribute('src', $poke->getImage());
             echo $this->formFile($form_img);
@@ -31,26 +37,27 @@
     </div>
     <div class="form-group">
         <?php
-            $parent_id_input = $form->get('poke_id_parent');
+            $parent_id_input = $form->get('id_parent');
             if ( (bool) (int) ($poke->getIdParent()) )
                 $parent_id_input->setValue($poke->getIdParent());
 
-            echo $this->formRow($form->get('poke_id_parent'));
+            echo $this->formRow($form->get('id_parent'));
         ?>
     </div>
     <div class="form-group">
-        <?= $this->formRow($form->get('poke_description')->setValue($poke->getDescription())); ?>
+        <?= $this->formRow($form->get('description')->setValue($poke->getDescription())); ?>
     </div>
     <div class="form-group">
-        <?= $this->formRow($form->get('poke_type1')); ?>
+        <?= $this->formRow($form->get('type1')); ?>
     </div>
     <div class="form-group">
-        <?= $this->formRow($form->get('poke_type2')); ?>
+        <?= $this->formRow($form->get('type2')); ?>
     </div>
     <div class="form-group">
-        <?= $this->formRow($form->get('poke_id_national')->setValue($poke->getIdNational())); ?>
+        <?= $this->formRow($form->get('id_national')->setValue($poke->getIdNational())); ?>
     </div>
     <?= $this->formHidden($form->get('csrf')); ?>
+    <?= $this->formHidden($form->get('id_pokemon')->setValue($poke->getIdPokemon())); ?>
     <?= $this->formSubmit($form->get('submit')); ?>
     <?= $this->form()->closeTag();?>
 <?php else: ?>

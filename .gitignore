@@ -2,6 +2,14 @@
 vendor/
 config/development.config.php
 data/cache/*
+data/*.png
+data/*.jpg
+data/*.gif
+data/*.jpeg
+data/*/*.png
+data/*/*.jpg
+data/*/*.gif
+data/*/*.jpeg
 !data/cache/.gitkeep
 phpunit.xml
 ubuntu-xenial-16.04-cloudimg-console.log
@@ -9,3 +17,4 @@ config/autoload/load.php
 skeleton-application/vendor/*
 public/dist/js/
 public/node_modules/
+public/img/upload/*
