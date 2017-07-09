@@ -27,6 +27,9 @@ class PokemonServiceImpl implements PokemonService
     function getAll() {
         return $this->pokemonRepository->getAll();
     }
+    function getAllTypes() {
+        return $this->pokemonRepository->getAllTypes();
+    }
     /**
      * @return Pokemon|null
     **/

@@ -12,6 +12,8 @@ import DashboardSVG from 'material-ui/svg-icons/action/dashboard';
 import IconButton from 'material-ui/IconButton';
 import FullscreenSVG from 'material-ui/svg-icons/navigation/fullscreen';
 import AddCircleOutlineSVG from 'material-ui/svg-icons/content/add-circle-outline';
+import ArrowForwardSVG from 'material-ui/svg-icons/navigation/arrow-forward';
+import ArrowBackSVG from 'material-ui/svg-icons/navigation/arrow-back';
 import PokeSearch from '../container/PokeSearch';
 import jQuery from 'jquery';
 import Screenfull from 'screenfull';
@@ -40,7 +42,8 @@ const styles = {
         fontWeight: 800
     },
     pokemonId: {
-        fontSize: '25px'
+        fontSize: '25px',
+        marginTop: 0
     }
 };
 
@@ -49,7 +52,7 @@ export default class Home extends React.PureComponent {
         super(props);
     }
 
-    renderSearch() {
+    renderSearch () {
       return (
         <div>
           <PokeSearch/>
@@ -57,13 +60,13 @@ export default class Home extends React.PureComponent {
       )
     }
 
-    renderSearchWrapper() {
+    renderSearchWrapper () {
       if( this.props.navbar.showSearch ) {
         return this.renderSearch();
       }
     }
 
-    renderHomeTable() {
+    renderHomeTable () {
       return (
         <Row className="show-grid full-height">
           <Col md={12} className="full-height">
@@ -73,7 +76,7 @@ export default class Home extends React.PureComponent {
       )
     }
 
-    renderHomeCarousel() {
+    renderHomeCarousel () {
       return (
         <Row className="show-grid" style={{height: '50vh'}}>
           <Col md={8} mdOffset={2}>
@@ -86,7 +89,7 @@ export default class Home extends React.PureComponent {
       )
     }
 
-    renderOnToggleView() {
+    renderOnToggleView () {
       if( this.props.home.showCarousel ) {
         return this.renderHomeCarousel();
       } else {
@@ -94,32 +97,175 @@ export default class Home extends React.PureComponent {
       }
     }
 
-    renderPokemonDetails() {
-      if(this.props.carousel.showDetails) {
+    renderPokemonDetailsCurrent () {
+        if(this.props.carousel.selectedCurrent && this.props.carousel.selectedCurrent.image) {
+            return (
+                <div>
+                    <img className="pokemon-details pokemon-current" src={this.props.carousel.selectedCurrent.image}/>
+                </div>
+            )
+        }
+    }
+
+    renderPokemonDetailsSecondThisEvolution (thisPp, thisKeyy) {
+        return (
+            <div className="align">
+                <IconButton children={<ArrowForwardSVG/>}/>
+                <img
+                    key={thisKeyy}
+                    className="pokemon-details pokemon-evolution"
+                    src={this.props.carousel.selectedCurrent.evolutions[thisKeyy].evolutions[thisKeyy].image}
+                    onTouchTap={
+                        () => {
+                            this.props.setSelectedPokemonForDetails(this.props.carousel.selectedCurrent.evolutions[thisKeyy].evolutions[thisKeyy]);
+                        }
+                    }
+                />
+            </div>
+        )
+    }
+
+    renderPokemonDetailsThisEvolution (thisP, thisKey) {
+        return (
+            <div className="align">
+                <IconButton children={<ArrowForwardSVG/>}/>
+                <img
+                    key={thisKey}
+                    className="pokemon-details pokemon-evolution"
+                    src={this.props.carousel.selectedCurrent.evolutions[thisKey].image}
+                    onTouchTap={
+                        () => {
+                            this.props.setSelectedPokemonForDetails(this.props.carousel.selectedCurrent.evolutions[thisKey]);
+                        }
+                    }
+                />
+                {this.renderPokemonDetailsSecondEvolution(thisP, thisKey)}
+            </div>
+        )
+    }
+
+    renderPokemonDetailsSecondEvolution (thisP, thisKey) {
+        if(this.props.carousel.selectedCurrent.evolutions[thisKey].evolutions) {
+            return (
+                <div>
+                    {
+                        (this.props.carousel.selectedCurrent.evolutions[thisKey].evolutions.map((thisPp, thisKeyy) => this.renderPokemonDetailsSecondThisEvolution(thisPp, thisKeyy)))
+                    }
+                </div>
+            )
+        }
+    }
+
+    renderPokemonDetailsFirstEvolution () {
+        if(this.props.carousel.selectedCurrent.evolutions) {
+            return (
+                <div>
+                    {
+                        (this.props.carousel.selectedCurrent.evolutions.map((thisP, thisKey) => this.renderPokemonDetailsThisEvolution(thisP, thisKey)))
+                    }
+                </div>
+            )
+        }
+    }
+
+    renderPokemonDetailsSecondStarter (starter) {
+        if(starter.id_parent) {
+            const starter2 = this.props.pokemons.all.find(element => element.id_national === starter.id_parent)
+            return (
+                <div className="align">
+                    <img
+                        className="pokemon-details pokemon-evolution"
+                        src={starter2.image}
+                        onTouchTap={
+                            () => {
+                                this.props.setSelectedPokemonForDetails(starter2);
+                            }
+                        }
+                    />
+                    <IconButton children={<ArrowForwardSVG/>}/>
+                </div>
+            )
+        }
+    }
+
+    renderPokemonDetailsFirstStarter () {
+        if(this.props.carousel.selectedCurrent.id_parent) {
+            const starter = this.props.pokemons.all.find(element => element.id_national === this.props.carousel.selectedCurrent.id_parent)
+            return (
+                <div className="align">
+                    {this.renderPokemonDetailsSecondStarter(starter)}
+                    <img
+                        className="pokemon-details pokemon-evolution"
+                        src={starter.image}
+                        onTouchTap={
+                            () => {
+                                this.props.setSelectedPokemonForDetails(starter);
+                            }
+                        }
+                    />
+                    <IconButton children={<ArrowForwardSVG/>}/>
+                </div>
+            )
+        }
+    }
+
+    renderPokemonDetailsEvolution () {
+        return (
+            <div className="align">
+                {this.renderPokemonDetailsFirstStarter()}
+                {this.renderPokemonDetailsCurrent()}
+                {this.renderPokemonDetailsFirstEvolution()}
+            </div>
+        )
+    }
+
+    renderPokemonTypes (ps, ks) {
+        return (
+            <div key={ks} className="card-type card-type-size" style={{display: 'initial'}}>
+                <span className="type" style={{background: this.props.carousel.selectedCurrent.type[ks].color}}>{this.props.carousel.selectedCurrent.type[ks].nom_type}</span>
+            </div>
+        )
+    }
+
+    renderPokemonDetails () {
+      if(this.props.carousel.showDetails) {
         return (
             <div className="card-details align full-height full-width">
-            <IconButton onClick={this.props.openDetails} style={styles.buttonClose} iconStyle={styles.iconClose} children={<Close/>}/>
-            <Col md={4} className="card-details-content">
-                <div className="align">
-                    <img src={this.props.carousel.selectedPokemonForDetails.icon}/>
-                </div>
-                <div className="card-details-body full-width">
-                    <ul>
-                        <li className="text-center">
-                            <span style={styles.pokemonId}>No. {this.props.carousel.selectedPokemonForDetails.id_national}</span>
-                        </li>
-                        <li className="text-center">
-                            <span style={styles.pokemonName}>{this.props.carousel.selectedPokemonForDetails.name}</span>
-                        </li>
-                        <li>
-                        </li>
-                        <li>
-                        </li>
-                        <li>
-                        </li>
-                    </ul>
-                </div>
-            </Col>
+                <IconButton onClick={this.props.openDetails} style={styles.buttonClose} iconStyle={styles.iconClose} children={<Close/>}/>
+                <Col md={4} className="card-details-content">
+                    <div className="card-details-body full-width">
+                    <div className="align">
+                        <img
+                            className="pokemon-details"
+                            src={this.props.carousel.selectedCurrent.image}
+                        />
+                    </div>
+                        <div className="card-details-title-wrapper text-center">
+                            <span style={styles.pokemonName}>{this.props.carousel.selectedCurrent.name}</span>
+                            <div className="align" style={{marginBottom: "15px"}}>
+                                <div className="card-details-title-line"></div>
+                            </div>
+                        </div>
+                        <div className="card-details-section bottom-line align">
+                            <Col md={6} className="card-details-section-type text-center">
+                                {(this.props.carousel.selectedCurrent.type.map((ps, ks) => this.renderPokemonTypes(ps, ks)))}
+                                <span className="card-details-section-title">Type</span>
+                            </Col>
+                            <Col md={6} className="card-details-section-number left-line text-center">
+                                {this.props.carousel.selectedCurrent.id_national}
+                                <span className="card-details-section-title">No.</span>
+                            </Col>
+                        </div>
+                        <Col md={12} className="card-details-section-description text-center bottom-line">
+                            {this.props.carousel.selectedCurrent.description}
+                            <span className="card-details-section-title">Description</span>
+                        </Col>
+                        <Col md={12}>
+                            {this.renderPokemonDetailsEvolution()}
+                            <span style={{marginTop: 0}} className="card-details-section-title text-center">Evolutions</span>
+                        </Col>
+                    </div>
+                </Col>
             </div>
         )
       }

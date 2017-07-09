@@ -1,9 +1,9 @@
 import * as types from "./carouselTypes";
 
-export const setSelectedPokemonForDetails = pokemon => {
+export const setSelectedPokemonForDetails = currentPokemon => {
     return {
-        type: types.SELECT_POKEMON,
-        pokemon
+        type: types.SET_CURRENT,
+        currentPokemon
     }
 }
 

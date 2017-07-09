@@ -2,15 +2,15 @@ import * as types from "../actions/carouselTypes";
 
 const initialSate = {
     showDetails: false,
-    selectedPokemonForDetails: {}
+    selectedCurrent: {}
 };
 
 const carousel = (state = initialSate, action) => {
     switch (action.type) {
-        case types.SELECT_POKEMON:
+        case types.SET_CURRENT:
             return {
                 ...state,
-                selectedPokemonForDetails: action.pokemon || {}
+                selectedCurrent: action.currentPokemon || {}
             }
         case types.TOGGLE_DETAILS:
             return {
