@@ -43,7 +43,7 @@ class Pokemon extends Form {
         $parent_id->setLabel('Parent');
         $parent_id->setAttribute('class','form-control');
 
-        $parent_options = [0 => null];
+        $parent_options = [0 => 'Pas de parent'];
         foreach ( $pokemonService->getAll() as $possible_parent_pokemon ) {
             (int) $parent_options[$possible_parent_pokemon->id_national] = $possible_parent_pokemon->name;
         }
