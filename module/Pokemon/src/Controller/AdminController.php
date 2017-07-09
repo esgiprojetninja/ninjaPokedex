@@ -153,6 +153,9 @@ class AdminController extends AbstractActionController {
             if ( (int) $matchedPokemon['id_national'] == (int) $data['id_national'] )
                 unset($data['id_national']);
 
+            if ( 0 == (int) $data['id_parent'] )
+                unset($data['id_parent']);
+
             $pokemon = new Pokemon();
             $form->bind($pokemon);
             $form->setInputFilter($this->updatePokemonFilter);
