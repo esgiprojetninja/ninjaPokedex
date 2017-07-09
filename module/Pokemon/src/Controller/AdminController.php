@@ -138,15 +138,21 @@ class AdminController extends AbstractActionController {
             return $this->redirect()->toRoute('admin_home/admin_login');
 
         if ( $this->request->isPost() ) {
-            $pokemon = new Pokemon();
-            $form->bind($pokemon);
-            $form->setInputFilter($this->updatePokemonFilter);
-
             $data = array_merge_recursive(
                 $this->request->getPost()->toArray(),
                 $this->params()->fromFiles()
             );
+            $matchedPokemon = $this->pokemonService->findById((string) (int) $data['id_pokemon']);
+            if ( $matchedPokemon == null )
+                return $this->redirect()->toRoute('admin_home');
+            if ( (int) $matchedPokemon['id_national'] == (int) $data['id_national'] )
+                unset($data['id_national']);
+
+            $pokemon = new Pokemon();
+            $form->bind($pokemon);
+            $form->setInputFilter($this->updatePokemonFilter);
             $form->setData($data);
+
             if ($form->isValid()) {
                 // Move uploaded file to its destination directory.
                 $form->getData();

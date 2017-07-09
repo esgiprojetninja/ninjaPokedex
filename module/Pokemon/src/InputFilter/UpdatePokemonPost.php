@@ -32,7 +32,7 @@ class UpdatePokemonPost extends InputFilter {
         $name->setValidatorChain($this->getNameValidatorChain());
 
         $id_national = new Input('id_national');
-        $id_national->setRequired(true);
+        $id_national->setRequired(false);
         $id_national->setValidatorChain($this->getIdNationalValidatorChain());
 
         $description = new Input('description');
