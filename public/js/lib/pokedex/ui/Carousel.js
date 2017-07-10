@@ -86,7 +86,7 @@ export default class Carousel extends React.PureComponent {
                 <div className="card-type align">
                     {(this.props.pokemons.all[key].type.map((ps, ks) => this.renderType(ps, ks)))}
                 </div>
-                </div>
+            </div>
           </div>
         )
     }

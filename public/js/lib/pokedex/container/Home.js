@@ -3,12 +3,17 @@ import HomeComponent from "../ui/Home";
 
 import {
     toggleView,
+    getTableView
 } from "../actions/homeActions";
 
 import {
     setSelectedPokemonForDetails,
     openDetails
 } from "../actions/carouselActions";
+
+import {
+    resetSearchedPokemons
+} from "../actions/pokeSearchActions";
 
 const mapStateToProps = state => state;
 
@@ -20,8 +25,14 @@ const mapDispatchToProps = dispatch => {
         toggleView() {
             dispatch(toggleView());
         },
-        openDetails() {
+        openDetails() {
             dispatch(openDetails());
+        },
+        getTableView() {
+            dispatch(getTableView());
+        },
+        resetSearchedPokemons() {
+            dispatch(resetSearchedPokemons());
         }
     };
 }

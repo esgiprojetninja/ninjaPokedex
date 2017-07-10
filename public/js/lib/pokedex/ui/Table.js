@@ -64,16 +64,52 @@ export default class Table extends React.PureComponent {
         )
     }
 
+    renderSearchedCards(poke, pokeKey) {
+        return (
+            <div key={pokeKey} className="card text-center table-card" style={{display: 'inline-block', margin: '15px'}}>
+              <span className="card-number">{poke.id_national}</span>
+              <img src={poke.image} className="card-pokemon"/>
+              <IconButton
+                  style={styles.cardIconLocationWrapper}
+                  iconStyle={styles.cardIconLocation}
+                  tooltipPosition="top-center"
+                  tooltip="Détails"
+                  children={<DescriptionSVG/>}
+                  onTouchTap={
+                      () => {
+                          this.props.setSelectedPokemonForDetails(poke);
+                          this.props.openDetails();
+                      }
+                  }
+              />
+              <span className="card-title table-title">
+                {poke.name}
+              </span>
+              <div className="card-type align">
+                  {(poke.type.map((ps, ks) => this.renderType(ps, ks)))}
+              </div>
+            </div>
+          )
+    }
+
     renderType (ps, ks) {
         return (
             <span key={ks} className="type" style={{backgroundColor: ps.color}}>{ps.nom_type}</span>
         )
     }
 
+    renderPokemonsList () {
+        if(this.props.pokesearch.searchedPokemons && this.props.pokesearch.searchedPokemons.length !== 0) {
+            return (this.props.pokesearch.searchedPokemons.map((poke, pokeKey) => this.renderSearchedCards(poke, pokeKey)))
+        } else {
+            return (this.props.pokemons.all.map((p, key) => this.renderCards(p, key)))
+        }
+    }
+
     render () {
       if(this.props.pokemons.all) {
         return (
-          <Grid className="full-height" style={{padding: '50px 20px'}}>
+          <Grid className="animate fadeInLeft full-height" style={{padding: '50px 20px'}}>
             <Row className="full-height">
               <Col md={2} className="align full-height">
               <div className="text-center">
@@ -102,7 +138,7 @@ export default class Table extends React.PureComponent {
               </div>
               </Col>
               <Col md={10} style={{textAlign: 'center', overflowY: 'auto'}} className="full-height">
-                {(this.props.pokemons.all.map((p, key) => this.renderCards(p, key)))}
+                {this.renderPokemonsList()}
               </Col>
             </Row>
           </Grid>
