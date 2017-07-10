@@ -5,6 +5,9 @@ import {
     getAll,
     getMarked
 } from "../actions/pokemonActions";
+import {
+    getAllTypes
+} from "../actions/typeActions";
 
 const mapStateToProps = state => state;
 
@@ -15,6 +18,7 @@ const mapDispatchToProps = dispatch => {
         },
         onReady() {
             dispatch(getAll());
+            dispatch(getAllTypes());
             dispatch(getMarked());
         }
     };
