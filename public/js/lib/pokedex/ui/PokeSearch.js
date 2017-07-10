@@ -70,6 +70,20 @@ export default class PokeSearch extends React.PureComponent {
                     minWidth: '80px',
                     textAlign: 'center'
                 }}
+                onCheck={
+                    () => {
+                        const searchedPokemons = this.props.pokemons.all.filter(
+                            (p, k) => {
+                                if(p.type.filter(element => element.nom_type === thisP.name_type).length !== 0){
+                                    return p;
+                                }
+                            }
+                        )
+                        if(searchedPokemons) {
+                            this.props.setSearchedPokemons(searchedPokemons);
+                        }
+                    }
+                }
                 iconStyle={styles.checkboxIcon}
                 style={styles.checkbox}
               />
