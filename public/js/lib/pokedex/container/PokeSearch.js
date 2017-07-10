@@ -7,6 +7,8 @@ import {
 
 import {
     setSearchedPokemons,
+    setSearchedQuery,
+    resetSearchedQuery,
     resetSearchedPokemons
 } from "../actions/pokeSearchActions"
 
@@ -19,6 +21,12 @@ const mapDispatchToProps = dispatch => {
         },
         setSearchedPokemons(pokemons) {
             dispatch(setSearchedPokemons(pokemons));
+        },
+        setSearchedQuery(query) {
+            dispatch(setSearchedQuery(query));
+        },
+        resetSearchedQuery() {
+            dispatch(resetSearchedQuery());
         },
         resetSearchedPokemons() {
             dispatch(resetSearchedPokemons());

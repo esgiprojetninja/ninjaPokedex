@@ -1,7 +1,8 @@
 import * as types from "../actions/pokeSearchTypes";
 
 const initialSate = {
-    searchedPokemons : []
+    searchedPokemons : [],
+    searchedQuery : null
 };
 
 const pokesearch = (state = initialSate, action) => {
@@ -10,6 +11,16 @@ const pokesearch = (state = initialSate, action) => {
             return {
                 ...state,
                 searchedPokemons: action.pokemons || []
+            }
+        case types.SET_SEARCHED_QUERY:
+            return {
+                ...state,
+                searchedQuery: action.query || null
+            }
+        case types.RESET_SEARCHED_QUERY:
+            return {
+                ...state,
+                searchedQuery: null
             }
         case types.RESET_SEARCHED_POKEMONS:
             return {

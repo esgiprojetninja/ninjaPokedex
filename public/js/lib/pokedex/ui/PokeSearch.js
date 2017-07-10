@@ -71,16 +71,36 @@ export default class PokeSearch extends React.PureComponent {
                     textAlign: 'center'
                 }}
                 onCheck={
-                    () => {
-                        const searchedPokemons = this.props.pokemons.all.filter(
-                            (p, k) => {
-                                if(p.type.filter(element => element.nom_type === thisP.name_type).length !== 0){
-                                    return p;
+                    (event, isInputChecked) => {
+                        console.log('is', isInputChecked);
+                        if(isInputChecked) {
+                            const searchedPokemons = this.props.pokemons.all.filter(
+                                (p, k) => {
+                                    if(this.props.pokesearch.searchedQuery === null || this.props.pokesearch.searchedQuery === undefined) {
+                                        if(p.type.filter(element => element.nom_type === thisP.name_type).length !== 0){
+                                            return p;
+                                        }
+                                    } else {
+                                        const target = this.props.pokemons.all.filter(pokemon => StringSimilarity.compareTwoStrings(pokemon.name, this.props.pokesearch.searchedQuery) > 0.5);
+                                        if(target) {
+                                            target.filter(
+                                                (pp, kk) => {
+                                                    if(pp.type.length !== 0) {
+                                                        if(pp.type.filter(ppelement => ppelement.nom_type === thisP.name_type).length !== 0){
+                                                            console.log(pp);
+                                                            return pp;
+                                                        }
+                                                    }
+                                                }
+                                            )
+                                        }
+                                    }
                                 }
+                            )
+
+                            if(searchedPokemons) {
+                                this.props.setSearchedPokemons(searchedPokemons);
                             }
-                        )
-                        if(searchedPokemons) {
-                            this.props.setSearchedPokemons(searchedPokemons);
                         }
                     }
                 }
@@ -101,10 +121,15 @@ export default class PokeSearch extends React.PureComponent {
                   <div className="search-intro">Tape le nom dun Pokémon et appuies sur entrée</div>
                   <input
                       onChange={(event) => {
-                         const target = this.props.pokemons.all.filter(pokemon => StringSimilarity.compareTwoStrings(pokemon.name, event.target.value) > 0.5);
-                         if(target) {
-                             this.props.setSearchedPokemons(target);
-                         }
+                          if(event.target.value) {
+                              this.props.setSearchedQuery(event.target.value);
+                          } else {
+                              this.props.resetSearchedQuery();
+                          }
+                          const target = this.props.pokemons.all.filter(pokemon => StringSimilarity.compareTwoStrings(pokemon.name, event.target.value) > 0.5);
+                          if(target) {
+                              this.props.setSearchedPokemons(target);
+                          }
                       }}
                       className="search-input"
                       type="text"
