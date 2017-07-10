@@ -75,9 +75,8 @@ class PokemonsController extends AbstractRestfulController {
       try {
         $location = $this->setLocation($this->getRequest()->getPost());
         $message = "error";
-        if($this->pokemonService->signal($location)){
+        if($this->pokemonService->signal($location))
           $message = "success";
-        }
       } catch (\Exception $e) {
         $message = $e->getMessage();
       }
@@ -110,8 +109,8 @@ class PokemonsController extends AbstractRestfulController {
       $local_date = date('Y-m-d H:i:s', $local_time);
 
       $location->setIdPokemon($data['id_pokemon']);
-      $location->setLatitude($data['latitude']);
-      $location->setLongitude($data['longitude']);
+      $location->setLatitude((float) $data['lat']);
+      $location->setLongitude((float) $data['lng']);
       $location->setDateCreated($local_date);
       return $location;
     }

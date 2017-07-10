@@ -11,6 +11,7 @@ import {
 } from "../actions/mapLegendActions";
 import {
     signalPosition,
+    tickMarkers
 } from "../actions/pokemonActions";
 import {
     setNoticedAddingPokeLocationMsgTrue,
@@ -27,6 +28,9 @@ const mapDispatchToProps = dispatch => {
     return {
         mapLoaded(mapComponent){
             dispatch(mapLoaded(mapComponent))
+        },
+        tickMarkers(){
+            dispatch(tickMarkers())
         },
         changeMarker(marker) {
             dispatch(changeMarker(marker))
