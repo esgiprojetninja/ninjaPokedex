@@ -170,8 +170,10 @@ class AdminController extends AbstractActionController {
                     $baseUrl = sprintf('%s://%s%s', $this->getEvent()->getRouter()->getRequestUri()->getScheme(), $this->getEvent()->getRouter()->getRequestUri()->getHost(), $this->getEvent()->getRequest()->getBaseUrl());
                     $data['image'] = $baseUrl . $this->imageManager->getPublicWebPath() . $data['image'];
                 }
-                if ( $this->pokemonService->update($id_poke, $data))
+                if ( $this->pokemonService->update($id_poke, $data)) {
+                    $this->flashMessenger()->addMessage('Pokemon successfully updated !');
                     return $this->redirect()->toRoute('admin_home');
+                }
                 else
                     $this->flashMessenger()->addMessage('Pokemon could not be updated !');
             }
