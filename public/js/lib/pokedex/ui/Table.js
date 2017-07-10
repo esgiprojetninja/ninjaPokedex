@@ -69,6 +69,13 @@ export default class Table extends React.PureComponent {
             <span key={ks} className="type" style={{backgroundColor: ps.color}}>{ps.nom_type}</span>
         )
     }
+    renderPokemonsList () {
+        if(this.props.pokesearch.searchedPokemons.length !== 0) {
+            return (this.props.pokesearch.searchedPokemons.map((p, key) => this.renderCards(p, key)))
+        } else {
+            return (this.props.pokemons.all.map((p, key) => this.renderCards(p, key)))
+        }
+    }
 
     render () {
       if(this.props.pokemons.all) {
@@ -102,7 +109,7 @@ export default class Table extends React.PureComponent {
               </div>
               </Col>
               <Col md={10} style={{textAlign: 'center', overflowY: 'auto'}} className="full-height">
-                {(this.props.pokemons.all.map((p, key) => this.renderCards(p, key)))}
+                {this.renderPokemonsList()}
               </Col>
             </Row>
           </Grid>

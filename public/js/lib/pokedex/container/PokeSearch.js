@@ -6,7 +6,8 @@ import {
 } from "../actions/navbarActions";
 
 import {
-    setSearchedPokemons
+    setSearchedPokemons,
+    resetSearchedPokemons
 } from "../actions/pokeSearchActions"
 
 const mapStateToProps = state => state;
@@ -18,6 +19,9 @@ const mapDispatchToProps = dispatch => {
         },
         setSearchedPokemons(pokemon) {
             dispatch(setSearchedPokemons(pokemon));
+        },
+        resetSearchedPokemons() {
+            dispatch(resetSearchedPokemons());
         }
     };
 }

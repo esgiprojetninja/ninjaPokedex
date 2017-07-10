@@ -10,6 +10,10 @@ import {
     getTableView
 } from "../actions/homeActions";
 
+import {
+    resetSearchedPokemons
+} from "../actions/pokeSearchActions";
+
 const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => {
@@ -22,6 +26,9 @@ const mapDispatchToProps = dispatch => {
         },
         getTableView() {
             dispatch(getTableView());
+        },
+        resetSearchedPokemons() {
+            dispatch(resetSearchedPokemons());
         }
     };
 }

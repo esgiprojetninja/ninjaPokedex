@@ -6,3 +6,9 @@ export const setSearchedPokemons = pokemon => {
         pokemon
     }
 }
+
+export const resetSearchedPokemons = () => {
+    return {
+        type: types.RESET_SEARCHED_POKEMONS
+    }
+}

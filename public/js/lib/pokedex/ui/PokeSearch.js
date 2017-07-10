@@ -80,7 +80,6 @@ export default class PokeSearch extends React.PureComponent {
                       onChange={(event) => {
                          const target = this.props.pokemons.all.filter(pokemon => StringSimilarity.compareTwoStrings(pokemon.name, event.target.value) > 0.6);
                          if(target) {
-                             //Update slickGoTo https://github.com/akiran/react-slick
                              this.props.setSearchedPokemons(target);
                          }
                       }}
@@ -88,7 +87,7 @@ export default class PokeSearch extends React.PureComponent {
                       type="text"
                       placeholder="Rechercher"
                   />
-                  <span className="search-found"><span className="search-found-count">1</span> Pokémon trouvé</span>
+                  <span className="search-found"><span className="search-found-count">{this.props.pokesearch.searchedPokemons.length}</span> Pokémon trouvé</span>
                   <div className="filters filters-type">
                       <span className="filters-name">Types :</span>
                       {this.renderTypes()}

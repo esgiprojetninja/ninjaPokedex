@@ -11,6 +11,11 @@ const pokesearch = (state = initialSate, action) => {
                 ...state,
                 searchedPokemons: action.pokemon || []
             }
+        case types.RESET_SEARCHED_POKEMONS:
+            return {
+                ...state,
+                searchedPokemons: []
+            }
         default:
             return state;
     }
