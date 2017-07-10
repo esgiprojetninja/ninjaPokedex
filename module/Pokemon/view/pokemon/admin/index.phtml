@@ -29,8 +29,14 @@
         </thead>
         <tbody>
         <?php foreach ($this->pokemons as $poke): ?>
+            <?php
+                $idnation = (string) $poke->id_national;
+                while (strlen($idnation) < 3) {
+                    $idnation = "0".$idnation;
+                }
+            ?>
             <tr id="poke-<?= $poke->id_national ?>">
-                <td><?= $poke->id_national ?></td>
+                <td><?= "#".$idnation ?></td>
                 <td><?= $poke->name ?></td>
                 <td><img src="<?= $poke->image ?>" alt="<?= $poke->name ?> image"></td>
                 <td><?= $poke->description ?></td>
