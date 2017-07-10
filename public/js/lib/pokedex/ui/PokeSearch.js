@@ -53,18 +53,27 @@ export default class PokeSearch extends React.PureComponent {
         super(props);
     }
 
-    renderTypes() {
+    renderTypes(thisP, thisK) {
         return (
-            <li>
+            <div className="search-checkbox-wrapper" key={thisK}>
               <Checkbox
                 checkedIcon={<ActionFavorite />}
                 uncheckedIcon={<ActionFavoriteBorder style={{fill: 'white'}} />}
-                label="Normal"
-                labelStyle={styles.checkboxLabel}
+                label={thisP.name_type}
+                labelStyle={{
+                    backgroundColor: thisP.color,
+                    width: 'auto',
+                    color: 'white',
+                    borderBottomLeftRadius: '10px',
+                    borderTopRightRadius: '10px',
+                    fontSize: '11px',
+                    minWidth: '80px',
+                    textAlign: 'center'
+                }}
                 iconStyle={styles.checkboxIcon}
                 style={styles.checkbox}
               />
-            </li>
+            </div>
         )
     }
 
@@ -90,36 +99,9 @@ export default class PokeSearch extends React.PureComponent {
                   <span className="search-found"><span className="search-found-count">{this.props.pokesearch.searchedPokemons.length}</span> Pokémon trouvé</span>
                   <div className="filters filters-type">
                       <span className="filters-name">Types :</span>
-                      {this.renderTypes()}
-                      <ul>
-                    </ul>
-                  </div>
-                  <div className="filters filters-evolution">
-                      <span className="filters-name">Evolution :</span>
-                      <ul>
-                        <li>
-                        <RadioButtonGroup name="shipSpeed" defaultSelected="not_light">
-                           <RadioButton
-                             value="multiple"
-                             label="Multiple"
-                             checkedIcon={<ActionFavorite style={{color: '#F44336'}} />}
-                             uncheckedIcon={<ActionFavoriteBorder style={{fill: 'white'}} />}
-                             labelStyle={styles.checkboxLabel}
-                             iconStyle={styles.checkboxIcon}
-                             style={styles.checkbox}
-                           />
-                           <RadioButton
-                             value="solo"
-                             label="Solo"
-                             checkedIcon={<ActionFavorite style={{color: '#F44336'}} />}
-                             uncheckedIcon={<ActionFavoriteBorder style={{fill: 'white'}} />}
-                             labelStyle={styles.checkboxLabel}
-                             iconStyle={styles.checkboxIcon}
-                             style={styles.checkbox}
-                           />
-                         </RadioButtonGroup>
-                        </li>
-                      </ul>
+                      {
+                          (this.props.types.all.map((thisP, thisKey) => this.renderTypes(thisP, thisKey)))
+                      }
                   </div>
                 </Col>
               </Row>

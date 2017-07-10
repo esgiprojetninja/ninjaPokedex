@@ -10,6 +10,7 @@ import carousel from "./carousel";
 import home from "./home";
 import card from "./card";
 import pokesearch from "./pokesearch";
+import types from "./types";
 
 const Main = combineReducers({
     navbar,
@@ -22,7 +23,8 @@ const Main = combineReducers({
     carousel,
     home,
     card,
-    pokesearch
+    pokesearch,
+    types
 });
 
 export default Main;
