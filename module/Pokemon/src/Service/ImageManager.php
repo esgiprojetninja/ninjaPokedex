@@ -13,6 +13,11 @@ class ImageManager {
         return $this->publicWebPath;
     }
 
+    public function deteFileByName($name) {
+        if ( file_exists($this->getSaveToDir().$name) )
+            unlink($this->getSaveToDir().$name);
+    }
+
     public function getSavedFiles() {
         if(!is_dir($this->saveToDir)) {
             if(!mkdir($this->saveToDir)) {

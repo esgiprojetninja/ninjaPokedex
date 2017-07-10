@@ -21,8 +21,8 @@ class PokemonServiceImpl implements PokemonService
         $this->pokemonRepository = $pokemonRepository;
     }
 
-    function save(Pokemon $post) {
-        return $this->pokemonRepository->save($post);
+    function save(Pokemon $pokemon) {
+        return $this->pokemonRepository->save($pokemon);
     }
     function getAll() {
         return $this->pokemonRepository->getAll();
@@ -33,14 +33,14 @@ class PokemonServiceImpl implements PokemonService
     /**
      * @return Pokemon|null
     **/
-    function findById($postId) {
-        return $this->pokemonRepository->findById($postId);
+    function findById($pokeId) {
+        return $this->pokemonRepository->findById($pokeId);
     }
     function update($id, $data){
         return $this->pokemonRepository->update($id, $data);
     }
-    function delete($postId) {
-        return $this->pokemonRepository->delete($postId);
+    function delete($pokeId) {
+        return $this->pokemonRepository->delete($pokeId);
     }
     function marked() {
         return $this->pokemonRepository->marked();

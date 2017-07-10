@@ -2,14 +2,14 @@
     <h1 class="text text-primary col-lg-3 col-md-4 col-xs-12">Interface Admin</h1>
 </div>
 <div class="row">
-    <a href="<?= $this->basePath('admin/pokemon/create') ?>" class="btn btn-primary btn-lg pull-right" name="button">Ajouter un pokemon <span class="glyphicon glyphicon-plus"></span></a>
+    <a href="<?= $this->url('admin_home/admin_pokemon_create') ?>" class="btn btn-primary btn-lg pull-right" name="button">Ajouter un pokemon <span class="glyphicon glyphicon-plus"></span></a>
 </div>
 <?php if ( (bool) count($this->messages) ) : ?>
-<ul class="messages">
+<div class="row alert alert-info">
     <?php foreach ($this->messages as $msg): ?>
-    <li><?= $msg ?></li>
+    <p class="col-xs-10 col-xs-offset-1"><strong><?= $msg ?></strong></p>
     <?php endforeach; ?>
-</ul>
+</div>
 <?php endif; ?>
 <?php if ( (bool) count($this->pokemons) ) : ?>
 <div class="row">

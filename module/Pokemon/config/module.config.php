@@ -200,7 +200,7 @@ return [
                             ],
                         ],
                     ],
-                    'admin_create_pokemon' => [
+                    'admin_pokemon_create' => [
                         'type'    => Literal::class,
                         'options' => [
                             'route'    => '/pokemon/create',

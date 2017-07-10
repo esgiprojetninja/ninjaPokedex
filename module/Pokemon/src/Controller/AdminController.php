@@ -14,7 +14,6 @@ use Pokemon\InputFilter\ConnectionPost;
 use Pokemon\Form\AddAdmin as AddAdminForm;
 use Pokemon\InputFilter\AddAdminPost;
 use Pokemon\Form\Pokemon as PokemonForm;
-use Pokemon\InputFilter\UpdatePokemonPost;
 
 class AdminController extends AbstractActionController {
 
@@ -42,11 +41,12 @@ class AdminController extends AbstractActionController {
         return $response;
     }
 
-    public function __construct($pokemonService, $adminService, $updatePokemonFilter, $imageManager, $typeService) {
+    public function __construct($pokemonService, $adminService, $updatePokemonFilter, $imageManager, $typeService, $createPokemonFilter) {
         $this->pokemonService = $pokemonService;
         $this->adminService = $adminService;
         $this->typeService = $typeService;
         $this->updatePokemonFilter = $updatePokemonFilter;
+        $this->createPokemonFilter = $createPokemonFilter;
         $this->imageManager = $imageManager;
         $this->identity = $adminService->getAuthenticationService()->getIdentity();
         $this->pokeHydrator = new PokemonHydrator();
@@ -192,8 +192,12 @@ class AdminController extends AbstractActionController {
             return $this->redirect()->toRoute('admin_home/admin_login');
 
         $poke = $this->pokemonService->findById((int) $this->params()->fromRoute('id'));
-        if ( $poke != null )
-            $this->flashMessenger()->addMessage('Pokemon deleted !');
+        if ( $poke != null ) {
+            if ( true === $this->pokemonService->delete($poke['id_pokemon']) )
+                $this->flashMessenger()->addMessage('Pokemon deleted !');
+            else
+                $this->flashMessenger()->addMessage('Pokemon could not be deleted !');
+        }
         else
             $this->flashMessenger()->addMessage('Could not find the pokemon to delete');
 
@@ -203,6 +207,42 @@ class AdminController extends AbstractActionController {
     public function createPokemonAction() {
         if ( $this->identity == null )
             return $this->redirect()->toRoute('admin_home/admin_login');
-            
+
+        $form = new PokemonForm($this->pokemonService, $this->typeService);
+
+        if ( $this->request->isPost() ) {
+            $data = array_merge_recursive(
+                $this->request->getPost()->toArray(),
+                $this->params()->fromFiles()
+            );
+            $pokemon = new Pokemon();
+            $form->bind($pokemon);
+            $form->setInputFilter($this->createPokemonFilter);
+            $form->setData($data);
+            if ( $form->isValid() ) {
+                $form->getData();
+                $data['image'] = $this->createPokemonFilter->getRenamedFile();
+                if ( false === $data['image'] )
+                    unset($data['image']);
+                else {
+                    $baseUrl = sprintf('%s://%s%s', $this->getEvent()->getRouter()->getRequestUri()->getScheme(), $this->getEvent()->getRouter()->getRequestUri()->getHost(), $this->getEvent()->getRequest()->getBaseUrl());
+                    $data['image'] = $baseUrl . $this->imageManager->getPublicWebPath() . $data['image'];
+                }
+                if ( $data['id_parent'] == 0 )
+                    unset($data['id_parent']);
+                $pokemon = $this->pokeHydrator->hydrate($data, new Pokemon());
+                if ( $this->pokemonService->save($pokemon)) {
+                    $this->flashMessenger()->addMessage('Pokemon ' . $pokemon->getName() . ' succefully created !');
+                    return $this->redirect()->toRoute('admin_home');
+                }
+                else
+                    $this->flashMessenger()->addMessage('Pokemon could not be created !');
+            }
+        }
+
+        return new ViewModel([
+            'form' => $form,
+            'messages' => $this->flashMessenger()->getMessages()
+        ]);
     }
 }

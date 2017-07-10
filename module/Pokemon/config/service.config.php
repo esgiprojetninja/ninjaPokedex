@@ -28,6 +28,13 @@ return [
                 $sm->get('Pokemon\Service\ImageManager')
             );
 
+        },
+        'Pokemon\InputFilter\CreatePokemonPost' => function(\Zend\ServiceManager\ServiceManager $sm) {
+            return new \Pokemon\InputFilter\CreatePokemonPost(
+                $sm->get('Zend\Db\Adapter\Adapter'),
+                $sm->get('Pokemon\Service\ImageManager')
+            );
+
         }
     ],
     'initializers' => [

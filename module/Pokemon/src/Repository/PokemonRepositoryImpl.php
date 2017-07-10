@@ -10,6 +10,8 @@ use Pokemon\Entity\Location;
 use Pokemon\Entity\Type;
 use Pokemon\Controller\PokemonsController;
 
+use Pokemon\Service\ImageManager;
+
 use Zend\Db\Adapter\Driver\ResultInterface;
 use Zend\Db\ResultSet\ResultSet;
 
@@ -57,6 +59,8 @@ class PokemonRepositoryImpl implements PokemonRepository
 
   public function saveTypes(Pokemon $pokemon, $type1, $type2) {
     try {
+      $type1 = ((int) $type1 <= 0 ) ? NULL : $type1;
+      $type2 = ((int) $type2 <= 0 ) ? NULL : $type2;
       $this->adapter
       ->getDriver()
       ->getConnection()
@@ -97,8 +101,8 @@ class PokemonRepositoryImpl implements PokemonRepository
 
   public function updateTypes(Pokemon $pokemon, $type1, $type2) {
     try {
-      $type1 = ((int) $type1 == 0 ) ? NULL : $type1;
-      $type2 = ((int) $type2 == 0 ) ? NULL : $type2;
+      $type1 = ((int) $type1 <= 0 ) ? NULL : $type1;
+      $type2 = ((int) $type2 <= 0 ) ? NULL : $type2;
 
       if ( $type1 == NULL ) {
           $this->deleteTypes($pokemon->getIdPokemon());
@@ -403,15 +407,41 @@ class PokemonRepositoryImpl implements PokemonRepository
   }
 
   public function delete($pokemonId) {
-    $sql = new \Zend\Db\Sql\Sql($this->adapter);
-    $delete = $sql->delete()
-    ->from('pokemon')
-    ->where([
-      'id_pokemon' => $pokemonId
-    ]);
-    $statement = $sql->prepareStatementForSqlObject($delete);
-    $statement->execute();
-    $this->deleteTypes($pokemonId);
+    $poke = $this->findById($pokemonId);
+    if ( $poke == null )
+        return false;
+    try {
+      $this->adapter
+      ->getDriver()
+      ->getConnection()
+      ->beginTransaction();
+      $sql = new \Zend\Db\Sql\Sql($this->adapter);
+      $delete = $sql->delete()
+      ->from('pokemon')
+      ->where([
+        'id_pokemon' => $pokemonId
+      ]);
+
+      $statement = $sql->prepareStatementForSqlObject($delete);
+      $statement->execute();
+      $this->adapter->getDriver()
+      ->getConnection()
+      ->commit();
+
+      $this->deleteTypes($pokemonId);
+
+      $img = explode("/", $poke['image']);
+      $img = $img[count($img)-1];
+
+      $im = new ImageManager();
+      $im->deteFileByName($img);
+
+      return true;
+    } catch (\Exception $e) {
+      $this->adapter->getDriver()
+      ->getConnection()->rollback();
+      return $e->getMessage();
+    }
   }
 
   public function deleteTypes($pokemonId) {
