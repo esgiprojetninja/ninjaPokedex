@@ -23,8 +23,11 @@ return [
             return $typeService;
         },
         'Pokemon\InputFilter\UpdatePokemonPost' => function(\Zend\ServiceManager\ServiceManager $sm) {
-            $updatePokemonFilter = new \Pokemon\InputFilter\UpdatePokemonPost($sm->get('Zend\Db\Adapter\Adapter'));
-            return $updatePokemonFilter;
+            return new \Pokemon\InputFilter\UpdatePokemonPost(
+                $sm->get('Zend\Db\Adapter\Adapter'),
+                $sm->get('Pokemon\Service\ImageManager')
+            );
+
         }
     ],
     'initializers' => [
