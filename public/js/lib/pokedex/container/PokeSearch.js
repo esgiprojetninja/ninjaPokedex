@@ -3,6 +3,7 @@ import PokeSearchComponent from "../ui/PokeSearch";
 
 import {
     toggleSearch,
+    closeSearch
 } from "../actions/navbarActions";
 
 import {
@@ -18,6 +19,9 @@ const mapDispatchToProps = dispatch => {
     return {
         toggleSearch() {
             dispatch(toggleSearch());
+        },
+        closeSearch() {
+            dispatch(closeSearch());
         },
         setSearchedPokemons(pokemons) {
             dispatch(setSearchedPokemons(pokemons));

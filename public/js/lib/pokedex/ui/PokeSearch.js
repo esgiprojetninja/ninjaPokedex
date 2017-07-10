@@ -9,6 +9,7 @@ import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import TextField from 'material-ui/TextField';
 import StringSimilarity from 'string-similarity';
+import jQuery from 'jquery';
 
 const colors = [
   'Red',
@@ -121,15 +122,22 @@ export default class PokeSearch extends React.PureComponent {
                   <div className="search-intro">Tape le nom dun Pokémon et appuies sur entrée</div>
                   <input
                       onChange={(event) => {
-                          if(event.target.value) {
-                              this.props.setSearchedQuery(event.target.value);
-                          } else {
-                              this.props.resetSearchedQuery();
-                          }
-                          const target = this.props.pokemons.all.filter(pokemon => StringSimilarity.compareTwoStrings(pokemon.name, event.target.value) > 0.5);
-                          if(target) {
-                              this.props.setSearchedPokemons(target);
-                          }
+                        const _this = this;
+                        jQuery(document).keypress(function(e) {
+                            if(e.which == 13) {
+                                console.log('enter');
+                                _this.props.closeSearch();
+                            }
+                        });
+                        if(event.target.value) {
+                          _this.props.setSearchedQuery(event.target.value);
+                        } else {
+                          _this.props.resetSearchedQuery();
+                        }
+                        const target = _this.props.pokemons.all.filter(pokemon => StringSimilarity.compareTwoStrings(pokemon.name, event.target.value) > 0.5);
+                        if(target) {
+                          _this.props.setSearchedPokemons(target);
+                        }
                       }}
                       className="search-input"
                       type="text"

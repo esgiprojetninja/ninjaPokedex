@@ -11,3 +11,9 @@ export const toggleSearch = () => {
         type: types.TOGGLE_SEARCH
     }
 }
+
+export const closeSearch = () => {
+    return {
+        type: types.CLOSE_SEARCH
+    }
+}

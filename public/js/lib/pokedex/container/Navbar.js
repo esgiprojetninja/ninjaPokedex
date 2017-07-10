@@ -3,7 +3,8 @@ import NavbarComponent from "../ui/Navbar";
 
 import {
     toggleNavbar,
-    toggleSearch
+    toggleSearch,
+    closeSearch
 } from "../actions/navbarActions";
 
 import {
@@ -20,6 +21,9 @@ const mapDispatchToProps = dispatch => {
     return {
         toggleNavbar() {
             dispatch(toggleNavbar());
+        },
+        closeSearch() {
+            dispatch(closeSearch());
         },
         toggleSearch() {
             dispatch(toggleSearch());
