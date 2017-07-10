@@ -20,9 +20,11 @@ class AdminController extends AbstractActionController {
 
     protected $pokemonService;
     protected $adminService;
+    protected $typeService;
     protected $updatePokemonFilter;
     protected $pokeHydrator;
     protected $identity;
+    protected $imageManager;
 
     /**
      * We override the parent class' onDispatch() method to
@@ -40,10 +42,12 @@ class AdminController extends AbstractActionController {
         return $response;
     }
 
-    public function __construct($pokemonService, $adminService, \Pokemon\InputFilter\UpdatePokemonPost $updatePokemonFilter) {
+    public function __construct($pokemonService, $adminService, $updatePokemonFilter, $imageManager, $typeService) {
         $this->pokemonService = $pokemonService;
         $this->adminService = $adminService;
+        $this->typeService = $typeService;
         $this->updatePokemonFilter = $updatePokemonFilter;
+        $this->imageManager = $imageManager;
         $this->identity = $adminService->getAuthenticationService()->getIdentity();
         $this->pokeHydrator = new PokemonHydrator();
     }
@@ -131,35 +135,51 @@ class AdminController extends AbstractActionController {
     }
 
     public function updatePokemonAction() {
-        $form = new PokemonForm($this->pokemonService);
         if ( $this->identity == null )
             return $this->redirect()->toRoute('admin_home/admin_login');
 
-        if ( $this->request->isPost() ) {
-            $pokemon = new Pokemon();
-            $form->bind($pokemon);
-            $form->setInputFilter($this->updatePokemonFilter);
+        $viewed_pokemon = $this->pokemonService->findById((int) $this->params()->fromRoute('id'));
+        $viewed_pokemon = ($viewed_pokemon != null) ? $this->pokeHydrator->hydrate($viewed_pokemon, new Pokemon()) : null;
+        $form = new PokemonForm($this->pokemonService, $this->typeService, $viewed_pokemon);
 
+        if ( $this->request->isPost() ) {
             $data = array_merge_recursive(
                 $this->request->getPost()->toArray(),
                 $this->params()->fromFiles()
             );
+            $matchedPokemon = $this->pokemonService->findById((string) (int) $data['id_pokemon']);
+            if ( $matchedPokemon == null )
+                return $this->redirect()->toRoute('admin_home');
+            if ( (int) $matchedPokemon['id_national'] == (int) $data['id_national'] )
+                unset($data['id_national']);
+
+            $pokemon = new Pokemon();
+            $form->bind($pokemon);
+            $form->setInputFilter($this->updatePokemonFilter);
             $form->setData($data);
-            var_dump($data);
             if ($form->isValid()) {
-                $data = $form->getData();
-                var_dump("form detected valid", $data);
-                // $this->blogService->update($pokemon);
-                // return $this->redirect()->toRoute('blog_home');
+                // Move uploaded file to its destination directory.
+                $form->getData();
+                $data['image'] = $this->updatePokemonFilter->getRenamedFile();
+                $id_poke = (int) $data['id_pokemon'];
+                unset($data['submit']);
+                unset($data['csrf']);
+                if ( false === $data['image'] )
+                    unset($data['image']);
+                else {
+                    $baseUrl = sprintf('%s://%s%s', $this->getEvent()->getRouter()->getRequestUri()->getScheme(), $this->getEvent()->getRouter()->getRequestUri()->getHost(), $this->getEvent()->getRequest()->getBaseUrl());
+                    $data['image'] = $baseUrl . $this->imageManager->getPublicWebPath() . $data['image'];
+                }
+                if ( $this->pokemonService->update($id_poke, $data))
+                    return $this->redirect()->toRoute('admin_home');
+                else
+                    $this->flashMessenger()->addMessage('Pokemon could not be updated !');
             }
         }
-        $pokemon = $this->pokemonService->findById((int) $this->params()->fromRoute('id'));
 
-        $pokemon = ($pokemon != null) ? $this->pokeHydrator->hydrate($pokemon, new Pokemon()) : null;
-        //PokemonHydrator
         return new ViewModel([
             'form' => $form,
-            'pokemon' => $pokemon,
+            'pokemon' => $viewed_pokemon,
             'messages' => array_merge_recursive(
                 $this->flashMessenger()->getMessages(),
                 $form->getMessages()
