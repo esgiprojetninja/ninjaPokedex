@@ -1,9 +1,9 @@
 import * as types from "./pokeSearchTypes";
 
-export const setSearchedPokemons = pokemon => {
+export const setSearchedPokemons = pokemons => {
     return {
         type: types.SET_SEARCHED_POKEMONS,
-        pokemon
+        pokemons
     }
 }
 
