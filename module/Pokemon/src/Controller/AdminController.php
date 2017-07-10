@@ -199,4 +199,10 @@ class AdminController extends AbstractActionController {
 
         return $this->redirect()->toRoute('admin_home');
     }
+
+    public function createPokemonAction() {
+        if ( $this->identity == null )
+            return $this->redirect()->toRoute('admin_home/admin_login');
+            
+    }
 }
