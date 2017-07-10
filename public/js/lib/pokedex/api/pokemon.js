@@ -80,13 +80,13 @@ export default class PokemonApi {
             });
         });
     }
-    signal(id_national, lat, lng) {
+    signal(id_pokemon, lat, lng) {
         return new Promise((resolve, reject) => {
             $.ajax({
                 method: "POST",
                 url: base_url + "/signal",
                 data: {
-                    id_national,
+                    id_pokemon,
                     lat,
                     lng
                 }

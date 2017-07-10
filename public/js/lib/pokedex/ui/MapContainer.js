@@ -1,5 +1,6 @@
 import React from "react";
 import {PropTypes as T} from 'prop-types';
+import * as tools from '../utils/verifTools';
 import { withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 import MapLegend from '../container/MapLegend';
 import CircularProgress from 'material-ui/CircularProgress';
@@ -28,13 +29,15 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
       defaultCenter={{ lat: -25.363882, lng: 131.044922 }}
       onClick={props.onMapClick}
     >
-        {props.markers.map( (marker, key) => (
-            <Marker
-              {...marker}
-              key={key}
-              onRightClick={props.onMarkerRightClick}
-            />
-        ))}
+        {props.markers.map( (marker, key) => {
+            return (
+                <Marker
+                  {...marker}
+                  key={key}
+                  onRightClick={props.onMarkerRightClick}
+                />
+            );
+        })}
     </GoogleMap>
 ));
 
@@ -43,11 +46,21 @@ export default class MapContainer extends React.PureComponent {
         super(props);
     }
 
+    componentDidMount() {
+        this.ticketFunc = window.setInterval(()=>{
+            this.props.tickMarkers();
+        }, 1000)
+    }
+
+    componentWillUnmount() {
+        window.clearInterval(this.ticketFunc);
+    }
+
     handleMapClick = ({latLng}) => {
         if ( this.props.mapLegend.placingPokemon ) {
             this.props.changeMarker(new google.maps.Marker({
                 position: latLng,
-                icon: this.props.mapLegend.selectedPokemon.icon
+                icon: this.props.mapLegend.selectedPokemon.image
             }));
         }
     }
@@ -134,7 +147,7 @@ export default class MapContainer extends React.PureComponent {
     }
 
     render () {
-        return ( this.props.pokemons.marked ) ?
+        return ( tools.isArray(this.props.pokemons.marked) ) ?
             this.renderMap():
             this.renderSpinner();
     }
@@ -142,6 +155,7 @@ export default class MapContainer extends React.PureComponent {
 MapContainer.propTypes = {
     mapLoaded: T.func.isRequired,
     changeMarker: T.func.isRequired,
+    tickMarkers: T.func.isRequired,
     validateAddedMarker: T.func.isRequired,
     setNoticedAddingPokeLocationMsgTrue: T.func.isRequired,
     setNoticedAddingPokeLocationMsgFalse: T.func.isRequired,
