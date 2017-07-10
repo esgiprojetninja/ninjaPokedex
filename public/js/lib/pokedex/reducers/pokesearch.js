@@ -9,7 +9,7 @@ const pokesearch = (state = initialSate, action) => {
         case types.SET_SEARCHED_POKEMONS:
             return {
                 ...state,
-                searchedPokemons: action.pokemon || []
+                searchedPokemons: action.pokemons || []
             }
         case types.RESET_SEARCHED_POKEMONS:
             return {

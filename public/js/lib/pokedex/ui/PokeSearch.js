@@ -78,7 +78,7 @@ export default class PokeSearch extends React.PureComponent {
                   <div className="search-intro">Tape le nom dun Pokémon et appuies sur entrée</div>
                   <input
                       onChange={(event) => {
-                         const target = this.props.pokemons.all.filter(pokemon => StringSimilarity.compareTwoStrings(pokemon.name, event.target.value) > 0.6);
+                         const target = this.props.pokemons.all.filter(pokemon => StringSimilarity.compareTwoStrings(pokemon.name, event.target.value) > 0.5);
                          if(target) {
                              this.props.setSearchedPokemons(target);
                          }

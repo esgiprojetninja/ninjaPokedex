@@ -17,8 +17,8 @@ const mapDispatchToProps = dispatch => {
         toggleSearch() {
             dispatch(toggleSearch());
         },
-        setSearchedPokemons(pokemon) {
-            dispatch(setSearchedPokemons(pokemon));
+        setSearchedPokemons(pokemons) {
+            dispatch(setSearchedPokemons(pokemons));
         },
         resetSearchedPokemons() {
             dispatch(resetSearchedPokemons());
