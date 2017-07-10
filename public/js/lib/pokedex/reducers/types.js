@@ -3,6 +3,7 @@ import * as types from "../actions/typeTypes";
 const initialSate = {
     all: false,
     isFetching: false,
+    requestFailMsg: false
 };
 
 const typesApi = (state = initialSate, action) => {
@@ -11,6 +12,12 @@ const typesApi = (state = initialSate, action) => {
             return {
                 ...state,
                 isFetching: true
+            }
+        case types.REQUEST_FAIL:
+            return {
+                ...state,
+                isFetching: false,
+                requestFailMsg: action.error
             }
         case types.RECEIVED_ALL_TYPES:
             return {
