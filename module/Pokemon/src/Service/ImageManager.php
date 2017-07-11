@@ -4,6 +4,13 @@ namespace Pokemon\Service;
 class ImageManager {
     private $saveToDir = './public/img/upload/';
     private $publicWebPath = '/img/upload/';
+    private $webImageHosting = 'http://romainlambot.fr/pokemons/images/';
+
+
+    public function getDefaultWebHosting($id_national)
+    {
+        return $this->webImageHosting.$id_national.'.png';
+    }
 
     public function getSaveToDir() {
         return $this->saveToDir;

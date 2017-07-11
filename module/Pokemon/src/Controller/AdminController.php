@@ -167,12 +167,13 @@ class AdminController extends AbstractActionController {
             if ( $form->isValid() ){
                 // Move uploaded file to its destination directory.
                 $form->getData();
+                $data['id_national'] = (int) $data['id_national'];
                 $data['image'] = $this->updatePokemonFilter->getRenamedFile();
                 $id_poke = (int) $data['id_pokemon'];
                 unset($data['submit']);
                 unset($data['csrf']);
                 if ( false === $data['image'] )
-                    unset($data['image']);
+                    $data['image'] = $this->imageManager->getDefaultWebHosting($data['id_national']);
                 else {
                     $baseUrl = sprintf('%s://%s%s', $this->getEvent()->getRouter()->getRequestUri()->getScheme(), $this->getEvent()->getRouter()->getRequestUri()->getHost(), $this->getEvent()->getRequest()->getBaseUrl());
                     $data['image'] = $baseUrl . $this->imageManager->getPublicWebPath() . $data['image'];
@@ -232,9 +233,10 @@ class AdminController extends AbstractActionController {
             $form->setData($data);
             if ( $form->isValid() ){
                 $form->getData();
+                $data['id_national'] = (int) $data['id_national'];
                 $data['image'] = $this->createPokemonFilter->getRenamedFile();
                 if ( false === $data['image'] )
-                    unset($data['image']);
+                    $data['image'] = $this->imageManager->getDefaultWebHosting($data['id_national']);
                 else {
                     $baseUrl = sprintf('%s://%s%s', $this->getEvent()->getRouter()->getRequestUri()->getScheme(), $this->getEvent()->getRouter()->getRequestUri()->getHost(), $this->getEvent()->getRequest()->getBaseUrl());
                     $data['image'] = $baseUrl . $this->imageManager->getPublicWebPath() . $data['image'];

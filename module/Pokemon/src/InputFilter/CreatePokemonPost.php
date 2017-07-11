@@ -151,7 +151,7 @@ class CreatePokemonPost extends InputFilter
         $this->add([
             'type'     => 'Zend\InputFilter\FileInput',
             'name'     => 'image',
-            'required' => true,
+            'required' => false,
             'validators' => [
                 ['name'    => 'FileUploadFile'],
                 [
