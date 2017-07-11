@@ -1,5 +1,6 @@
 <?php
 namespace Pokemon\InputFilter;
+
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\Input;
 use Zend\InputFilter\FileInput;
@@ -41,17 +42,16 @@ class UpdatePokemonPost extends InputFilter {
         $description->setFilterChain($this->getStringTrimFilterChain());
         $description->setValidatorChain($this->getDescriptionValidatorChain());
 
-
         $id_parent = new Input('id_parent');
         $id_parent->setRequired(false);
         $id_parent->setValidatorChain($this->getIdParentValidatorChain());
 
         $type_1 = new Input('type1');
-        $type_1->setRequired(false);
+        $type_1->setRequired(true);
         $type_1->setValidatorChain($this->getTypeValidatorChain());
 
         $type_2 = new Input('type2');
-        $type_2->setRequired(false);
+        $type_2->setRequired(true);
         $type_2->setValidatorChain($this->getTypeValidatorChain());
 
         $csrf = new Input('csrf');
