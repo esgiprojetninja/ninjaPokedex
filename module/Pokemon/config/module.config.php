@@ -200,6 +200,16 @@ return [
                             ],
                         ],
                     ],
+                    'admin_pokemon_create' => [
+                        'type'    => Literal::class,
+                        'options' => [
+                            'route'    => '/pokemon/create',
+                            'defaults' => [
+                                'controller' => 'Pokemon\Controller\Admin',
+                                'action' => 'createPokemon'
+                            ],
+                        ],
+                    ]
                 ],
                 'may_terminate' => true
             ],

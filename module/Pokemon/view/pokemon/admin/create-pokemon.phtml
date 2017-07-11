@@ -1,0 +1,36 @@
+<div class="row">
+    <h1 class="text text-primary col-lg-4 col-md-4 col-xs-8">Create Pokemon</h1>
+</div>
+
+<div class="row">
+<?php
+    $form = $this->form;
+    $form->prepare();
+    echo $this->form()->openTag($form);
+?>
+    <div class="form-group">
+        <?= $this->formRow($form->get('name')); ?>
+    </div>
+
+    <div class="form-group">
+        <?= $this->formRow($form->get('image')); ?>
+    </div>
+    <div class="form-group">
+        <?= $this->formRow($form->get('id_parent')); ?>
+    </div>
+    <div class="form-group">
+        <?= $this->formRow($form->get('description')); ?>
+    </div>
+    <div class="form-group">
+        <?= $this->formRow($form->get('type1')); ?>
+    </div>
+    <div class="form-group">
+        <?= $this->formRow($form->get('type2')); ?>
+    </div>
+    <div class="form-group">
+        <?= $this->formRow($form->get('id_national')); ?>
+    </div>
+    <?= $this->formHidden($form->get('csrf')); ?>
+    <?= $this->formSubmit($form->get('submit')); ?>
+    <?= $this->form()->closeTag();?>
+</div>
