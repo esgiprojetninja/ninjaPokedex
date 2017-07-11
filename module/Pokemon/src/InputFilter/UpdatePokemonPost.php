@@ -117,7 +117,7 @@ class UpdatePokemonPost extends InputFilter {
         ]);
         $valid = new GreaterThan([
             'min' => 1,
-            'max' => 999,
+            'max' => 151,
             'inclusive' => true
         ]);
         $validatorChain = new ValidatorChain();
