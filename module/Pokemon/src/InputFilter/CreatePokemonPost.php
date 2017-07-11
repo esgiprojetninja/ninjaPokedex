@@ -17,12 +17,14 @@ use Zend\I18n\Validator\Alnum;
 use Zend\Validator\Db\RecordExists;
 use Zend\Validator\Db\NoRecordExists;
 
-class CreatePokemonPost extends InputFilter {
+class CreatePokemonPost extends InputFilter
+{
     protected $dbAdapter;
     protected $imageManager;
     protected $filesBefore;
 
-    public function __construct(\Zend\Db\Adapter\Adapter $dbAdapter, $imageManager) {
+    public function __construct(\Zend\Db\Adapter\Adapter $dbAdapter, $imageManager)
+    {
         $this->dbAdapter = $dbAdapter;
         $this->imageManager = $imageManager;
 
@@ -66,18 +68,21 @@ class CreatePokemonPost extends InputFilter {
         $this->add($csrf);
     }
 
-    public function getRenamedFile() {
+    public function getRenamedFile()
+    {
         $diff = array_diff($this->imageManager->getSavedFiles(), $this->filesBefore);
         return ((bool) count($diff)) ? $diff[0] : false;
     }
 
-    protected function getStringTrimFilterChain() {
+    protected function getStringTrimFilterChain()
+    {
         $filterChain = new FilterChain();
         $filterChain->attach(new StringTrim());
         return $filterChain;
     }
 
-    protected function getNameValidatorChain() {
+    protected function getNameValidatorChain()
+    {
         $stringLength = new StringLength();
         $stringLength->setMin(3);
         $stringLength->setMax(15);
@@ -87,7 +92,8 @@ class CreatePokemonPost extends InputFilter {
         return $validatorChain;
     }
 
-    protected function getIdNationalValidatorChain() {
+    protected function getIdNationalValidatorChain()
+    {
         $validator = new NoRecordExists([
             'table'   => 'pokemon',
             'field'   => 'id_national',
@@ -104,7 +110,8 @@ class CreatePokemonPost extends InputFilter {
         return $validatorChain;
     }
 
-    protected function getIdParentValidatorChain() {
+    protected function getIdParentValidatorChain()
+    {
         $valid = new GreaterThan([
             'min' => 0,
             'inclusive' => true
@@ -115,7 +122,8 @@ class CreatePokemonPost extends InputFilter {
         return $validatorChain;
     }
 
-    protected function getDescriptionValidatorChain() {
+    protected function getDescriptionValidatorChain()
+    {
         $stringLength = new StringLength();
         $stringLength->setMin(8);
         $stringLength->setMax(1000);
@@ -125,7 +133,8 @@ class CreatePokemonPost extends InputFilter {
         return $validatorChain;
     }
 
-    protected function getTypeValidatorChain() {
+    protected function getTypeValidatorChain()
+    {
         $valid = new GreaterThan([
             'min' => 0,
             'inclusive' => true
@@ -136,7 +145,8 @@ class CreatePokemonPost extends InputFilter {
         return $validatorChain;
     }
 
-    protected function addImageValidator() {
+    protected function addImageValidator()
+    {
         $this->filesBefore = $this->imageManager->getSavedFiles();
         $this->add([
             'type'     => 'Zend\InputFilter\FileInput',
@@ -165,15 +175,14 @@ class CreatePokemonPost extends InputFilter {
                 [
                     'name' => 'FileRenameUpload',
                     'options' => [
-                        'target'=> $this->imageManager->getSaveToDir(),
-                        'useUploadName'=>false,
-                        'useUploadExtension'=>true,
-                        'overwrite'=>true,
-                        'randomize'=>true
+                        'target' => $this->imageManager->getSaveToDir(),
+                        'useUploadName' => false,
+                        'useUploadExtension' => true,
+                        'overwrite' => true,
+                        'randomize' => true
                     ]
                 ]
             ],
         ]);
     }
-
 }

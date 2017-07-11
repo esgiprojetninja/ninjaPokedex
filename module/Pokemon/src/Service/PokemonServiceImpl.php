@@ -14,38 +14,48 @@ class PokemonServiceImpl implements PokemonService
 {
     protected $pokemonRepository;
 
-    function getPokemonRepository() {
+    public function getPokemonRepository()
+    {
         return $this->pokemonRepository;
     }
-    function setPokemonRepository($pokemonRepository) {
+    public function setPokemonRepository($pokemonRepository)
+    {
         $this->pokemonRepository = $pokemonRepository;
     }
 
-    function save(Pokemon $pokemon) {
+    public function save(Pokemon $pokemon)
+    {
         return $this->pokemonRepository->save($pokemon);
     }
-    function getAll() {
+    public function getAll()
+    {
         return $this->pokemonRepository->getAll();
     }
-    function getAllTypes() {
+    public function getAllTypes()
+    {
         return $this->pokemonRepository->getAllTypes();
     }
     /**
      * @return Pokemon|null
     **/
-    function findById($pokeId) {
+    public function findById($pokeId)
+    {
         return $this->pokemonRepository->findById($pokeId);
     }
-    function update($id, $data){
+    public function update($id, $data)
+    {
         return $this->pokemonRepository->update($id, $data);
     }
-    function delete($pokeId) {
+    public function delete($pokeId)
+    {
         return $this->pokemonRepository->delete($pokeId);
     }
-    function marked() {
+    public function marked()
+    {
         return $this->pokemonRepository->marked();
     }
-    function signal(Location $location) {
+    public function signal(Location $location)
+    {
         return $this->pokemonRepository->signal($location);
     }
 }

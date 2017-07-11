@@ -441,8 +441,8 @@ class PokemonRepositoryImpl implements PokemonRepository
       $img = explode("/", $poke['image']);
       $img = $img[count($img)-1];
 
-      $im = new ImageManager();
-      $im->deteFileByName($img);
+      $imgManager = new ImageManager();
+      $imgManager->deteFileByName($img);
 
       return true;
     } catch (\Exception $e) {
