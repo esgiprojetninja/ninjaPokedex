@@ -14,9 +14,23 @@ export const setSearchedQuery = query => {
     }
 }
 
-export const resetSearchedQuery = () => {
+export const setSearchedType = newType => {
     return {
-        type: types.RESET_SEARCHED_QUERY
+        type: types.SET_SEARCHED_TYPE,
+        newType
+    }
+}
+
+export const removeSearchedParamsType = removedType => {
+    return {
+        type: types.REMOVE_SEARCHED_PARAMS_TYPE,
+        removedType
+    }
+}
+
+export const resetSearchedParams = () => {
+    return {
+        type: types.RESET_SEARCHED_PARAMS
     }
 }
 

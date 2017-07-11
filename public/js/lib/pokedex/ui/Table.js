@@ -13,7 +13,6 @@ import scrollToElement from 'scroll-to-element';
 
 const styles = {
     button: {
-        width: '100%',
         margin: '15px 0'
     },
     cardIconLocationWrapper : {
@@ -106,39 +105,69 @@ export default class Table extends React.PureComponent {
         }
     }
 
+    renderQueryFilter () {
+        if(this.props.pokesearch.searchedParams.query) {
+            return (
+                <span className="type" style={{backgroundColor: 'white', padding: '10px 15px', fontSize: '14px', color: '#292929'}}>{this.props.pokesearch.searchedParams.query}</span>
+            )
+        }
+    }
+
+    renderTypeFilter (value, key) {
+        const typeColor = this.props.types.all.find(type => type.name_type === value).color;
+        return (
+            <span key={key} className="type" style={{backgroundColor: typeColor, padding: '10px 15px', fontSize: '14px'}}>{value}</span>
+        )
+    }
+
+    renderTypesFilter () {
+        if(this.props.pokesearch.searchedParams.pokemonType.length !== 0) {
+            return (this.props.pokesearch.searchedParams.pokemonType.map((value, key) => this.renderTypeFilter(value, key)))
+        }
+    }
+
+    renderFilterTitle () {
+        if(this.props.pokesearch.searchedParams.pokemonType.length !== 0 || this.props.pokesearch.searchedParams.query) {
+            return (
+                <span style={{color: 'white'}}> Filtres (<span style={{fontWeight: 800, color: 'red'}}>{this.props.pokesearch.searchedPokemons.length}</span> résultat(s)) : </span>
+            )
+        }
+    }
+
     render () {
       if(this.props.pokemons.all) {
         return (
           <Grid className="animate fadeInLeft full-height" style={{padding: '50px 20px'}}>
             <Row className="full-height">
-              <Col md={2} className="align full-height">
-              <div className="text-center">
-                <RaisedButton
-                  target="_blank"
-                  label="Ajouter"
-                  labelColor="#ffffff"
-                  backgroundColor="#a4c639"
-                  style={styles.button}
-                  icon={<AddCircleOutlineSVG/>}
-                />
-                <RaisedButton
-                  target="_blank"
-                  label="Voir la map"
-                  labelColor="#ffffff"
-                  secondary={true}
-                  onTouchTap={
-                      () => {
-                          scrollToElement('.map-wrapper');
-                      }
-                  }
-                  style={styles.button}
-                  buttonStyle={{backgroundColor: this.props.theme.current.palette.primary1Color}}
-                  icon={<LocationSVG/>}
-                />
-              </div>
+              <Col md={12}>
+                <div>
+                  <div className="table-filters">
+                    <Col md={10} style={{padding: '10px'}}>
+                        {this.renderFilterTitle()}
+                        {this.renderQueryFilter()}
+                        {this.renderTypesFilter()}
+                    </Col>
+                    <Col md={2}>
+                        <RaisedButton
+                          target="_blank"
+                          label="Voir la map"
+                          labelColor="#ffffff"
+                          secondary={true}
+                          onTouchTap={
+                              () => {
+                                  scrollToElement('.map-wrapper');
+                              }
+                          }
+                          style={{margin: 0}}
+                          buttonStyle={{backgroundColor: this.props.theme.current.palette.primary1Color}}
+                          icon={<LocationSVG/>}
+                        />
+                    </Col>
+                  </div>
+                </div>
               </Col>
-              <Col md={10} style={{textAlign: 'center', overflowY: 'auto'}} className="full-height">
-                {this.renderPokemonsList()}
+              <Col md={12} style={{textAlign: 'center', overflowY: 'auto', height: '85vh'}}>
+                  {this.renderPokemonsList()}
               </Col>
             </Row>
           </Grid>

@@ -75,6 +75,7 @@ export default class Navbar extends React.PureComponent {
                     () => {
                         this.props.getTableView();
                         this.props.resetSearchedPokemons();
+                        this.props.resetSearchedParams();
                         this.props.toggleSearch();
                     }
                 }

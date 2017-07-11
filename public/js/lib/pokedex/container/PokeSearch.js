@@ -9,8 +9,10 @@ import {
 import {
     setSearchedPokemons,
     setSearchedQuery,
-    resetSearchedQuery,
-    resetSearchedPokemons
+    setSearchedType,
+    resetSearchedParams,
+    resetSearchedPokemons,
+    removeSearchedParamsType
 } from "../actions/pokeSearchActions"
 
 const mapStateToProps = state => state;
@@ -29,11 +31,17 @@ const mapDispatchToProps = dispatch => {
         setSearchedQuery(query) {
             dispatch(setSearchedQuery(query));
         },
-        resetSearchedQuery() {
-            dispatch(resetSearchedQuery());
+        setSearchedType(newType) {
+            dispatch(setSearchedType(newType));
+        },
+        resetSearchedParams() {
+            dispatch(resetSearchedParams());
         },
         resetSearchedPokemons() {
             dispatch(resetSearchedPokemons());
+        },
+        removeSearchedParamsType(removedType) {
+            dispatch(removeSearchedParamsType(removedType));
         }
     };
 }

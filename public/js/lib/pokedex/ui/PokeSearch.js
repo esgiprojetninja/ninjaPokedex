@@ -9,7 +9,8 @@ import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import TextField from 'material-ui/TextField';
 import StringSimilarity from 'string-similarity';
-import jQuery from 'jquery';
+import RaisedButton from 'material-ui/RaisedButton';
+import Swal from 'sweetalert';
 
 const colors = [
   'Red',
@@ -54,6 +55,36 @@ export default class PokeSearch extends React.PureComponent {
         super(props);
     }
 
+    getPokemonsByQuery = (arr, pokemonName) => {
+        return arr.filter(pokemon => StringSimilarity.compareTwoStrings(pokemon.name, pokemonName) > 0.5);
+    }
+
+    getPokemonsByFilter = (arr) => {
+        let pokemonsByFilter = [];
+
+        arr.forEach(
+            (pokemon) => {
+                if(pokemon.type) {
+                    pokemon.type.forEach(
+                        (pokemonType) => {
+                            if(this.props.pokesearch.searchedParams.pokemonType.length !== 0) {
+                                this.props.pokesearch.searchedParams.pokemonType.forEach(
+                                    (searchedParamsType) => {
+                                        if(pokemonType.nom_type === searchedParamsType && pokemonsByFilter.indexOf(pokemon) === -1) {
+                                            pokemonsByFilter.push(pokemon);
+                                        }
+                                    }
+                                )
+                            }
+                        }
+                    )
+                }
+            }
+        )
+
+        return pokemonsByFilter;
+    }
+
     renderTypes(thisP, thisK) {
         return (
             <div className="search-checkbox-wrapper" key={thisK}>
@@ -73,35 +104,12 @@ export default class PokeSearch extends React.PureComponent {
                 }}
                 onCheck={
                     (event, isInputChecked) => {
-                        console.log('is', isInputChecked);
                         if(isInputChecked) {
-                            const searchedPokemons = this.props.pokemons.all.filter(
-                                (p, k) => {
-                                    if(this.props.pokesearch.searchedQuery === null || this.props.pokesearch.searchedQuery === undefined) {
-                                        if(p.type.filter(element => element.nom_type === thisP.name_type).length !== 0){
-                                            return p;
-                                        }
-                                    } else {
-                                        const target = this.props.pokemons.all.filter(pokemon => StringSimilarity.compareTwoStrings(pokemon.name, this.props.pokesearch.searchedQuery) > 0.5);
-                                        if(target) {
-                                            target.filter(
-                                                (pp, kk) => {
-                                                    if(pp.type.length !== 0) {
-                                                        if(pp.type.filter(ppelement => ppelement.nom_type === thisP.name_type).length !== 0){
-                                                            console.log(pp);
-                                                            return pp;
-                                                        }
-                                                    }
-                                                }
-                                            )
-                                        }
-                                    }
-                                }
-                            )
-
-                            if(searchedPokemons) {
-                                this.props.setSearchedPokemons(searchedPokemons);
+                            if(this.props.pokesearch.searchedParams.pokemonType.indexOf(thisP.name_type) === -1) {
+                                this.props.setSearchedType(thisP.name_type);
                             }
+                        } else {
+                                this.props.removeSearchedParamsType(thisP.name_type);
                         }
                     }
                 }
@@ -122,33 +130,50 @@ export default class PokeSearch extends React.PureComponent {
                   <div className="search-intro">Tape le nom dun Pokémon et appuies sur entrée</div>
                   <input
                       onChange={(event) => {
-                        const _this = this;
-                        jQuery(document).keypress(function(e) {
-                            if(e.which == 13) {
-                                console.log('enter');
-                                _this.props.closeSearch();
-                            }
-                        });
                         if(event.target.value) {
-                          _this.props.setSearchedQuery(event.target.value);
+                          this.props.setSearchedQuery(event.target.value);
                         } else {
-                          _this.props.resetSearchedQuery();
-                        }
-                        const target = _this.props.pokemons.all.filter(pokemon => StringSimilarity.compareTwoStrings(pokemon.name, event.target.value) > 0.5);
-                        if(target) {
-                          _this.props.setSearchedPokemons(target);
+                          this.props.resetSearchedParams();
                         }
                       }}
                       className="search-input"
                       type="text"
                       placeholder="Rechercher"
                   />
-                  <span className="search-found"><span className="search-found-count">{this.props.pokesearch.searchedPokemons.length}</span> Pokémon trouvé</span>
                   <div className="filters filters-type">
                       <span className="filters-name">Types :</span>
                       {
                           (this.props.types.all.map((thisP, thisKey) => this.renderTypes(thisP, thisKey)))
                       }
+                  </div>
+                  <div>
+                      <RaisedButton
+                        target="_blank"
+                        label="Go!"
+                        style={{margin: '15px'}}
+                        labelColor="#ffffff"
+                        onTouchTap={
+                            () => {
+                                if(this.props.pokesearch.searchedParams.pokemonType && this.props.pokesearch.searchedParams.query === null) {
+                                    this.props.setSearchedPokemons(this.getPokemonsByFilter(this.props.pokemons.all));
+                                }
+
+                                if(this.props.pokesearch.searchedParams.pokemonType.length === 0 && this.props.pokesearch.searchedParams.query) {
+                                    this.props.setSearchedPokemons(this.getPokemonsByQuery(this.props.pokemons.all, this.props.pokesearch.searchedParams.query));
+                                }
+
+                                if(this.props.pokesearch.searchedParams.pokemonType.length !== 0 && this.props.pokesearch.searchedParams.query) {
+                                    this.props.setSearchedPokemons(this.getPokemonsByFilter(this.getPokemonsByQuery(this.props.pokemons.all, this.props.pokesearch.searchedParams.query)));
+                                }
+                                if(this.props.pokesearch.searchedParams.pokemonType.length === 0 && this.props.pokesearch.searchedParams.query === null) {
+                                    Swal("Oops...", "Vous n'avez rien renseigné dans la recherche!", "error");
+                                } else {
+                                    this.props.closeSearch();
+                                }
+                            }
+                        }
+                        backgroundColor="#a4c639"
+                      />
                   </div>
                 </Col>
               </Row>

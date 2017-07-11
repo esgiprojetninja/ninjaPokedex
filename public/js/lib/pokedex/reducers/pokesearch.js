@@ -1,8 +1,11 @@
 import * as types from "../actions/pokeSearchTypes";
 
 const initialSate = {
-    searchedPokemons : [],
-    searchedQuery : null
+    searchedPokemons : false,
+    searchedParams : {
+        query : null,
+        pokemonType : []
+    }
 };
 
 const pokesearch = (state = initialSate, action) => {
@@ -10,17 +13,45 @@ const pokesearch = (state = initialSate, action) => {
         case types.SET_SEARCHED_POKEMONS:
             return {
                 ...state,
-                searchedPokemons: action.pokemons || []
+                searchedPokemons: action.pokemons
             }
         case types.SET_SEARCHED_QUERY:
             return {
                 ...state,
-                searchedQuery: action.query || null
+                searchedParams: {
+                    ...state.searchedParams,
+                    query: action.query || null
+                }
             }
-        case types.RESET_SEARCHED_QUERY:
+        case types.SET_SEARCHED_TYPE:
             return {
                 ...state,
-                searchedQuery: null
+                searchedParams: {
+                    ...state.searchedParams,
+                    pokemonType: [
+                        ...state.searchedParams.pokemonType,
+                        action.newType
+                    ]
+                }
+            }
+        case types.REMOVE_SEARCHED_PARAMS_TYPE:
+            return {
+                ...state,
+                searchedParams: {
+                    ...state.searchedParams,
+                    pokemonType: [
+                        ...state.searchedParams.pokemonType.filter(element => element !== action.removedType)
+                    ]
+                }
+            }
+        case types.RESET_SEARCHED_PARAMS:
+            return {
+                ...state,
+                searchedParams: {
+                    ...state.searchedParams,
+                    query: null,
+                    pokemonType: []
+                }
             }
         case types.RESET_SEARCHED_POKEMONS:
             return {

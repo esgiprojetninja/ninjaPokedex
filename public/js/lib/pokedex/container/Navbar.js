@@ -12,7 +12,8 @@ import {
 } from "../actions/homeActions";
 
 import {
-    resetSearchedPokemons
+    resetSearchedPokemons,
+    resetSearchedParams
 } from "../actions/pokeSearchActions";
 
 const mapStateToProps = state => state;
@@ -27,6 +28,9 @@ const mapDispatchToProps = dispatch => {
         },
         toggleSearch() {
             dispatch(toggleSearch());
+        },
+        resetSearchedParams() {
+            dispatch(resetSearchedParams());
         },
         getTableView() {
             dispatch(getTableView());
