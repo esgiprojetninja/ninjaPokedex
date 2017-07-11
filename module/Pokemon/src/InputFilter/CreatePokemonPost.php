@@ -8,6 +8,7 @@ use Zend\Filter\StringTrim;
 use Zend\Validator\StringLength;
 use Zend\Validator\Digits;
 use Zend\Validator\GreaterThan;
+use Zend\Validator\Between;
 use Zend\Validator\ValidatorChain;
 use Zend\Validator\File\IsImage as FileIsImage;
 use Zend\Validator\File\ImageSize as FileImageSize;
@@ -83,12 +84,18 @@ class CreatePokemonPost extends InputFilter
 
     protected function getNameValidatorChain()
     {
+        $validator = new NoRecordExists([
+            'table'   => 'pokemon',
+            'field'   => 'name',
+            'adapter' => $this->dbAdapter,
+        ]);
         $stringLength = new StringLength();
         $stringLength->setMin(3);
         $stringLength->setMax(15);
         $validatorChain = new ValidatorChain();
         $validatorChain->attach(new Alnum(true));
         $validatorChain->attach($stringLength);
+        $validatorChain->attach($validator);
         return $validatorChain;
     }
 
@@ -99,7 +106,7 @@ class CreatePokemonPost extends InputFilter
             'field'   => 'id_national',
             'adapter' => $this->dbAdapter,
         ]);
-        $valid = new GreaterThan([
+        $valid = new Between([
             'min' => 1,
             'max' => 151,
             'inclusive' => true

@@ -149,6 +149,7 @@ class AdminController extends AbstractActionController {
         $viewed_pokemon = ($viewed_pokemon != null) ? $this->pokeHydrator->hydrate($viewed_pokemon, new Pokemon()) : null;
         $form = new PokemonForm($this->pokemonService, $this->typeService, $viewed_pokemon);
 
+
         if ( $this->request->isPost() ){
             $data = array_merge_recursive(
                 $this->request->getPost()->toArray(),
@@ -160,6 +161,9 @@ class AdminController extends AbstractActionController {
             if ( (int) $matchedPokemon['id_national'] == (int) $data['id_national'] )
                 unset($data['id_national']);
 
+            if ( $viewed_pokemon->getName() == $data['name'] )
+                unset($data['name']);
+
             $pokemon = new Pokemon();
             $form->bind($pokemon);
             $form->setInputFilter($this->updatePokemonFilter);
@@ -167,11 +171,12 @@ class AdminController extends AbstractActionController {
             if ( $form->isValid() ){
                 // Move uploaded file to its destination directory.
                 $form->getData();
-                $data['id_national'] = (int) $data['id_national'];
                 $data['image'] = $this->updatePokemonFilter->getRenamedFile();
                 $id_poke = (int) $data['id_pokemon'];
                 unset($data['submit']);
                 unset($data['csrf']);
+                if ( !isset($data['id_national']) )
+                    $data['id_national'] = $matchedPokemon['id_national'];
                 if ( false === $data['image'] )
                     $data['image'] = $this->imageManager->getDefaultWebHosting($data['id_national']);
                 else {
@@ -233,7 +238,6 @@ class AdminController extends AbstractActionController {
             $form->setData($data);
             if ( $form->isValid() ){
                 $form->getData();
-                $data['id_national'] = (int) $data['id_national'];
                 $data['image'] = $this->createPokemonFilter->getRenamedFile();
                 if ( false === $data['image'] )
                     $data['image'] = $this->imageManager->getDefaultWebHosting($data['id_national']);
