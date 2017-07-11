@@ -50,6 +50,7 @@ class AdminController extends AbstractActionController {
         $this->imageManager = $imageManager;
         $this->identity = $adminService->getAuthenticationService()->getIdentity();
         $this->pokeHydrator = new PokemonHydrator();
+        $_SESSION['identity'] = ($this->identity != null) ? $this->identity->login : false;
     }
 
     public function addAdminAction() {
