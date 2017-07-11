@@ -1,63 +1,76 @@
-<h3 class="text text-primary">Interface Admin</h3>
+<div class="row">
+    <h1 class="text text-primary col-lg-3 col-md-4 col-xs-12">Interface Admin</h1>
+</div>
+<div class="row">
+    <a href="<?= $this->url('admin_home/admin_pokemon_create') ?>" class="btn btn-primary btn-lg pull-right" name="button">Ajouter un pokemon <span class="glyphicon glyphicon-plus"></span></a>
+</div>
 <?php if ( (bool) count($this->messages) ) : ?>
-<ul class="messages">
+<div class="row alert alert-info">
     <?php foreach ($this->messages as $msg): ?>
-    <li><?= $msg ?></li>
+    <p class="col-xs-10 col-xs-offset-1"><strong><?= $msg ?></strong></p>
     <?php endforeach; ?>
-</ul>
+</div>
 <?php endif; ?>
 <?php if ( (bool) count($this->pokemons) ) : ?>
-<table class="table table-condenses table-hover">
-    <thead>
-        <tr>
-            <th>national ID</th>
-            <th>Name</th>
-            <th>Image</th>
-            <th>Description</th>
-            <th>Evolutions</th>
-            <th>Types</th>
-            <th>Show</th>
-            <th>Edit</th>
-            <th>Delete</th>
-        </tr>
-    </thead>
-    <tbody>
-    <?php foreach ($this->pokemons as $poke): ?>
-        <tr id="poke-<?= $poke->id_national ?>">
-            <td><?= $poke->id_national ?></td>
-            <td><?= $poke->name ?></td>
-            <td><img src="<?= $poke->image ?>" alt="<?= $poke->name ?> image"></td>
-            <td><?= $poke->description ?></td>
-            <td>
-            <?php if ( is_array($poke->evolutions) ) : ?>
-                <div class="evolutions row">
-                <?php foreach ($poke->evolutions as $evo): ?>
-                    <a href="#poke-<?= $evo->id_national ?>"><?= $evo->name ?></a>
-                    <?php if ( is_array($evo->evolutions) ) : ?>
-                        <div class="next-evolutions">
-                        <?php foreach ($evo->evolutions as $next_evo): ?>
-                            <a href="#poke-<?= $next_evo->id_national ?>"><?= $next_evo->name ?></a>
-                        <?php endforeach; ?>
-                        </div>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
-            </td>
-            <td>
-                <?php if ( is_array($poke->type) && count($poke->type) > 0 ) : ?>
-                    <?php foreach ($poke->type as $type_arr) : ?>
-                        <span style="color: <?= $type_arr['color']; ?>;"><?= $type_arr['nom_type']; ?></span>
+<div class="row">
+    <table class="table table-condenses table-hover">
+        <thead>
+            <tr>
+                <th>national ID</th>
+                <th>Name</th>
+                <th>Image</th>
+                <th>Description</th>
+                <th>Evolutions</th>
+                <th>Types</th>
+                <th>Show</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($this->pokemons as $poke): ?>
+            <?php
+                $idnation = (string) $poke->id_national;
+                while (strlen($idnation) < 3) {
+                    $idnation = "0".$idnation;
+                }
+            ?>
+            <tr id="poke-<?= $poke->id_national ?>">
+                <td><?= "#".$idnation ?></td>
+                <td><?= $poke->name ?></td>
+                <td><img src="<?= $poke->image ?>" alt="<?= $poke->name ?> image"></td>
+                <td><?= $poke->description ?></td>
+                <td>
+                <?php if ( is_array($poke->evolutions) ) : ?>
+                    <div class="evolutions row">
+                    <?php foreach ($poke->evolutions as $evo): ?>
+                        <a href="#poke-<?= $evo->id_national ?>"><?= $evo->name ?></a>
+                        <?php if ( is_array($evo->evolutions) ) : ?>
+                            <div class="next-evolutions">
+                            <?php foreach ($evo->evolutions as $next_evo): ?>
+                                <a href="#poke-<?= $next_evo->id_national ?>"><?= $next_evo->name ?></a>
+                            <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
                     <?php endforeach; ?>
-                <?php else: ?>
-                    None
+                    </div>
                 <?php endif; ?>
-            </td>
-            <td><a href="/admin/pokemon/show/<?= $poke->id_pokemon ?>"><button type="button" class="btn btn-success btn-xs">Show</button></a></td>
-            <td><a href="/admin/pokemon/edit/<?= $poke->id_pokemon ?>"><button type="button" class="btn btn-warning btn-xs">Edit</button></a></td>
-            <td><a href="/admin/pokemon/delete/<?= $poke->id_pokemon ?>"><button type="button" class="btn btn-danger btn-xs">Remove</button></a></td>
-        </tr>
-    <?php endforeach; ?>
-    </tbody>
-</table>
+                </td>
+                <td>
+                    <?php if ( is_array($poke->type) && count($poke->type) > 0 ) : ?>
+                        <?php foreach ($poke->type as $type_arr) : ?>
+                            <span style="color: <?= $type_arr['color']; ?>;"><?= $type_arr['nom_type']; ?></span>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        None
+                    <?php endif; ?>
+                </td>
+                <td><a href="/admin/pokemon/show/<?= $poke->id_pokemon ?>"><button type="button" class="btn btn-success btn-xs">Show</button></a></td>
+                <td><a href="/admin/pokemon/edit/<?= $poke->id_pokemon ?>"><button type="button" class="btn btn-warning btn-xs">Edit</button></a></td>
+                <td><a href="/admin/pokemon/delete/<?= $poke->id_pokemon ?>"><button type="button" class="btn btn-danger btn-xs">Remove</button></a></td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
 <?php endif; ?>
