@@ -4,6 +4,13 @@ namespace Pokemon\Service;
 class ImageManager {
     private $saveToDir = './public/img/upload/';
     private $publicWebPath = '/img/upload/';
+    private $webImageHosting = 'http://romainlambot.fr/pokemons/images/';
+
+
+    public function getDefaultWebHosting($id_national)
+    {
+        return $this->webImageHosting.$id_national.'.png';
+    }
 
     public function getSaveToDir() {
         return $this->saveToDir;
@@ -11,6 +18,11 @@ class ImageManager {
 
     public function getPublicWebPath() {
         return $this->publicWebPath;
+    }
+
+    public function deteFileByName($name) {
+        if ( file_exists($this->getSaveToDir().$name) )
+            unlink($this->getSaveToDir().$name);
     }
 
     public function getSavedFiles() {
@@ -27,36 +39,6 @@ class ImageManager {
             $files[] = $entry;
         }
         return $files;
-    }
-
-    public function getImagePathByName($fileName) {
-        $fileName = str_replace("/", "", $fileName);
-        $fileName = str_replace("\\", "", $fileName);
-
-        return $this->saveToDir . $fileName;
-    }
-
-    public function getImageFileContent($filePath) {
-        return file_get_contents($filePath);
-    }
-
-    public function getImageFileInfo($filePath) {
-        if (!is_readable($filePath))
-            return false;
-
-        // Get file size in bytes.
-        $fileSize = filesize($filePath);
-
-        // Get MIME type of the file.
-        $finfo = finfo_open(FILEINFO_MIME);
-        $mimeType = finfo_file($finfo, $filePath);
-        if( false === $mimeType )
-            $mimeType = 'application/octet-stream';
-
-        return [
-            'size' => $fileSize,
-            'type' => $mimeType
-        ];
     }
 
 }

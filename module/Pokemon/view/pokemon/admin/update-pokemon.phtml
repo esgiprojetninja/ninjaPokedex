@@ -4,19 +4,6 @@
         <h1 class="text text-primary col-lg-4 col-md-4 col-xs-8">Update <?= $poke->getName(); ?></h1>
         <img src="<?= $poke->getImage(); ?>" alt="image <?= $poke->getName(); ?>" class="img-responsive col-lg-1 col-xs-2">
     </div>
-    <?php if ( (bool) count($this->messages) ) : ?>
-    <ul class="list-unstyled messages">
-        <?php foreach ($this->messages as $msg): ?>
-            <?php if ( is_array($msg) ) : ?>
-                <?php foreach ($msg as $m): ?>
-                    <li><?= $m; ?></li>
-                <?php endforeach; ?>
-            <?php else : ?>
-                <li><?= $msg; ?></li>
-            <?php endif; ?>
-        <?php endforeach; ?>
-    </ul>
-    <?php endif; ?>
 
     <?php
         $form = $this->form;
