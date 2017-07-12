@@ -22,4 +22,6 @@ interface PokemonRepository extends RepositoryInterface
     public function marked();
 
     public function signal(Location $location);
+
+    public function dispo($idNational);
 }

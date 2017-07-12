@@ -2,6 +2,7 @@
 
 use Zend\Mvc\Application;
 use Zend\Stdlib\ArrayUtils;
+use Pokemon\Controller\PokemonsController;
 
 /**
  * This makes our life easier when dealing with paths. Everything is relative
@@ -38,3 +39,4 @@ if (file_exists(__DIR__ . '/../config/development.config.php')) {
 
 // Run the application!
 Application::init($appConfig)->run();
+?>

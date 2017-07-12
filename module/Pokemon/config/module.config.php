@@ -91,7 +91,17 @@ return [
                                 'action' => 'marked'
                             ],
                         ],
-                    ]
+                    ],
+                    'dispo' => [
+                        'type'    => Segment::class,
+                        'options' => [
+                            'route'    => '/dispo[/:id]',
+                            'defaults' => [
+                                'controller' => 'Pokemon\Controller\Pokemons',
+                                'action'     => 'dispo',
+                            ],
+                        ],
+                    ],
                 ],
                 'may_terminate' => true,
             ],

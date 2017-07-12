@@ -28,7 +28,19 @@ class PokemonRepositoryImpl implements PokemonRepository
       ->getConnection()
       ->beginTransaction();
       $sql = new \Zend\Db\Sql\Sql($this->adapter);
-      if($this->verifPokemonInsert($pokemon)){
+      $verifPokemon = $this->verifPokemonInsert($pokemon);
+
+      $verifPokemon['error'] = FALSE;
+      if($verifPokemon['error'] == TRUE){
+        return $verifPokemon['message'];
+      }else{
+        $type1 = $pokemon->getType1();
+        $type2 = $pokemon->getType2();
+
+        if($type1 == $type2){
+          return "Les deux types sont identiques";
+        }
+
         $insert = $sql->insert()
         ->values([
           'id_national' => $pokemon->getIdNational(),
@@ -44,18 +56,14 @@ class PokemonRepositoryImpl implements PokemonRepository
         ->getConnection()
         ->commit();
 
-        $type1 = $pokemon->getType1();
-        $type2 = $pokemon->getType2();
-
         $this->saveTypes($this->getPokemonByName($pokemon->getName()), $type1, $type2);
-        $return = true;
+        return "success";
       }
     } catch (\Exception $e) {
       return $e->getMessage();
       $this->adapter->getDriver()
       ->getConnection()->rollback();
     }
-    return $return;
   }
 
   public function saveTypes(Pokemon $pokemon, $type1, $type2) {
@@ -399,7 +407,11 @@ class PokemonRepositoryImpl implements PokemonRepository
       }
 
       if($updateType){
-        $this->updateTypes($pokemon, $typeToUpdate['type1'], $typeToUpdate['type2']);
+        if($typeToUpdate['type1'] == $typeToUpdate['type2']){
+          return "Les deux types sont identiques";
+        }else{
+          $this->updateTypes($pokemon, $typeToUpdate['type1'], $typeToUpdate['type2']);
+        }
       }
 
       $update = $sql->update();
@@ -469,6 +481,87 @@ class PokemonRepositoryImpl implements PokemonRepository
     ]);
     $statement = $sql->prepareStatementForSqlObject($delete);
     $statement->execute();
+  }
+
+  public function dispo($idNational) {
+    try {
+      $sql = new \Zend\Db\Sql\Sql($this->adapter);
+
+      //Get pokemon infos
+      $select = $sql->select();
+      $select->from('pokemon');
+      $select->columns(['name','id_parent','id_pokemon', 'id_national']);
+
+      $statement = $sql->prepareStatementForSqlObject($select);
+      $r = $statement->execute();
+
+      $resultSet = new ResultSet;
+      $resultSet->initialize($r);
+      $pokemons = [];
+      $notDispo = [];
+      foreach ($resultSet as $pokemon) {
+        //Toutes les familles avec 2 evolutions successives sont retirés, comme Salameche Reptincel Dracaufeu
+        $firstPokemon = $pokemon->id_national;
+        $secondPokemon = $this->getByIdParent($firstPokemon);
+        if(count($secondPokemon) > 0){
+          $secondPokemon['id_national'];
+          $thirdPokemon = $this->getByIdParent($secondPokemon['id_national']);
+            if(count($thirdPokemon) > 0){
+              $secondPokemon = $secondPokemon['id_national'];
+              $thirdPokemon = $thirdPokemon['id_national'];
+              $notDispo[] = $firstPokemon;
+              $notDispo[] = $secondPokemon;
+              $notDispo[] = $thirdPokemon;
+            }
+        }
+        $pokemons[] = $pokemon;
+      }
+      if($idNational != 0){
+        $notDispo[] = $idNational;
+        $pokemonParent = ($this->getByIdParent($idNational));
+        if(count($pokemonParent) > 0){
+          if (!in_array($pokemonParent['id_national'], $notDispo)){
+            $notDispo[] = $pokemonParent['id_national'];
+          }
+        }
+      }
+      foreach($pokemons as $key=>$pokemon){
+        if(in_array($pokemon->id_national, $notDispo)){
+          unset($pokemons[$key]);
+        }
+      }
+      return $pokemons;
+    } catch ( \Exception $e ) {
+      $this->adapter->getDriver()
+      ->getConnection()
+      ->rollback();
+    }
+  }
+
+  /**
+  * @return Pokemon|null
+  **/
+  public function getByIdParent($pokemonId) {
+    try {
+      $sql = new \Zend\Db\Sql\Sql($this->adapter);
+      $select = $sql->select();
+      $select->from('pokemon');
+      $select->where(array('id_parent' => $pokemonId));
+
+      $statement = $sql->prepareStatementForSqlObject($select);
+      $r = $statement->execute();
+
+      $resultSet = new ResultSet;
+      $resultSet->initialize($r);
+
+      $pokemon = NULL;
+      foreach ($resultSet as $pokemon) {
+        $pokemon =  $pokemon;
+      }
+      return $pokemon;
+    } catch ( \Exception $e ) {
+      return $e->getMessage();
+    }
   }
 
   protected function getTypes($idPokemon){
@@ -543,15 +636,15 @@ class PokemonRepositoryImpl implements PokemonRepository
 
   public function verifPokemonInsert(Pokemon $pokemon){
     //Verif name
-    if($this->verifPokemonName($pokemon->getName()) > 0){
-      return false;
+    if($this->verifPokemonName($pokemon->getName()) > 0 || $pokemon->getName() == NULL){
+      return ["error" => TRUE, "message" => "Nom pokemon déjà existant ou vide."];
     }
     //Verif id_national
-    if($this->verifPokemonIdNationnal($pokemon->getIdNational()) > 0){
-      return false;
+    if($this->verifPokemonIdNationnal($pokemon->getIdNational()) > 0 || $pokemon->getIdNational() == NULL){
+      return ["error" => TRUE, "message" => "Id national déjà existant ou vide."];
     }
     //Verif type différent
-    return true;
+    return ["error" => FALSE];
   }
 
   public function verifPokemonName($name){

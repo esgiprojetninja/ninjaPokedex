@@ -58,6 +58,9 @@ class PokemonServiceImpl implements PokemonService
     {
         return $this->pokemonRepository->signal($location);
     }
+    public function dispo($idNational) {
+        return $this->pokemonRepository->dispo($idNational);
+    }
     public function hydrateWithRelatives(Pokemon $pokemon)
     {
         return $this->pokemonRepository->hydrateWithRelatives($pokemon);
