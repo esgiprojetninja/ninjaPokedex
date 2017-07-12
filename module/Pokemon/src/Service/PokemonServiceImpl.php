@@ -65,4 +65,8 @@ class PokemonServiceImpl implements PokemonService
     {
         return $this->pokemonRepository->hydrateWithRelatives($pokemon);
     }
+    public function getPaginated($page)
+    {
+        return $this->pokemonRepository->getPaginated($page);
+    }
 }

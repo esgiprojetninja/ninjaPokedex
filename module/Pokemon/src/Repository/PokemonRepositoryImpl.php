@@ -3,6 +3,7 @@ namespace Pokemon\Repository;
 
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Db\Adapter\AdapterAwareTrait;
+use Zend\Hydrator\Aggregate\AggregateHydrator;
 
 use Pokemon\Repository\PokemonRepository;
 use Pokemon\Entity\Pokemon;
@@ -253,6 +254,30 @@ class PokemonRepositoryImpl implements PokemonRepository
       ->getConnection()
       ->rollback();
     }
+  }
+
+  public function getPaginated($page)
+  {
+    $sql = new \Zend\Db\Sql\Sql($this->adapter);
+
+    $select = $sql->select();
+    $select->from('pokemon');
+
+    $hydrator = new AggregateHydrator();
+    $hydrator->add(new PokemonHydrator());
+    $resultSet = new HydratingResultSet($hydrator, new Pokemon());
+
+    $paginatorAdapter = new \Zend\Paginator\Adapter\DbSelect(
+      $select,
+      $this->adapter,
+      $resultSet
+    );
+
+    $paginator = new \Zend\Paginator\Paginator($paginatorAdapter);
+    $paginator->setCurrentPageNumber($page);
+    $paginator->setItemCountPerPage(4);
+
+    return $paginator;
   }
 
   public function marked() {
