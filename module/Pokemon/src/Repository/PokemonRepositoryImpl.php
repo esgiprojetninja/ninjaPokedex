@@ -483,14 +483,14 @@ class PokemonRepositoryImpl implements PokemonRepository
     $statement->execute();
   }
 
-  public function dispo($idPokemon) {
+  public function dispo($idNational) {
     try {
       $sql = new \Zend\Db\Sql\Sql($this->adapter);
 
       //Get pokemon infos
       $select = $sql->select();
       $select->from('pokemon');
-      $select->columns(['name','id_parent','id_pokemon']);
+      $select->columns(['name','id_parent','id_pokemon', 'id_national']);
 
       $statement = $sql->prepareStatementForSqlObject($select);
       $r = $statement->execute();
@@ -501,14 +501,14 @@ class PokemonRepositoryImpl implements PokemonRepository
       $notDispo = [];
       foreach ($resultSet as $pokemon) {
         //Toutes les familles avec 2 evolutions successives sont retirés, comme Salameche Reptincel Dracaufeu
-        $firstPokemon = $pokemon->id_pokemon;
+        $firstPokemon = $pokemon->id_national;
         $secondPokemon = $this->getByIdParent($firstPokemon);
         if(count($secondPokemon) > 0){
-          $secondPokemon['id_pokemon'];
-          $thirdPokemon = $this->getByIdParent($secondPokemon['id_pokemon']);
+          $secondPokemon['id_national'];
+          $thirdPokemon = $this->getByIdParent($secondPokemon['id_national']);
             if(count($thirdPokemon) > 0){
-              $secondPokemon = $secondPokemon['id_pokemon'];
-              $thirdPokemon = $thirdPokemon['id_pokemon'];
+              $secondPokemon = $secondPokemon['id_national'];
+              $thirdPokemon = $thirdPokemon['id_national'];
               $notDispo[] = $firstPokemon;
               $notDispo[] = $secondPokemon;
               $notDispo[] = $thirdPokemon;
@@ -516,17 +516,17 @@ class PokemonRepositoryImpl implements PokemonRepository
         }
         $pokemons[] = $pokemon;
       }
-      if($idPokemon != 0){
-        $notDispo[] = $idPokemon;
-        $pokemonParent = ($this->getByIdParent($idPokemon));
+      if($idNational != 0){
+        $notDispo[] = $idNational;
+        $pokemonParent = ($this->getByIdParent($idNational));
         if(count($pokemonParent) > 0){
-          if (!in_array($pokemonParent['id_pokemon'], $notDispo)){
-            $notDispo[] = $pokemonParent['id_pokemon'];
+          if (!in_array($pokemonParent['id_national'], $notDispo)){
+            $notDispo[] = $pokemonParent['id_national'];
           }
         }
       }
       foreach($pokemons as $key=>$pokemon){
-        if(in_array($pokemon->id_pokemon, $notDispo)){
+        if(in_array($pokemon->id_national, $notDispo)){
           unset($pokemons[$key]);
         }
       }
