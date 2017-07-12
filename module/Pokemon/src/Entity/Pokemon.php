@@ -11,6 +11,8 @@ class Pokemon {
     protected $id_national;
     protected $type1;
     protected $type2;
+    protected $parent;
+    protected $evolutions;
 
 
     /**
@@ -202,6 +204,55 @@ class Pokemon {
     public function setType2($type2)
     {
         $this->type2 = $type2;
+
+        return $this;
+    }
+
+
+    /**
+     * Get the value of Parent
+     *
+     * @return mixed
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Set the value of Parent
+     *
+     * @param mixed parent
+     *
+     * @return self
+     */
+    public function setParent($parent)
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Evolution
+     *
+     * @return mixed
+     */
+    public function getEvolutions()
+    {
+        return $this->evolutions;
+    }
+
+    /**
+     * Set the value of Evolution
+     *
+     * @param mixed evolutions
+     *
+     * @return self
+     */
+    public function setEvolutions($evolutions)
+    {
+        $this->evolutions = $evolutions;
 
         return $this;
     }

@@ -5,5 +5,11 @@
     margin: 0;
 }
 .margin-l-reset{
-	margin-left: 0;
+	 margin-left: 0;
+}
+.light-top-margin{
+    margin-top: 10px;
+}
+.tiny-top-margin{
+    margin-top: 5px;
 }
