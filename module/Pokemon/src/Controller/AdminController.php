@@ -51,6 +51,7 @@ class AdminController extends AbstractActionController {
         $this->imageManager = $imm;
         $this->identity = $asc->getAuthenticationService()->getIdentity();
         $this->pokeHydrator = new PokemonHydrator();
+        $_SESSION['identity'] = ($this->identity != null) ? $this->identity->login : false;
     }
 
     public function addAdminAction()
@@ -135,8 +136,16 @@ class AdminController extends AbstractActionController {
             $url = $this->getRequest()->getHeader('Referer')->getUri();
             return $this->redirect()->toUrl($url);
         }
+
+        $pokemon = $this->pokemonService->findById((int) $this->params()->fromRoute('id'));
+
+        if ( $pokemon != null ) {
+            $pokemon = $this->pokeHydrator->hydrate($pokemon, new Pokemon());
+            $pokemon = $this->pokemonService->hydrateWithRelatives($pokemon);
+        }
+
         return new ViewModel([
-            'pokemon' => $this->pokemonService->findById((int) $this->params()->fromRoute('id'))
+            'pokemon' => $pokemon
         ]);
     }
 

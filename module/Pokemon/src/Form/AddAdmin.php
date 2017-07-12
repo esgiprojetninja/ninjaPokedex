@@ -10,15 +10,15 @@ class AddAdmin extends Form {
         $this->setHydrator(new \Zend\Hydrator\ClassMethods());
 
         $login = new Element\Text('login');
-        $login->setLabel('Identifiant');
+        $login->setLabel('Login');
         $login->setAttribute('class','form-control');
 
         $password = new Element\Password('password');
-        $password->setLabel('Mot de passe');
+        $password->setLabel('Password');
         $password->setAttribute('class','form-control');
 
         $repeatPassword = new Element\Password('repeatPassword');
-        $repeatPassword->setLabel('Confirmation du mot de passe');
+        $repeatPassword->setLabel('Password check');
         $repeatPassword->setAttribute('class', 'form-control');
 
         $submit = new Element\Submit('submit');

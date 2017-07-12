@@ -6,6 +6,7 @@ use Zend\Db\Adapter\AdapterAwareTrait;
 
 use Pokemon\Repository\PokemonRepository;
 use Pokemon\Entity\Pokemon;
+use Pokemon\Entity\Hydrator\PokemonHydrator;
 use Pokemon\Entity\Location;
 use Pokemon\Entity\Type;
 use Pokemon\Controller\PokemonsController;
@@ -589,6 +590,50 @@ class PokemonRepositoryImpl implements PokemonRepository
     } catch ( \Exception $e ) {
       return $e->getMessage();
     }
+  }
+
+  public function hydrateWithRelatives(Pokemon $pokemon)
+  {
+      $all_pokemons = $this->getAll();
+      function findById($all_pokemons, $id_parent)
+      {
+          $pokeHydrator = new PokemonHydrator();
+          foreach ($all_pokemons as $poke) {
+              $poke = (array) $poke;
+              if ( (int) $poke['id_national'] == (int) $id_parent )
+                  return $pokeHydrator->hydrate( $poke, new Pokemon());
+          }
+          return null;
+      }
+
+      function getPokemonEvolutions($all_pokemons, $id_national)
+      {
+          $pokeHydrator = new PokemonHydrator();
+          $evolutions = [];
+          foreach ($all_pokemons as $poke_evo) {
+              $poke_evo = (array) $poke_evo;
+              if ( (int) $poke_evo['id_parent'] == (int) $id_national )
+                  $evolutions[] = $pokeHydrator->hydrate( $poke_evo, new Pokemon());
+          }
+          return $evolutions;
+      }
+
+      if ( $pokemon->getIdParent() != null ) {
+          $parent = findById($all_pokemons, $pokemon->getIdParent());
+          if ( $parent != null )
+              $parent->setParent(findById($all_pokemons, $parent->getIdParent()));
+          $pokemon->setParent($parent);
+      }
+
+      $pokemon_evolutions = getPokemonEvolutions($all_pokemons, $pokemon->getIdNational());
+      foreach ($pokemon_evolutions as $evo) {
+          $evo_next = getPokemonEvolutions($all_pokemons, $evo->getIdNational());
+          $evo_next = (count($evo_next) > 0) ? $evo_next : null;
+          $evo->setEvolutions($evo_next);
+      }
+      $pokemon_evolutions = (count($pokemon_evolutions) > 0) ? $pokemon_evolutions : null;
+      $pokemon->setEvolutions($pokemon_evolutions);
+      return $pokemon;
   }
 
   protected function getPokemonEvolutions($pokemons, $pokemon) {

@@ -1,0 +1,11 @@
+.pokemon-detail-tree-container a {
+    transition: opacity .2s ease-in-out;
+    opacity: .4;
+}
+.pokemon-detail-tree-container a:hover,
+.pokemon-detail-tree-container.active a {
+    opacity: 1;
+}
+.admin-show-evolution-group:last-of-type .pokemon-detail-tree-container span.glyphicon{
+    display: none;
+}

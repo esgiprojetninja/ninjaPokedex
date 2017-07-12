@@ -1,5 +1,5 @@
 <div class="row">
-    <h1 class="text text-primary col-lg-3 col-md-4 col-xs-12">Interface Admin</h1>
+    <h1 class="text text-primary col-lg-3 col-md-4 col-xs-12">Pokemons list</h1>
 </div>
 <div class="row">
     <a href="<?= $this->url('admin_home/admin_pokemon_create') ?>" class="btn btn-primary btn-lg pull-right" name="button">Ajouter un pokemon <span class="glyphicon glyphicon-plus"></span></a>
@@ -12,7 +12,7 @@
 </div>
 <?php endif; ?>
 <?php if ( (bool) count($this->pokemons) ) : ?>
-<div class="row">
+<div style="margin-top: 40px" class="row">
     <table class="table table-condenses table-hover">
         <thead>
             <tr>
