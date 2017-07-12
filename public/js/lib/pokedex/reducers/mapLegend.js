@@ -15,6 +15,11 @@ const navbar = (state = initialSate, action) => {
                 placingPokemon: state.displayForm ? false: state.placingPokemon,
                 selectedPokemon: {}
             }
+        case types.OPEN_FORM:
+            return {
+                ...state,
+                displayForm: true
+            }
         case types.TOGGLE_PLACING_POKEMON:
             return {
                 ...state,
