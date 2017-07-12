@@ -23,5 +23,5 @@ interface PokemonRepository extends RepositoryInterface
 
     public function signal(Location $location);
 
-    public function dispo($idPokemon);
+    public function dispo($idNational);
 }
