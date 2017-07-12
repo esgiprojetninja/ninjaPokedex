@@ -280,6 +280,9 @@ export default class Home extends React.PureComponent {
                           () => {
                               scrollToElement('.map-wrapper');
                               this.props.openDetails();
+                              this.props.openForm();
+                              this.props.setSelectedPokemon(this.props.carousel.selectedCurrent);
+                              this.props.togglePlacingPokemon();
                           }
                       }
                     />
