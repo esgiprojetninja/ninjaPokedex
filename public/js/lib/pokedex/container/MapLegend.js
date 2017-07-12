@@ -2,6 +2,7 @@ import {connect} from "react-redux";
 import MapLegendComponent from "../ui/MapLegend";
 import {
     toggleForm,
+    openForm,
     togglePlacingPokemon,
     setSelectedPokemon
 } from "../actions/mapLegendActions";
@@ -24,6 +25,9 @@ const mapDispatchToProps = dispatch => {
         },
         cleanMarker(marker) {
             dispatch(cleanMarker(marker))
+        },
+        openForm() {
+            dispatch(openForm());
         }
     }
 }

@@ -19,3 +19,8 @@ export const setSelectedPokemon = pokemon => {
         pokemon
     }
 }
+export const openForm = () => {
+    return {
+        type: types.OPEN_FORM
+    }
+}
