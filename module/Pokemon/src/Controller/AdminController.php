@@ -142,6 +142,8 @@ class AdminController extends AbstractActionController {
         if ( $pokemon != null ) {
             $pokemon = $this->pokeHydrator->hydrate($pokemon, new Pokemon());
             $pokemon = $this->pokemonService->hydrateWithRelatives($pokemon);
+            $pokemon = $this->pokemonService->hydrateWithTypes($pokemon);
+            $pokemon->setIdNational($this->pokemonService->formatNationalId($pokemon->getIdNational()));
         }
 
         return new ViewModel([

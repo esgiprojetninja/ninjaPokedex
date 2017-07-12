@@ -65,4 +65,16 @@ class PokemonServiceImpl implements PokemonService
     {
         return $this->pokemonRepository->hydrateWithRelatives($pokemon);
     }
+    public function hydrateWithTypes(Pokemon $pokemon)
+    {
+        return $this->pokemonRepository->hydrateWithTypes($pokemon);
+    }
+    public function formatNationalId($national_id)
+    {
+        $national_id = (string) $national_id;
+        while (strlen($national_id) < 3) {
+            $national_id = "0".$national_id;
+        }
+        return '#'.$national_id;
+    }
 }

@@ -765,6 +765,15 @@ class PokemonRepositoryImpl implements PokemonRepository
       return $pokemon;
   }
 
+  public function hydrateWithTypes(Pokemon $pokemon)
+  {
+    if ( $pokemon->getType1() != null )
+        $pokemon->setType1($this->getTypeInformation(intval($pokemon->getType1())));
+    if ( $pokemon->getType2() != null )
+        $pokemon->setType2($this->getTypeInformation(intval($pokemon->getType2())));
+    return $pokemon;
+  }
+
   protected function getPokemonEvolutions($pokemons, $pokemon) {
       $evolutions = [];
       foreach ($pokemons as $poke) {
