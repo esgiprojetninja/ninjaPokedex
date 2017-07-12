@@ -213,21 +213,23 @@ export default class Home extends React.PureComponent {
     renderPokemonDetailsFirstStarter () {
         if(this.props.carousel.selectedCurrent.id_parent) {
             const starter = this.props.pokemons.all.find(element => element.id_national === this.props.carousel.selectedCurrent.id_parent)
-            return (
-                <div className="align">
-                    {this.renderPokemonDetailsSecondStarter(starter)}
-                    <img
-                        className="pokemon-details pokemon-evolution"
-                        src={starter.image}
-                        onTouchTap={
-                            () => {
-                                this.props.setSelectedPokemonForDetails(starter);
+            if(starter) {
+                return (
+                    <div className="align">
+                        {this.renderPokemonDetailsSecondStarter(starter)}
+                        <img
+                            className="pokemon-details pokemon-evolution"
+                            src={starter.image}
+                            onTouchTap={
+                                () => {
+                                    this.props.setSelectedPokemonForDetails(starter);
+                                }
                             }
-                        }
-                    />
-                    <IconButton children={<ArrowForwardSVG/>}/>
-                </div>
-            )
+                        />
+                        <IconButton children={<ArrowForwardSVG/>}/>
+                    </div>
+                )
+            }
         }
     }
 
