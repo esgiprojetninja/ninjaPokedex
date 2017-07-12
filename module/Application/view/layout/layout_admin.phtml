@@ -1,0 +1,80 @@
+<?= $this->doctype() ?>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <?= $this->headTitle('Pokedex Admin App')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?= $this->headMeta()
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+        <!-- Le styles -->
+        <?= $this->headLink([
+                'rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon',
+                'href' => $this->basePath() . '/img/favicon.ico'
+            ])
+            ->prependStylesheet($this->basePath('css/modules/size.css'))
+            ->prependStylesheet($this->basePath('css/modules/display.css'))
+            ->prependStylesheet($this->basePath('css/modules/text.css'))
+            ->prependStylesheet($this->basePath('css/size.css'))
+            ->prependStylesheet($this->basePath('css/modules/margin.css'))
+            ->prependStylesheet($this->basePath('admin_css/show.css'))
+            ->prependStylesheet($this->basePath('css/bootstrap-theme.min.css'))
+            ->prependStylesheet($this->basePath('css/bootstrap.min.css'))
+        ?>
+
+        <?= $this->headScript()
+            ->prependFile($this->basePath('admin_js/bootstrap.min.js'))
+            ->prependFile($this->basePath('admin_js/jquery-3.1.0.min.js'))
+        ?>
+    </head>
+    <?php $user = $_SESSION['identity']; ?>
+    <body>
+        <nav class="navbar navbar-inverse" role="navigation">
+            <div class="container display-flex-row space-between">
+                <div class="col-md-8">
+                    <div class="navbar-heade pull-left">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="<?= $this->basePath('') ?>">
+                            <img src="<?= $this->basePath('img/pokemon-logo.png') ?>" height="20" alt="Pokedex administration"/>
+                        </a>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav">
+                        <?php if ( false != $user ): ?>
+                            <li><a href="<?= $this->url('admin_home') ?>">Pokemons</a></li>
+                            <li><a href="<?= $this->url('admin_home/admin_pokemon_create') ?>">Add Pokemon</a></li>
+                        <?php endif; ?>
+                            <li><a href="<?= $this->url('admin_home/add_admin') ?>">Add Admin</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 display-flex-row space-between">
+                <?php if ( false != $user ): ?>
+                    <div class="col-md-3 col-md-offset-7 align-start">
+                        <span class="label label-warning">
+                            <?= $user; ?>
+                        </span>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="<?php echo $this->url('admin_home/admin_logout') ?>" class="btn btn-danger">Logout</a>
+                    </div>
+                <?php else: ?>
+                    <div class="col-md-2 col-md-offset-10">
+                        <a href="<?php echo $this->url('admin_home/admin_login') ?>" class="btn btn-primary">Login</a>
+                    </div>
+                <?php endif; ?>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <?= $this->content ?>
+        </div>
+    </body>
+</html>

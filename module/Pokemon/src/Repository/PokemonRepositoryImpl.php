@@ -6,9 +6,12 @@ use Zend\Db\Adapter\AdapterAwareTrait;
 
 use Pokemon\Repository\PokemonRepository;
 use Pokemon\Entity\Pokemon;
+use Pokemon\Entity\Hydrator\PokemonHydrator;
 use Pokemon\Entity\Location;
 use Pokemon\Entity\Type;
 use Pokemon\Controller\PokemonsController;
+
+use Pokemon\Service\ImageManager;
 
 use Zend\Db\Adapter\Driver\ResultInterface;
 use Zend\Db\ResultSet\ResultSet;
@@ -65,6 +68,14 @@ class PokemonRepositoryImpl implements PokemonRepository
 
   public function saveTypes(Pokemon $pokemon, $type1, $type2) {
     try {
+      $type1 = ((int) $type1 <= 0 ) ? NULL : $type1;
+      $type2 = ((int) $type2 <= 0 ) ? NULL : $type2;
+      if ( $type1 == NULL && $type2 != NULL ) {
+          $type1 = $type2;
+          $type2 = NULL;
+      }
+      if ( $type2 == $type1 )
+          $type2 = NULL;
       $this->adapter
       ->getDriver()
       ->getConnection()
@@ -105,6 +116,20 @@ class PokemonRepositoryImpl implements PokemonRepository
 
   public function updateTypes(Pokemon $pokemon, $type1, $type2) {
     try {
+      $type1 = ((int) $type1 <= 0 ) ? NULL : $type1;
+      $type2 = ((int) $type2 <= 0 ) ? NULL : $type2;
+
+      if ( $type1 == NULL ) {
+          $this->deleteTypes($pokemon->getIdPokemon());
+          if ( $type1 == NULL && $type2 != NULL ) {
+              $type1 = $type2;
+              $type2 = NULL;
+          }
+      }
+      else if ( $type2 == NULL )
+          $this->deleteTypes($pokemon->getIdPokemon());
+      else if ( $type2 == $type1 )
+          $type2 = NULL;
       $this->adapter
       ->getDriver()
       ->getConnection()
@@ -213,6 +238,15 @@ class PokemonRepositoryImpl implements PokemonRepository
         }
         $pokemons[] = (object) array_merge((array) $pokemon, $types);
       }
+      foreach ($pokemons as $poke) {
+          $evolutions = $this->getPokemonEvolutions($pokemons, $poke);
+          foreach ($evolutions as $evo) {
+              $next_evolutions = $this->getPokemonEvolutions($pokemons, $evo);
+              $evo->evolutions = ((bool) count($next_evolutions)) ? $next_evolutions : false;
+          }
+          $poke->evolutions = ((bool) count($evolutions)) ? $evolutions : false;
+      }
+
       return $pokemons;
     } catch ( \Exception $e ) {
       $this->adapter->getDriver()
@@ -231,9 +265,17 @@ class PokemonRepositoryImpl implements PokemonRepository
       $local_date = date('Y-m-d H:i:s', $local_time);
 
       $sql = new \Zend\Db\Sql\Sql($this->adapter);
-      $select = $sql->select();
-      $select->from('location');
-      $select->where("date_created <= '".$local_date."' AND date_created >= DATE_ADD('".$local_date."', INTERVAL -30 MINUTE)");
+      $select = $sql->select()
+          ->from(
+              ['l'=>'location'],
+              ['lat'=>'latitude', 'lng'=>'longitude', 'id_pokemon', 'date_created']
+          )
+          ->join(
+              ['p'=>'pokemon'],
+              'p.id_pokemon = l.id_pokemon',
+              ['icon'=>'image']
+          )
+          ->where("date_created <= '".$local_date."' AND date_created >= DATE_ADD('".$local_date."', INTERVAL -30 MINUTE)");
 
       $statement = $sql->prepareStatementForSqlObject($select);
       $r = $statement->execute();
@@ -277,9 +319,9 @@ class PokemonRepositoryImpl implements PokemonRepository
       $return = true;
 
     } catch (\Exception $e) {
-      return $e->getMessage();
       $this->adapter->getDriver()
       ->getConnection()->rollback();
+      return $e->getMessage();
     }
     return $return;
   }
@@ -310,6 +352,32 @@ class PokemonRepositoryImpl implements PokemonRepository
       return $e->getMessage();
     }
   }
+  /**
+  * @return Pokemon|null
+  **/
+  public function findByIdNational($pokemonId) {
+    try {
+      $sql = new \Zend\Db\Sql\Sql($this->adapter);
+      $select = $sql->select();
+      $select->from('pokemon');
+      $select->where(array('id_national' => $pokemonId));
+
+      $statement = $sql->prepareStatementForSqlObject($select);
+      $r = $statement->execute();
+
+      $resultSet = new ResultSet;
+      $resultSet->initialize($r);
+
+      $pokemon = NULL;
+      foreach ($resultSet as $pokemon) {
+        $types = $this->getTypes($pokemon['id_pokemon']);
+        $pokemon =  array_merge((array) $pokemon, $types);
+      }
+      return $pokemon;
+    } catch ( \Exception $e ) {
+      return $e->getMessage();
+    }
+  }
 
   public function update($id, $data) {
     $return = false;
@@ -320,7 +388,7 @@ class PokemonRepositoryImpl implements PokemonRepository
       ->getConnection()
       ->beginTransaction();
       $sql = new \Zend\Db\Sql\Sql($this->adapter);
-
+      $data['id_parent'] = ( (int) $this->findByIdNational($data['id_parent']) != null ) ? $data['id_parent'] : null;
       $types = ['type1', 'type2'];
       $typeToUpdate = [];
       $updateType = false;
@@ -367,15 +435,41 @@ class PokemonRepositoryImpl implements PokemonRepository
   }
 
   public function delete($pokemonId) {
-    $sql = new \Zend\Db\Sql\Sql($this->adapter);
-    $delete = $sql->delete()
-    ->from('pokemon')
-    ->where([
-      'id_pokemon' => $pokemonId
-    ]);
-    $statement = $sql->prepareStatementForSqlObject($delete);
-    $statement->execute();
-    $this->deleteTypes($pokemonId);
+    $poke = $this->findById($pokemonId);
+    if ( $poke == null )
+        return false;
+    try {
+      $this->adapter
+      ->getDriver()
+      ->getConnection()
+      ->beginTransaction();
+      $sql = new \Zend\Db\Sql\Sql($this->adapter);
+      $delete = $sql->delete()
+      ->from('pokemon')
+      ->where([
+        'id_pokemon' => $pokemonId
+      ]);
+
+      $statement = $sql->prepareStatementForSqlObject($delete);
+      $statement->execute();
+      $this->adapter->getDriver()
+      ->getConnection()
+      ->commit();
+
+      $this->deleteTypes($pokemonId);
+
+      $img = explode("/", $poke['image']);
+      $img = $img[count($img)-1];
+
+      $imgManager = new ImageManager();
+      $imgManager->deteFileByName($img);
+
+      return true;
+    } catch (\Exception $e) {
+      $this->adapter->getDriver()
+      ->getConnection()->rollback();
+      return $e->getMessage();
+    }
   }
 
   public function deleteTypes($pokemonId) {
@@ -389,7 +483,7 @@ class PokemonRepositoryImpl implements PokemonRepository
     $statement->execute();
   }
 
-  public function getEvolutionDispo($idPokemon) {
+  public function dispo($idPokemon) {
     try {
       $sql = new \Zend\Db\Sql\Sql($this->adapter);
 
@@ -420,10 +514,20 @@ class PokemonRepositoryImpl implements PokemonRepository
               $notDispo[] = $thirdPokemon;
             }
         }
-        echo $idPokemon;
         $pokemons[] = $pokemon;
       }
-      var_dump($notDispo);
+
+      $pokemonParent = ($this->getByIdParent($idPokemon));
+      if(count($pokemonParent) > 0){
+        if (!in_array($pokemonParent['id_pokemon'], $notDispo)){
+          $notDispo[] = $pokemonParent['id_pokemon'];
+        }
+      }
+      foreach($pokemons as $key=>$pokemon){
+        if(in_array($pokemon->id_pokemon, $notDispo)){
+          unset($pokemons[$key]);
+        }
+      }
       return $pokemons;
     } catch ( \Exception $e ) {
       $this->adapter->getDriver()
@@ -577,6 +681,59 @@ class PokemonRepositoryImpl implements PokemonRepository
     } catch ( \Exception $e ) {
       return $e->getMessage();
     }
+  }
+
+  public function hydrateWithRelatives(Pokemon $pokemon)
+  {
+      $all_pokemons = $this->getAll();
+      function findById($all_pokemons, $id_parent)
+      {
+          $pokeHydrator = new PokemonHydrator();
+          foreach ($all_pokemons as $poke) {
+              $poke = (array) $poke;
+              if ( (int) $poke['id_national'] == (int) $id_parent )
+                  return $pokeHydrator->hydrate( $poke, new Pokemon());
+          }
+          return null;
+      }
+
+      function getPokemonEvolutions($all_pokemons, $id_national)
+      {
+          $pokeHydrator = new PokemonHydrator();
+          $evolutions = [];
+          foreach ($all_pokemons as $poke_evo) {
+              $poke_evo = (array) $poke_evo;
+              if ( (int) $poke_evo['id_parent'] == (int) $id_national )
+                  $evolutions[] = $pokeHydrator->hydrate( $poke_evo, new Pokemon());
+          }
+          return $evolutions;
+      }
+
+      if ( $pokemon->getIdParent() != null ) {
+          $parent = findById($all_pokemons, $pokemon->getIdParent());
+          if ( $parent != null )
+              $parent->setParent(findById($all_pokemons, $parent->getIdParent()));
+          $pokemon->setParent($parent);
+      }
+
+      $pokemon_evolutions = getPokemonEvolutions($all_pokemons, $pokemon->getIdNational());
+      foreach ($pokemon_evolutions as $evo) {
+          $evo_next = getPokemonEvolutions($all_pokemons, $evo->getIdNational());
+          $evo_next = (count($evo_next) > 0) ? $evo_next : null;
+          $evo->setEvolutions($evo_next);
+      }
+      $pokemon_evolutions = (count($pokemon_evolutions) > 0) ? $pokemon_evolutions : null;
+      $pokemon->setEvolutions($pokemon_evolutions);
+      return $pokemon;
+  }
+
+  protected function getPokemonEvolutions($pokemons, $pokemon) {
+      $evolutions = [];
+      foreach ($pokemons as $poke) {
+          if ( (int) $poke->id_parent == (int) $pokemon->id_national )
+              $evolutions[] = $poke;
+      }
+      return $evolutions;
   }
 
 }

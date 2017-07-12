@@ -1,15 +1,22 @@
 <?php
 namespace Pokemon;
+
+use Zend\Router\Http\Literal;
+use Zend\Router\Http\Segment;
+use Zend\ServiceManager\Factory\InvokableFactory;
+
 return [
     'controllers' => [
         'factories' => [
             'Pokemon\Controller\Pokemons' => 'Pokemon\Controller\PokemonsControllerFactory',
+            'Pokemon\Controller\Admin' => 'Pokemon\Controller\AdminControllerFactory',
+            'Pokemon\Controller\Types' => 'Pokemon\Controller\TypesControllerFactory',
         ],
     ],
     'router' => [
         'routes' => [
             'pokemons' => [
-                'type'    => 'Segment',
+                'type'    => Segment::class,
                 'options' => [
                    'route'    => '/pokemons[/:id]',
                     'constraints' => [
@@ -21,7 +28,7 @@ return [
                 ],
                 'child_routes' => [
                     'update' => [
-                        'type'    => 'Segment',
+                        'type'    => Segment::class,
                         'options' => [
                             'route'    => '/update[/:id]',
                              'constraints' => [
@@ -33,7 +40,7 @@ return [
                         ],
                     ],
                     'create' => [
-                        'type'    => 'Literal',
+                        'type'    => Literal::class,
                         'options' => [
                             'route'    => '/create',
                             'defaults' => [
@@ -42,7 +49,7 @@ return [
                         ],
                     ],
                     'delete' => [
-                        'type'    => 'Segment',
+                        'type'    => Segment::class,
                         'options' => [
                             'route'    => '/delete[/:id]',
                              'constraints' => [
@@ -54,7 +61,7 @@ return [
                         ],
                     ],
                     'marked' => [
-                        'type'    => 'Literal',
+                        'type'    => Literal::class,
                         'options' => [
                             'route'    => '/marked',
                             'defaults' => [
@@ -64,7 +71,7 @@ return [
                         ],
                     ],
                     'signal' => [
-                        'type'    => 'Literal',
+                        'type'    => Literal::class,
                         'options' => [
                             'route' => '/signal',
                             'verb'  => 'post',
@@ -75,7 +82,7 @@ return [
                         ],
                     ],
                     'marked' => [
-                        'type'    => 'Literal',
+                        'type'    => Literal::class,
                         'options' => [
                             'route'    => '/marked',
                             'verb'  => 'get',
@@ -85,18 +92,136 @@ return [
                             ],
                         ],
                     ],
-                    'getEvolutionDispo' => [
+                    'dispo' => [
                         'type'    => Segment::class,
                         'options' => [
-                            'route'    => '/getEvolutionDispo[/:id]',
+                            'route'    => '/dispo[/:id]',
                             'defaults' => [
-                                'controller' => Controller\PokemonsController::class,
-                                'action'     => 'getEvolutionDispo',
+                                'controller' => 'Pokemon\Controller\Pokemons',
+                                'action'     => 'dispo',
                             ],
                         ],
                     ],
                 ],
                 'may_terminate' => true,
+            ],
+            'types' => [
+                'type'    => Segment::class,
+                'options' => [
+                   'route'    => '/types[/:id]',
+                    'constraints' => [
+                        'id'     => '[0-9]+',
+                    ],
+                    'defaults' => [
+                        'controller' => 'Pokemon\Controller\Types',
+                    ],
+                ],
+                'may_terminate' => true,
+            ],
+            'admin_home' => [
+                'type'    => Literal::class,
+                'options' => [
+                   'route'    => '/admin',
+                    'defaults' => [
+                        'controller' => 'Pokemon\Controller\Admin',
+                        'action' => 'index',
+                    ],
+                ],
+                'child_routes' => [
+                    'admin_list_pokemons' => [
+                        'type'    => Literal::class,
+                        'options' => [
+                            'route'    => '/pokemons',
+                            'defaults' => [
+                                'controller' => 'Pokemon\Controller\Admin',
+                                'action' => 'index'
+                            ],
+                        ],
+                    ],
+                    'add_admin' => [
+                        'type'    => Literal::class,
+                        'options' => [
+                            'route'    => '/add',
+                            'defaults' => [
+                                'controller' => 'Pokemon\Controller\Admin',
+                                'action' => 'addAdmin'
+                            ],
+                        ],
+                    ],
+                    'admin_login' => [
+                        'type'    => Literal::class,
+                        'options' => [
+                            'route'    => '/login',
+                            'defaults' => [
+                                'controller' => 'Pokemon\Controller\Admin',
+                                'action' => 'login'
+                            ],
+                        ],
+                    ],
+                    'admin_logout' => [
+                        'type'    => Literal::class,
+                        'options' => [
+                            'route'    => '/logout',
+                            'defaults' => [
+                                'controller' => 'Pokemon\Controller\Admin',
+                                'action' => 'logout'
+                            ],
+                        ],
+                    ],
+                    'admin_pokemon_show' => [
+                        'type'    => Segment::class,
+                        'options' => [
+                            'route'    => '/pokemon/show/:id',
+                            'constraints' => [
+                                'id' => '[0-9]+'
+                            ],
+                            'verb'  => 'get',
+                            'defaults' => [
+                                'controller' => 'Pokemon\Controller\Admin',
+                                'action' => 'showPokemon'
+                            ],
+                        ],
+                    ],
+                    'admin_pokemon_edit' => [
+                        'type'    => Segment::class,
+                        'options' => [
+                            'route'    => '/pokemon/edit/:id',
+                            'constraints' => [
+                                'id' => '[0-9]+'
+                            ],
+                            'verb'  => 'get, post',
+                            'defaults' => [
+                                'controller' => 'Pokemon\Controller\Admin',
+                                'action' => 'updatePokemon'
+                            ],
+                        ],
+                    ],
+                    'admin_pokemon_remove' => [
+                        'type'    => Segment::class,
+                        'options' => [
+                            'route'    => '/pokemon/delete/:id',
+                            'constraints' => [
+                                'id' => '[0-9]+'
+                            ],
+                            'verb'  => 'get',
+                            'defaults' => [
+                                'controller' => 'Pokemon\Controller\Admin',
+                                'action' => 'deletePokemon'
+                            ],
+                        ],
+                    ],
+                    'admin_pokemon_create' => [
+                        'type'    => Literal::class,
+                        'options' => [
+                            'route'    => '/pokemon/create',
+                            'defaults' => [
+                                'controller' => 'Pokemon\Controller\Admin',
+                                'action' => 'createPokemon'
+                            ],
+                        ],
+                    ]
+                ],
+                'may_terminate' => true
             ],
         ],
     ],
@@ -115,6 +240,11 @@ return [
         ],
         'template_path_stack' => [
             __DIR__ . '/../view',
+        ],
+    ],
+    'service_manager' => [
+        'factories' => [
+            'Pokemon\Service\ImageManager' => InvokableFactory::class,
         ],
     ],
 ];

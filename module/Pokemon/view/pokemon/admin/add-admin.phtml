@@ -1,0 +1,22 @@
+<div class="row">
+    <h1 class="text text-primary">Add Admin</h1>
+</div>
+<div class="row">
+    <?php
+    $form = $this->form;
+    $form->prepare();
+    echo $this->form()->openTag($form); //<form method="post">
+    ?>
+    <div class="form-group">
+        <?= $this->formRow($form->get('login')); ?>
+    </div>
+    <div class="form-group">
+        <?= $this->formRow($form->get('password')); ?>
+    </div>
+    <div class="form-group">
+        <?= $this->formRow($form->get('repeatPassword')); ?>
+    </div>
+    <?= $this->formElement($form->get('csrf')); ?>
+    <?= $this->formSubmit($form->get('submit')); ?>
+    <?= $this->form()->closeTag();?>
+</div>

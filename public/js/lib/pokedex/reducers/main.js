@@ -9,6 +9,7 @@ import subhome from "./subhome";
 import carousel from "./carousel";
 import home from "./home";
 import card from "./card";
+import types from "./types";
 
 const Main = combineReducers({
     navbar,
@@ -20,7 +21,8 @@ const Main = combineReducers({
     subhome,
     carousel,
     home,
-    card
+    card,
+    types
 });
 
 export default Main;

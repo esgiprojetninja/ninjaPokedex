@@ -1,0 +1,23 @@
+<div class="row">
+    <h1 class="text text-primary">Admin Login</h1>
+</div>
+<div class="row">
+    <?php
+    $form = $this->form;
+    $form->prepare();
+    echo $this->form()->openTag($form); //<form method="post">
+    ?>
+    <div class="row">
+        <div class="form-group col-lg-4 col-md-7 col-xs-10">
+          <?= $this->formElement($form->get('login')); ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-lg-4 col-md-7 col-xs-10">
+          <?= $this->formElement($form->get('password')); ?>
+        </div>
+    </div>
+    <?= $this->formElement($form->get('csrf')); ?>
+    <?= $this->formSubmit($form->get('submit')); ?>
+    <?= $this->form()->closeTag();?>
+</div>

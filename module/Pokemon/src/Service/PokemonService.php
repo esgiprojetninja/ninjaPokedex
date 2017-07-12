@@ -24,5 +24,5 @@ interface PokemonService
 
     public function signal(Location $location);
 
-    public function getEvolutionDispo($idPokemon);
+    public function dispo($idPokemon);
 }
