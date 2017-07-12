@@ -18,6 +18,8 @@ import PokeSearch from '../container/PokeSearch';
 import jQuery from 'jquery';
 import Screenfull from 'screenfull';
 import Close from 'material-ui/svg-icons/action/highlight-off';
+import { withGoogleMap, GoogleMap, Marker } from "react-google-maps";
+import scrollToElement from 'scroll-to-element';
 
 const styles = {
     buttonClose : {
@@ -44,8 +46,28 @@ const styles = {
     pokemonId: {
         fontSize: '25px',
         marginTop: 0
-    }
+    },
+    containerElement: {
+        height: '80%',
+        minWidth: '320px'
+    },
 };
+
+const GettingStartedGoogleMap = withGoogleMap(props => (
+  <GoogleMap
+    ref={props.onMapLoad}
+    defaultZoom={3}
+    defaultCenter={{ lat: -25.363882, lng: 131.044922 }}
+    onClick={props.onMapClick}
+  >
+    {props.markers.map((marker, index) => (
+      <Marker
+        {...marker}
+        onRightClick={() => props.onMarkerRightClick(index)}
+      />
+    ))}
+  </GoogleMap>
+));
 
 export default class Home extends React.PureComponent {
     constructor(props) {
@@ -227,6 +249,46 @@ export default class Home extends React.PureComponent {
         )
     }
 
+    renderPokemonDetailsMap () {
+        if(this.props.pokemons.marked.filter(pokemon => pokemon.id_pokemon === this.props.carousel.selectedCurrent.id_pokemon).length !== 0) {
+            return (
+                <Col md={12} style={{height: '300px', marginTop: '20px', paddingBottom: '30px'}}>
+                    <GettingStartedGoogleMap
+                    containerElement={
+                        <div className="full-height" />
+                    }
+                    mapElement={
+                        <div className="full-height full-width" />
+                    }
+                    markers={this.props.pokemons.marked.filter(pokemon => pokemon.id_pokemon === this.props.carousel.selectedCurrent.id_pokemon)}
+                    />
+                    <span className="card-details-section-title text-center" style={{marginTop: '15px'}}>Map</span>
+                </Col>
+            )
+        } else {
+            return (
+                <Col md={12} className="text-center" style={{marginTop: '15px'}}>
+                    <span style={{marginRight: '15px'}}>{this.props.carousel.selectedCurrent.name} n'est pas renseigné sur la map.</span>
+                    <RaisedButton
+                      target="_blank"
+                      label="Ajouter"
+                      labelColor="#ffffff"
+                      secondary={true}
+                      buttonStyle={{backgroundColor: "#a4c639"}}
+                      icon={<AddCircleOutlineSVG/>}
+                      onTouchTap={
+                          () => {
+                              scrollToElement('.map-wrapper');
+                              this.props.openDetails();
+                          }
+                      }
+                    />
+                    <span className="card-details-section-title text-center" style={{marginTop: '10px', marginBottom: '10px'}}>Map</span>
+                </Col>
+            )
+        }
+    }
+
     renderPokemonDetails () {
       if(this.props.carousel.showDetails) {
         return (
@@ -260,10 +322,11 @@ export default class Home extends React.PureComponent {
                             {this.props.carousel.selectedCurrent.description}
                             <span className="card-details-section-title">Description</span>
                         </Col>
-                        <Col md={12}>
+                        <Col md={12} className="bottom-line">
                             {this.renderPokemonDetailsEvolution()}
                             <span style={{marginTop: 0}} className="card-details-section-title text-center">Evolutions</span>
                         </Col>
+                        {this.renderPokemonDetailsMap()}
                     </div>
                 </Col>
             </div>
