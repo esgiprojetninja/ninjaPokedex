@@ -9,7 +9,7 @@ import Card from '../container/Card';
 import AddCircleOutlineSVG from 'material-ui/svg-icons/content/add-circle-outline';
 import DescriptionSVG from 'material-ui/svg-icons/action/description';
 import scrollToElement from 'scroll-to-element';
-
+import ZeroFill from 'zero-fill';
 
 const styles = {
     button: {
@@ -38,7 +38,7 @@ export default class Table extends React.PureComponent {
     renderCards (p, key) {
       return (
           <div key={key} className="card text-center table-card" style={{display: 'inline-block', margin: '15px'}}>
-            <span className="card-number">{this.props.pokemons.all[key].id_national}</span>
+            <span className="card-number">#{ZeroFill(3, this.props.pokemons.all[key].id_national)}</span>
             <img src={this.props.pokemons.all[key].image} className="card-pokemon"/>
             <IconButton
                 style={styles.cardIconLocationWrapper}
