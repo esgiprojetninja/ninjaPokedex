@@ -127,7 +127,7 @@ export default class PokeSearch extends React.PureComponent {
             <Grid>
               <Row>
                 <Col md={12} className="search-content">
-                  <div className="search-intro">Tape le nom dun Pokémon et appuies sur entrée</div>
+                  <div className="search-intro">Tape le nom d'un Pokémon et clique sur Go!</div>
                   <input
                       onChange={(event) => {
                         if(event.target.value) {
