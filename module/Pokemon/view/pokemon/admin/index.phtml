@@ -16,14 +16,15 @@
     <table class="table table-condenses table-hover">
         <thead>
             <tr>
-                <th>national ID</th>
-                <th>Name</th>
+                <th>ID Officiel</th>
+                <th>Nom</th>
                 <th>Image</th>
-                <th>Evolutions</th>
+                <th>Parent</th>
+                <th>Évolutions</th>
                 <th>Types</th>
-                <th>Show</th>
-                <th>Edit</th>
-                <th>Delete</th>
+                <th>Détail</th>
+                <th>Éditer</th>
+                <th>Supprimer</th>
             </tr>
         </thead>
         <tbody>
@@ -39,14 +40,21 @@
                 <td><?= $poke->getName() ?></td>
                 <td><img src="<?= $poke->getImage() ?>" alt="<?= $poke->getName() ?> image"></td>
                 <td>
+                    <?php if ( $poke->getParent() != null ): ?>
+                        <a href="<?= $this->basePath().'/admin/pokemon/show/'.$poke->getParent()->getIdNational() ?>"><?= $poke->getParent()->getName() ?></a>
+                    <?php else: ?>
+                        &empty;
+                    <?php endif; ?>
+                </td>
+                <td>
                 <?php if ( is_array($poke->getEvolutions()) ) : ?>
                     <div class="evolutions row">
                     <?php foreach ($poke->getEvolutions() as $evo): ?>
-                        <a href="#poke-<?= $evo->getIdNational() ?>"><?= $evo->getName() ?></a>
+                        <a href="<?= $this->basePath().'/admin/pokemon/show/'.$evo->getIdNational() ?>"><?= $evo->getName() ?></a>
                         <?php if ( is_array($evo->getEvolutions()) ) : ?>
                             <div class="next-evolutions">
                             <?php foreach ($evo->getEvolutions() as $next_evo): ?>
-                                <a href="#poke-<?= $next_evo->getIdNational() ?>"><?= $next_evo->getName() ?></a>
+                                <a href="<?= $this->basePath().'/admin/pokemon/show/'.$next_evo->getIdNational() ?>"><?= $next_evo->getName() ?></a>
                             <?php endforeach; ?>
                             </div>
                         <?php endif; ?>
@@ -56,13 +64,13 @@
                 </td>
                 <td>
                     <?php if ( $poke->getType1() == null && $poke->getType2() == null ) : ?>
-                        None
+                        &empty;
                     <?php else: ?>
                         <?php if ( $poke->getType1() != null ) : ?>
-                        <span style="color: <?= $poke->getType1()['color']; ?>;"><?= $poke->getType1()['nom_type']; ?></span>
+                        <span style="color: <?= $poke->getType1()->getColor(); ?>;"><?= $poke->getType1()->getNameType(); ?></span>
                         <?php endif; ?>
                         <?php if ( $poke->getType2() != null ) : ?>
-                        <span style="color: <?= $poke->getType2()['color']; ?>;"><?= $poke->getType2()['nom_type']; ?></span>
+                        <span style="color: <?= $poke->getType2()->getColor(); ?>;"><?= $poke->getType2()->getNameType(); ?></span>
                         <?php endif; ?>
                     <?php endif; ?>
                 </td>

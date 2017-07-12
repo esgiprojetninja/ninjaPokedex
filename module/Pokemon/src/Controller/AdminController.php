@@ -126,6 +126,11 @@ class AdminController extends AbstractActionController {
         $page = intval($this->params()->fromRoute('page'));
         $pokemons = $this->pokemonService->getPaginated($page);
 
+        foreach ($pokemons as $pokemon) {
+            $pokemon = $this->pokemonService->hydrateWithRelatives($pokemon);
+            $pokemon = $this->pokemonService->hydrateWithTypes($pokemon);
+        }
+
         return new ViewModel([
             'pokemons' => $pokemons,
             'messages' => $this->flashMessenger()->getMessages()
