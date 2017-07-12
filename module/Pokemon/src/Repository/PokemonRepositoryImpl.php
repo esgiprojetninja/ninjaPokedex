@@ -516,11 +516,13 @@ class PokemonRepositoryImpl implements PokemonRepository
         }
         $pokemons[] = $pokemon;
       }
-
-      $pokemonParent = ($this->getByIdParent($idPokemon));
-      if(count($pokemonParent) > 0){
-        if (!in_array($pokemonParent['id_pokemon'], $notDispo)){
-          $notDispo[] = $pokemonParent['id_pokemon'];
+      if($idPokemon != 0){
+        $notDispo[] = $idPokemon;
+        $pokemonParent = ($this->getByIdParent($idPokemon));
+        if(count($pokemonParent) > 0){
+          if (!in_array($pokemonParent['id_pokemon'], $notDispo)){
+            $notDispo[] = $pokemonParent['id_pokemon'];
+          }
         }
       }
       foreach($pokemons as $key=>$pokemon){
