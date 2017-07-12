@@ -60,9 +60,10 @@ const GettingStartedGoogleMap = withGoogleMap(props => (
     defaultCenter={{ lat: -25.363882, lng: 131.044922 }}
     onClick={props.onMapClick}
   >
-    {props.markers.map((marker, index) => (
+    {props.markers.map((marker, key) => (
       <Marker
         {...marker}
+        key={key}
         onRightClick={() => props.onMarkerRightClick(index)}
       />
     ))}
@@ -154,7 +155,7 @@ export default class Home extends React.PureComponent {
                 <img
                     key={thisKey}
                     className="pokemon-details pokemon-evolution"
-                    src={this.props.carousel.selectedCurrent.evolutions[thisKey].image}
+                    src={thisP.image}
                     onTouchTap={
                         () => {
                             this.props.setSelectedPokemonForDetails(this.props.carousel.selectedCurrent.evolutions[thisKey]);
@@ -191,23 +192,26 @@ export default class Home extends React.PureComponent {
     }
 
     renderPokemonDetailsSecondStarter (starter) {
-        if(starter.id_parent) {
+        if ( starter && starter.id_parent ) {
             const starter2 = this.props.pokemons.all.find(element => element.id_national === starter.id_parent)
-            return (
-                <div className="align">
-                    <img
-                        className="pokemon-details pokemon-evolution"
-                        src={starter2.image}
-                        onTouchTap={
-                            () => {
-                                this.props.setSelectedPokemonForDetails(starter2);
+            if ( starter2 && starter2.image ) {
+                return (
+                    <div className="align">
+                        <img
+                            className="pokemon-details pokemon-evolution"
+                            src={starter2.image}
+                            onTouchTap={
+                                () => {
+                                    this.props.setSelectedPokemonForDetails(starter2);
+                                }
                             }
-                        }
-                    />
-                    <IconButton children={<ArrowForwardSVG/>}/>
-                </div>
-            )
+                        />
+                        <IconButton children={<ArrowForwardSVG/>}/>
+                    </div>
+                );
+            }
         }
+        return null;
     }
 
     renderPokemonDetailsFirstStarter () {
@@ -246,7 +250,7 @@ export default class Home extends React.PureComponent {
     renderPokemonTypes (ps, ks) {
         return (
             <div key={ks} className="card-type card-type-size" style={{display: 'initial'}}>
-                <span className="type" style={{background: this.props.carousel.selectedCurrent.type[ks].color}}>{this.props.carousel.selectedCurrent.type[ks].nom_type}</span>
+                <span className="type" style={{background: ps.color}}>{ps.nom_type}</span>
             </div>
         )
     }
