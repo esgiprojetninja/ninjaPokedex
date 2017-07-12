@@ -379,9 +379,39 @@ class PokemonRepositoryImpl implements PokemonRepository
     }
   }
 
+  private function updatePokemonsIdParent($old_id_parent, $new_id_parent)
+  {
+    try {
+      $this->adapter
+      ->getDriver()
+      ->getConnection()
+      ->beginTransaction();
+      $sql = new \Zend\Db\Sql\Sql($this->adapter);
+
+      $update = $sql->update();
+      $update->table('pokemon');
+      $update->set(array('id_parent' => $new_id_parent));
+      $update->where(array( 'id_parent' => $old_id_parent));
+
+      $statement = $sql->prepareStatementForSqlObject($update);
+      $statement->execute();
+      $this->adapter->getDriver()
+      ->getConnection()
+      ->commit();
+
+      return true;
+    } catch (\Exception $e) {
+      return $e->getMessage();
+      $this->adapter->getDriver()
+      ->getConnection()->rollback();
+    }
+  }
+
   public function update($id, $data) {
     $return = false;
     $pokemon = PokemonsController::setPokemon($this->findById($id));
+    $old_id_national = intval($pokemon->getIdNational());
+    $new_id_national = intval($data['id_national']);
     try {
       $this->adapter
       ->getDriver()
@@ -424,7 +454,12 @@ class PokemonRepositoryImpl implements PokemonRepository
       $this->adapter->getDriver()
       ->getConnection()
       ->commit();
-
+      if ( $old_id_national != $new_id_national ) {
+        $dependencies_update = $this->updatePokemonsIdParent($old_id_national, $new_id_national);
+        if ( true === $dependencies_update)
+          return true;
+        return $dependencies_update;
+      }
       $return = true;
     } catch (\Exception $e) {
       return $e->getMessage();
@@ -438,6 +473,7 @@ class PokemonRepositoryImpl implements PokemonRepository
     $poke = $this->findById($pokemonId);
     if ( $poke == null )
         return false;
+    $old_id_national = intval($poke['id_national']);
     try {
       $this->adapter
       ->getDriver()
@@ -456,6 +492,7 @@ class PokemonRepositoryImpl implements PokemonRepository
       ->getConnection()
       ->commit();
 
+      $this->updatePokemonsIdParent($old_id_national, null);
       $this->deleteTypes($pokemonId);
 
       $img = explode("/", $poke['image']);
@@ -471,7 +508,6 @@ class PokemonRepositoryImpl implements PokemonRepository
       return $e->getMessage();
     }
   }
-
   public function deleteTypes($pokemonId) {
     $sql = new \Zend\Db\Sql\Sql($this->adapter);
     $delete = $sql->delete()
