@@ -38,7 +38,7 @@ export default class Table extends React.PureComponent {
     renderCards (p, key) {
       return (
           <div key={key} className="card text-center table-card" style={{display: 'inline-block', margin: '15px'}}>
-            <span className="card-number">{ZeroFill(3, this.props.pokemons.all[key].id_national)}</span>
+            <span className="card-number">#{ZeroFill(3, this.props.pokemons.all[key].id_national)}</span>
             <img src={this.props.pokemons.all[key].image} className="card-pokemon"/>
             <IconButton
                 style={styles.cardIconLocationWrapper}

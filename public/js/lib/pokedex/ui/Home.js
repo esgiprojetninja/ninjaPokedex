@@ -324,7 +324,7 @@ export default class Home extends React.PureComponent {
                                 <span className="card-details-section-title">Type</span>
                             </Col>
                             <Col md={6} className="card-details-section-number left-line text-center">
-                                {ZeroFill(3, this.props.carousel.selectedCurrent.id_national)}
+                                #{ZeroFill(3, this.props.carousel.selectedCurrent.id_national)}
                                 <span className="card-details-section-title">No.</span>
                             </Col>
                         </div>
