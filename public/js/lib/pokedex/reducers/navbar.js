@@ -17,6 +17,11 @@ const navbar = (state = initialSate, action) => {
                 ...state,
                 showSearch: !state.showSearch
             }
+        case types.CLOSE_SEARCH:
+            return {
+                ...state,
+                showSearch: false
+            }
         default:
             return state;
     }

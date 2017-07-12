@@ -8,6 +8,9 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import TextField from 'material-ui/TextField';
+import StringSimilarity from 'string-similarity';
+import RaisedButton from 'material-ui/RaisedButton';
+import Swal from 'sweetalert';
 
 const colors = [
   'Red',
@@ -52,18 +55,68 @@ export default class PokeSearch extends React.PureComponent {
         super(props);
     }
 
-    renderTypes() {
+    getPokemonsByQuery = (arr, pokemonName) => {
+        return arr.filter(pokemon => StringSimilarity.compareTwoStrings(pokemon.name, pokemonName) > 0.5);
+    }
+
+    getPokemonsByFilter = (arr) => {
+        let pokemonsByFilter = [];
+
+        arr.forEach(
+            (pokemon) => {
+                if(pokemon.type) {
+                    pokemon.type.forEach(
+                        (pokemonType) => {
+                            if(this.props.pokesearch.searchedParams.pokemonType.length !== 0) {
+                                this.props.pokesearch.searchedParams.pokemonType.forEach(
+                                    (searchedParamsType) => {
+                                        if(pokemonType.nom_type === searchedParamsType && pokemonsByFilter.indexOf(pokemon) === -1) {
+                                            pokemonsByFilter.push(pokemon);
+                                        }
+                                    }
+                                )
+                            }
+                        }
+                    )
+                }
+            }
+        )
+
+        return pokemonsByFilter;
+    }
+
+    renderTypes(thisP, thisK) {
         return (
-            <li>
+            <div className="search-checkbox-wrapper" key={thisK}>
               <Checkbox
                 checkedIcon={<ActionFavorite />}
                 uncheckedIcon={<ActionFavoriteBorder style={{fill: 'white'}} />}
-                label="Normal"
-                labelStyle={styles.checkboxLabel}
+                label={thisP.name_type}
+                labelStyle={{
+                    backgroundColor: thisP.color,
+                    width: 'auto',
+                    color: 'white',
+                    borderBottomLeftRadius: '10px',
+                    borderTopRightRadius: '10px',
+                    fontSize: '11px',
+                    minWidth: '80px',
+                    textAlign: 'center'
+                }}
+                onCheck={
+                    (event, isInputChecked) => {
+                        if(isInputChecked) {
+                            if(this.props.pokesearch.searchedParams.pokemonType.indexOf(thisP.name_type) === -1) {
+                                this.props.setSearchedType(thisP.name_type);
+                            }
+                        } else {
+                                this.props.removeSearchedParamsType(thisP.name_type);
+                        }
+                    }
+                }
                 iconStyle={styles.checkboxIcon}
                 style={styles.checkbox}
               />
-            </li>
+            </div>
         )
     }
 
@@ -74,43 +127,53 @@ export default class PokeSearch extends React.PureComponent {
             <Grid>
               <Row>
                 <Col md={12} className="search-content">
-                  <div className="search-intro">Tape le nom dun Pokémon et appuies sur entrée</div>
-                  <input onChange={() => {
-                    console.log('Search for a pokemon');
-                  }} className="search-input" type="text" placeholder="Rechercher"/>
-                  <span className="search-found"><span className="search-found-count">1</span> Pokémon trouvé</span>
+                  <div className="search-intro">Tape le nom d'un Pokémon et clique sur Go!</div>
+                  <input
+                      onChange={(event) => {
+                        if(event.target.value) {
+                          this.props.setSearchedQuery(event.target.value);
+                        } else {
+                          this.props.resetSearchedParams();
+                        }
+                      }}
+                      className="search-input"
+                      type="text"
+                      placeholder="Rechercher"
+                  />
                   <div className="filters filters-type">
                       <span className="filters-name">Types :</span>
-                      {this.renderTypes()}
-                      <ul>
-                    </ul>
+                      {
+                          (this.props.types.all.map((thisP, thisKey) => this.renderTypes(thisP, thisKey)))
+                      }
                   </div>
-                  <div className="filters filters-evolution">
-                      <span className="filters-name">Evolution :</span>
-                      <ul>
-                        <li>
-                        <RadioButtonGroup name="shipSpeed" defaultSelected="not_light">
-                           <RadioButton
-                             value="multiple"
-                             label="Multiple"
-                             checkedIcon={<ActionFavorite style={{color: '#F44336'}} />}
-                             uncheckedIcon={<ActionFavoriteBorder style={{fill: 'white'}} />}
-                             labelStyle={styles.checkboxLabel}
-                             iconStyle={styles.checkboxIcon}
-                             style={styles.checkbox}
-                           />
-                           <RadioButton
-                             value="solo"
-                             label="Solo"
-                             checkedIcon={<ActionFavorite style={{color: '#F44336'}} />}
-                             uncheckedIcon={<ActionFavoriteBorder style={{fill: 'white'}} />}
-                             labelStyle={styles.checkboxLabel}
-                             iconStyle={styles.checkboxIcon}
-                             style={styles.checkbox}
-                           />
-                         </RadioButtonGroup>
-                        </li>
-                      </ul>
+                  <div>
+                      <RaisedButton
+                        target="_blank"
+                        label="Go!"
+                        style={{margin: '15px'}}
+                        labelColor="#ffffff"
+                        onTouchTap={
+                            () => {
+                                if(this.props.pokesearch.searchedParams.pokemonType && this.props.pokesearch.searchedParams.query === null) {
+                                    this.props.setSearchedPokemons(this.getPokemonsByFilter(this.props.pokemons.all));
+                                }
+
+                                if(this.props.pokesearch.searchedParams.pokemonType.length === 0 && this.props.pokesearch.searchedParams.query) {
+                                    this.props.setSearchedPokemons(this.getPokemonsByQuery(this.props.pokemons.all, this.props.pokesearch.searchedParams.query));
+                                }
+
+                                if(this.props.pokesearch.searchedParams.pokemonType.length !== 0 && this.props.pokesearch.searchedParams.query) {
+                                    this.props.setSearchedPokemons(this.getPokemonsByFilter(this.getPokemonsByQuery(this.props.pokemons.all, this.props.pokesearch.searchedParams.query)));
+                                }
+                                if(this.props.pokesearch.searchedParams.pokemonType.length === 0 && this.props.pokesearch.searchedParams.query === null) {
+                                    Swal("Oops...", "Vous n'avez rien renseigné dans la recherche!", "error");
+                                } else {
+                                    this.props.closeSearch();
+                                }
+                            }
+                        }
+                        backgroundColor="#a4c639"
+                      />
                   </div>
                 </Col>
               </Row>

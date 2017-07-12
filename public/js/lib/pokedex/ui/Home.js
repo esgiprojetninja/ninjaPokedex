@@ -101,7 +101,7 @@ export default class Home extends React.PureComponent {
 
     renderHomeCarousel () {
       return (
-        <Row className="show-grid" style={{height: '50vh'}}>
+        <Row className="show-grid animate fadeInRight" style={{height: '50vh'}}>
           <Col md={8} mdOffset={2}>
             <Carousel/>
           </Col>
@@ -347,20 +347,31 @@ export default class Home extends React.PureComponent {
         return (
           <Grid className="container full-height full-width" style={{padding: 0}}>
             <section className="index-wrapper full-height full-width">
-              <img src="img/pokemon-logo.png" className="index-logo"/>
-              {this.renderPokemonDetails()}
-              <div style={{position: 'absolute', bottom: 0, right: 0, zIndex: 10000, opacity: 0.5, margin: '15px'}}>
-                <IconButton onTouchTap={this.props.toggleView} iconStyle={styles.icon} tooltipPosition="top-center" tooltip="Changer de vue" children={<DashboardSVG/>}/>
-                <IconButton onTouchTap={
-                  () => {
-                    if (Screenfull.enabled) {
-                      Screenfull.toggle();
-                    }
-                  }
-                } iconStyle={styles.icon} tooltipPosition="top-center" tooltip="Fullscreen" children={<FullscreenSVG/>}/>
-              </div>
-              {this.renderOnToggleView()}
-              {this.renderSearchWrapper()}
+                  <img src="img/pokemon-logo.png" className="index-logo"/>
+                  {this.renderPokemonDetails()}
+                  <div style={{position: 'absolute', bottom: 0, right: 0, zIndex: 10000, opacity: 0.5, margin: '15px'}}>
+                    <IconButton
+                        onTouchTap={
+                            () => {
+                                this.props.resetSearchedPokemons();
+                                this.props.toggleView();
+                            }
+                        }
+                        iconStyle={styles.icon}
+                        tooltipPosition="top-center"
+                        tooltip="Changer de vue"
+                        children={<DashboardSVG/>}
+                    />
+                    <IconButton onTouchTap={
+                      () => {
+                        if (Screenfull.enabled) {
+                          Screenfull.toggle();
+                        }
+                      }
+                    } iconStyle={styles.icon} tooltipPosition="top-center" tooltip="Fullscreen" children={<FullscreenSVG/>}/>
+                  </div>
+                  {this.renderOnToggleView()}
+                  {this.renderSearchWrapper()}
             </section>
             <MapContainer/>
           </Grid>

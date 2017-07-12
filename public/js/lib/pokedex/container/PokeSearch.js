@@ -2,15 +2,46 @@ import {connect} from "react-redux";
 import PokeSearchComponent from "../ui/PokeSearch";
 
 import {
-    toggleSearch
+    toggleSearch,
+    closeSearch
 } from "../actions/navbarActions";
+
+import {
+    setSearchedPokemons,
+    setSearchedQuery,
+    setSearchedType,
+    resetSearchedParams,
+    resetSearchedPokemons,
+    removeSearchedParamsType
+} from "../actions/pokeSearchActions"
 
 const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => {
     return {
-        toggleSearch() {
+        toggleSearch() {
             dispatch(toggleSearch());
+        },
+        closeSearch() {
+            dispatch(closeSearch());
+        },
+        setSearchedPokemons(pokemons) {
+            dispatch(setSearchedPokemons(pokemons));
+        },
+        setSearchedQuery(query) {
+            dispatch(setSearchedQuery(query));
+        },
+        setSearchedType(newType) {
+            dispatch(setSearchedType(newType));
+        },
+        resetSearchedParams() {
+            dispatch(resetSearchedParams());
+        },
+        resetSearchedPokemons() {
+            dispatch(resetSearchedPokemons());
+        },
+        removeSearchedParamsType(removedType) {
+            dispatch(removeSearchedParamsType(removedType));
         }
     };
 }

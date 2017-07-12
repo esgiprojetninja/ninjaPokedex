@@ -48,15 +48,6 @@
   display: block;
 }
 
-.filters ul, .filters li{
-  width: -moz-fit-content;
-}
-
-.filters.filters-type ul, .filters.filters-evolution ul {
-  margin: 15px 15px 15px 0;
-  display: inline-block;
-}
-
 .search-found {
   margin: 15px;
 }

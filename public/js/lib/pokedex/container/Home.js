@@ -3,6 +3,7 @@ import HomeComponent from "../ui/Home";
 
 import {
     toggleView,
+    getTableView
 } from "../actions/homeActions";
 
 import {
@@ -16,6 +17,10 @@ import {
     openDetails
 } from "../actions/carouselActions";
 
+import {
+    resetSearchedPokemons
+} from "../actions/pokeSearchActions";
+
 const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => {
@@ -28,6 +33,12 @@ const mapDispatchToProps = dispatch => {
         },
         openDetails() {
             dispatch(openDetails());
+        },
+        getTableView() {
+            dispatch(getTableView());
+        },
+        resetSearchedPokemons() {
+            dispatch(resetSearchedPokemons());
         },
         openForm() {
             dispatch(openForm())

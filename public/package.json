@@ -41,6 +41,8 @@
     "redux-thunk": "^2.2.0",
     "restify": "^4.3.0",
     "screenfull": "^3.2.2",
-    "scroll-to-element": "^2.0.0"
+    "scroll-to-element": "^2.0.0",
+    "string-similarity": "^1.2.0",
+    "sweetalert": "^1.1.3"
   }
 }
