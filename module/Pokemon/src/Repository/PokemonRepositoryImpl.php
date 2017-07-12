@@ -595,13 +595,12 @@ class PokemonRepositoryImpl implements PokemonRepository
   public function hydrateWithRelatives(Pokemon $pokemon)
   {
       $all_pokemons = $this->getAll();
-
       function findById($all_pokemons, $id)
       {
           $pokeHydrator = new PokemonHydrator();
           foreach ($all_pokemons as $poke) {
               $poke = (array) $poke;
-              if ( (int) $poke['id_pokemon'] == (int) $id )
+              if ( (int) $poke['id_national'] == (int) $id )
                   return $pokeHydrator->hydrate( $poke, new Pokemon());
           }
           return null;
