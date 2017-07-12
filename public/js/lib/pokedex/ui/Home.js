@@ -20,6 +20,7 @@ import Screenfull from 'screenfull';
 import Close from 'material-ui/svg-icons/action/highlight-off';
 import { withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 import scrollToElement from 'scroll-to-element';
+import ZeroFill from 'zero-fill';
 
 const styles = {
     buttonClose : {
@@ -323,7 +324,7 @@ export default class Home extends React.PureComponent {
                                 <span className="card-details-section-title">Type</span>
                             </Col>
                             <Col md={6} className="card-details-section-number left-line text-center">
-                                {this.props.carousel.selectedCurrent.id_national}
+                                {ZeroFill(3, this.props.carousel.selectedCurrent.id_national)}
                                 <span className="card-details-section-title">No.</span>
                             </Col>
                         </div>
