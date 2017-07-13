@@ -69,6 +69,10 @@ class PokemonServiceImpl implements PokemonService
     {
         return $this->pokemonRepository->hydrateWithTypes($pokemon);
     }
+    public function getPaginated($page)
+    {
+        return $this->pokemonRepository->getPaginated($page);
+    }
     public function formatNationalId($national_id)
     {
         $national_id = (string) $national_id;

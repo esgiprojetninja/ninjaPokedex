@@ -16,39 +16,45 @@
     <table class="table table-condenses table-hover">
         <thead>
             <tr>
-                <th>national ID</th>
-                <th>Name</th>
+                <th>ID Officiel</th>
+                <th>Nom</th>
                 <th>Image</th>
-                <th>Description</th>
-                <th>Evolutions</th>
+                <th>Parent</th>
+                <th>Évolutions</th>
                 <th>Types</th>
-                <th>Show</th>
-                <th>Edit</th>
-                <th>Delete</th>
+                <th>Détail</th>
+                <th>Éditer</th>
+                <th>Supprimer</th>
             </tr>
         </thead>
         <tbody>
         <?php foreach ($this->pokemons as $poke): ?>
             <?php
-                $idnation = (string) $poke->id_national;
+                $idnation = (string) $poke->getIdNational();
                 while (strlen($idnation) < 3) {
                     $idnation = "0".$idnation;
                 }
             ?>
-            <tr id="poke-<?= $poke->id_national ?>">
+            <tr id="poke-<?= $poke->getIdNational() ?>">
                 <td><?= "#".$idnation ?></td>
-                <td><?= $poke->name ?></td>
-                <td><img src="<?= $poke->image ?>" alt="<?= $poke->name ?> image"></td>
-                <td><?= $poke->description ?></td>
+                <td><?= $poke->getName() ?></td>
+                <td><img src="<?= $poke->getImage() ?>" alt="<?= $poke->getName() ?> image"></td>
                 <td>
-                <?php if ( is_array($poke->evolutions) ) : ?>
+                    <?php if ( $poke->getParent() != null ): ?>
+                        <a href="<?= $this->basePath().'/admin/pokemon/show/'.$poke->getParent()->getIdNational() ?>"><?= $poke->getParent()->getName() ?></a>
+                    <?php else: ?>
+                        &empty;
+                    <?php endif; ?>
+                </td>
+                <td>
+                <?php if ( is_array($poke->getEvolutions()) ) : ?>
                     <div class="evolutions row">
-                    <?php foreach ($poke->evolutions as $evo): ?>
-                        <a href="#poke-<?= $evo->id_national ?>"><?= $evo->name ?></a>
-                        <?php if ( is_array($evo->evolutions) ) : ?>
+                    <?php foreach ($poke->getEvolutions() as $evo): ?>
+                        <a href="<?= $this->basePath().'/admin/pokemon/show/'.$evo->getIdNational() ?>"><?= $evo->getName() ?></a>
+                        <?php if ( is_array($evo->getEvolutions()) ) : ?>
                             <div class="next-evolutions">
-                            <?php foreach ($evo->evolutions as $next_evo): ?>
-                                <a href="#poke-<?= $next_evo->id_national ?>"><?= $next_evo->name ?></a>
+                            <?php foreach ($evo->getEvolutions() as $next_evo): ?>
+                                <a href="<?= $this->basePath().'/admin/pokemon/show/'.$next_evo->getIdNational() ?>"><?= $next_evo->getName() ?></a>
                             <?php endforeach; ?>
                             </div>
                         <?php endif; ?>
@@ -57,20 +63,34 @@
                 <?php endif; ?>
                 </td>
                 <td>
-                    <?php if ( is_array($poke->type) && count($poke->type) > 0 ) : ?>
-                        <?php foreach ($poke->type as $type_arr) : ?>
-                            <span style="color: <?= $type_arr['color']; ?>;"><?= $type_arr['nom_type']; ?></span>
-                        <?php endforeach; ?>
+                    <?php if ( $poke->getType1() == null && $poke->getType2() == null ) : ?>
+                        &empty;
                     <?php else: ?>
-                        None
+                        <?php if ( $poke->getType1() != null ) : ?>
+                        <span style="color: <?= $poke->getType1()->getColor(); ?>;"><?= $poke->getType1()->getNameType(); ?></span>
+                        <?php endif; ?>
+                        <?php if ( $poke->getType2() != null ) : ?>
+                        <span style="color: <?= $poke->getType2()->getColor(); ?>;"><?= $poke->getType2()->getNameType(); ?></span>
+                        <?php endif; ?>
                     <?php endif; ?>
                 </td>
-                <td><a href="/admin/pokemon/show/<?= $poke->id_pokemon ?>"><button type="button" class="btn btn-success btn-xs">Show</button></a></td>
-                <td><a href="/admin/pokemon/edit/<?= $poke->id_pokemon ?>"><button type="button" class="btn btn-warning btn-xs">Edit</button></a></td>
-                <td><a href="/admin/pokemon/delete/<?= $poke->id_pokemon ?>"><button type="button" class="btn btn-danger btn-xs">Remove</button></a></td>
+                <td><a href="/admin/pokemon/show/<?= $poke->getIdNational() ?>"><button type="button" class="btn btn-success btn-xs">Show</button></a></td>
+                <td><a href="/admin/pokemon/edit/<?= $poke->getIdNational() ?>"><button type="button" class="btn btn-warning btn-xs">Edit</button></a></td>
+                <td><a href="/admin/pokemon/delete/<?= $poke->getIdNational() ?>"><button type="button" class="btn btn-danger btn-xs">Remove</button></a></td>
             </tr>
         <?php endforeach; ?>
         </tbody>
     </table>
 </div>
+<div class="row display-flex-column">
+    <?php
+        echo $this->paginationControl(
+          $this->pokemons,
+          'Sliding',
+          'partial/pagination',
+          ['route' => 'admin_home/paged']
+        );
+    ?>
+</div>
+<?php $this->headScript()->appendFile('/admin_js/index.js', 'text/javascript'); ?>
 <?php endif; ?>

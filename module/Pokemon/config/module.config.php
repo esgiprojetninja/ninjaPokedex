@@ -119,22 +119,25 @@ return [
                 'may_terminate' => true,
             ],
             'admin_home' => [
-                'type'    => Literal::class,
+                'type'    => Segment::class,
                 'options' => [
                    'route'    => '/admin',
                     'defaults' => [
                         'controller' => 'Pokemon\Controller\Admin',
                         'action' => 'index',
+                        'page' => 1,
                     ],
                 ],
                 'child_routes' => [
-                    'admin_list_pokemons' => [
-                        'type'    => Literal::class,
+                    'paged' => [
+                        'type'    => Segment::class,
                         'options' => [
-                            'route'    => '/pokemons',
+                            'route'    => '/page/:page',
+                            'constraints' => [ 'page' => '[0-9]+' ],
                             'defaults' => [
                                 'controller' => 'Pokemon\Controller\Admin',
-                                'action' => 'index'
+                                'action' => 'index',
+                                'page' => 1,
                             ],
                         ],
                     ],

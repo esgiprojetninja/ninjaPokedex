@@ -3,6 +3,7 @@ namespace Pokemon\Repository;
 
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Db\Adapter\AdapterAwareTrait;
+use Zend\Hydrator\Aggregate\AggregateHydrator;
 
 use Pokemon\Repository\PokemonRepository;
 use Pokemon\Entity\Pokemon;
@@ -19,6 +20,7 @@ use Zend\Db\ResultSet\ResultSet;
 class PokemonRepositoryImpl implements PokemonRepository
 {
   use AdapterAwareTrait;
+  const POKEMONS_PER_PAGE = 5;
 
   public function save(Pokemon $pokemon) {
     $return = false;
@@ -253,6 +255,30 @@ class PokemonRepositoryImpl implements PokemonRepository
       ->getConnection()
       ->rollback();
     }
+  }
+
+  public function getPaginated($page)
+  {
+    $sql = new \Zend\Db\Sql\Sql($this->adapter);
+
+    $select = $sql->select();
+    $select->from('pokemon');
+
+    $hydrator = new AggregateHydrator();
+    $hydrator->add(new PokemonHydrator());
+    $resultSet = new HydratingResultSet($hydrator, new Pokemon());
+
+    $paginatorAdapter = new \Zend\Paginator\Adapter\DbSelect(
+      $select,
+      $this->adapter,
+      $resultSet
+    );
+
+    $paginator = new \Zend\Paginator\Paginator($paginatorAdapter);
+    $paginator->setCurrentPageNumber($page);
+    $paginator->setItemCountPerPage(self::POKEMONS_PER_PAGE);
+
+    return $paginator;
   }
 
   public function marked() {
@@ -724,39 +750,17 @@ class PokemonRepositoryImpl implements PokemonRepository
   public function hydrateWithRelatives(Pokemon $pokemon)
   {
       $all_pokemons = $this->getAll();
-      function findById($all_pokemons, $id_parent)
-      {
-          $pokeHydrator = new PokemonHydrator();
-          foreach ($all_pokemons as $poke) {
-              $poke = (array) $poke;
-              if ( (int) $poke['id_national'] == (int) $id_parent )
-                  return $pokeHydrator->hydrate( $poke, new Pokemon());
-          }
-          return null;
-      }
-
-      function getPokemonEvolutions($all_pokemons, $id_national)
-      {
-          $pokeHydrator = new PokemonHydrator();
-          $evolutions = [];
-          foreach ($all_pokemons as $poke_evo) {
-              $poke_evo = (array) $poke_evo;
-              if ( (int) $poke_evo['id_parent'] == (int) $id_national )
-                  $evolutions[] = $pokeHydrator->hydrate( $poke_evo, new Pokemon());
-          }
-          return $evolutions;
-      }
 
       if ( $pokemon->getIdParent() != null ) {
-          $parent = findById($all_pokemons, $pokemon->getIdParent());
+          $parent = $this->_findParent($all_pokemons, $pokemon->getIdParent());
           if ( $parent != null )
-              $parent->setParent(findById($all_pokemons, $parent->getIdParent()));
+              $parent->setParent($this->_findParent($all_pokemons, $parent->getIdParent()));
           $pokemon->setParent($parent);
       }
 
-      $pokemon_evolutions = getPokemonEvolutions($all_pokemons, $pokemon->getIdNational());
+      $pokemon_evolutions = $this->_getPokemonEvolutions($all_pokemons, $pokemon->getIdNational());
       foreach ($pokemon_evolutions as $evo) {
-          $evo_next = getPokemonEvolutions($all_pokemons, $evo->getIdNational());
+          $evo_next = $this->_getPokemonEvolutions($all_pokemons, $evo->getIdNational());
           $evo_next = (count($evo_next) > 0) ? $evo_next : null;
           $evo->setEvolutions($evo_next);
       }
@@ -779,6 +783,29 @@ class PokemonRepositoryImpl implements PokemonRepository
       foreach ($pokemons as $poke) {
           if ( (int) $poke->id_parent == (int) $pokemon->id_national )
               $evolutions[] = $poke;
+      }
+      return $evolutions;
+  }
+
+  private function _findParent($all_pokemons, $id_parent)
+  {
+      $pokeHydrator = new PokemonHydrator();
+      foreach ($all_pokemons as $poke) {
+          $poke = (array) $poke;
+          if ( (int) $poke['id_national'] == (int) $id_parent )
+              return $pokeHydrator->hydrate( $poke, new Pokemon());
+      }
+      return null;
+  }
+
+  private function _getPokemonEvolutions($all_pokemons, $id_national)
+  {
+      $pokeHydrator = new PokemonHydrator();
+      $evolutions = [];
+      foreach ($all_pokemons as $poke_evo) {
+          $poke_evo = (array) $poke_evo;
+          if ( (int) $poke_evo['id_parent'] == (int) $id_national )
+              $evolutions[] = $pokeHydrator->hydrate( $poke_evo, new Pokemon());
       }
       return $evolutions;
   }
