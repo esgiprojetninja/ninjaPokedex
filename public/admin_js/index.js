@@ -1,25 +1,25 @@
-(()=>{
+(() => {
     window.addEventListener("load", function load(event) {
-        window.removeEventListener('load', 'load');
-        const pagination_element = document.getElementsByClassName('paginationControl')[0];
+        window.removeEventListener("load", "load");
+        const paginationEl = document.getElementsByClassName("paginationControl")[0];
 
-        const ul = document.createElement('ul');
-        ul.className = 'pagination pagination-lg';
+        const ul = document.createElement("ul");
+        ul.className = "pagination pagination-lg";
 
-        const filtered_els = Array.from(pagination_element.childNodes)
-            .filter(el => el.nodeType !== Node.COMMENT_NODE )
-            .filter(el => el.nodeType === Node.ELEMENT_NODE || (el.nodeType === Node.TEXT_NODE && !isNaN(parseInt(el.textContent.trim().replace(/\|/g, '').trim()))))
+        const filteredEls = Array.from(paginationEl.childNodes)
+            .filter(el => (el.nodeType !== Node.COMMENT_NODE) )
+            .filter(el => ((el.nodeType === Node.ELEMENT_NODE) || (el.nodeType === Node.TEXT_NODE && !isNaN(parseInt(el.textContent.trim().replace(/\|/g, '').trim())))))
             .map(el => {
                 if ( el.nodeType === Node.TEXT_NODE )
-                    return {className: 'active', textContent: el.textContent.trim().replace(/\|/g, '')};
+                    return {className: "active", textContent: el.textContent.trim().replace(/\|/g, '')};
                 return el;
             });
-        filtered_els[0].textContent = "Précédent";
-        filtered_els[filtered_els.length - 1].textContent = "Suivant";
-        filtered_els.forEach(el => {
-            const li = document.createElement('li');
-            const a = document.createElement('a');
-            a.href = el.href ? el.href : '#';
+        filteredEls[0].textContent = "Précédent";
+        filteredEls[filteredEls.length - 1].textContent = "Suivant";
+        filteredEls.forEach(el => {
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+            a.href = el.href ? el.href : "#";
             li.className = el.className;
             a.appendChild(document.createTextNode((el.textContent.trim())));
             li.appendChild(a);
@@ -27,10 +27,10 @@
         });
 
 
-        pagination_element.parentNode.replaceChild(ul, pagination_element);
+        paginationEl.parentNode.replaceChild(ul, paginationEl);
 
 
 
-        pagination_element.childNodes;
+        paginationEl.childNodes;
     });
 })();
