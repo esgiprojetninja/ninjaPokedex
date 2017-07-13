@@ -82,12 +82,15 @@
         </tbody>
     </table>
 </div>
-<?php
-    echo $this->paginationControl(
-      $this->pokemons,
-      'Sliding',
-      'partial/pagination',
-      ['route' => 'admin_home/paged']
-    );
-?>
+<div class="row display-flex-column">
+    <?php
+        echo $this->paginationControl(
+          $this->pokemons,
+          'Sliding',
+          'partial/pagination',
+          ['route' => 'admin_home/paged']
+        );
+    ?>
+</div>
+<?php $this->headScript()->appendFile('/admin_js/index.js', 'text/javascript'); ?>
 <?php endif; ?>

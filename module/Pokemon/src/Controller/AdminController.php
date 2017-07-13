@@ -130,7 +130,6 @@ class AdminController extends AbstractActionController {
             $pokemon = $this->pokemonService->hydrateWithRelatives($pokemon);
             $pokemon = $this->pokemonService->hydrateWithTypes($pokemon);
         }
-
         return new ViewModel([
             'pokemons' => $pokemons,
             'messages' => $this->flashMessenger()->getMessages()
