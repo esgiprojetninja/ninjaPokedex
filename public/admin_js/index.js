@@ -25,12 +25,6 @@
             li.appendChild(a);
             ul.appendChild(li);
         });
-
-
         paginationEl.parentNode.replaceChild(ul, paginationEl);
-
-
-
-        paginationEl.childNodes;
     });
 })();
