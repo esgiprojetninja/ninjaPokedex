@@ -122,8 +122,16 @@ class AdminController extends AbstractActionController {
     {
         if ( $this->identity == null )
             return $this->redirect()->toRoute('admin_home/admin_login');
+
+        $page = intval($this->params()->fromRoute('page'));
+        $pokemons = $this->pokemonService->getPaginated($page);
+
+        foreach ($pokemons as $pokemon) {
+            $pokemon = $this->pokemonService->hydrateWithRelatives($pokemon);
+            $pokemon = $this->pokemonService->hydrateWithTypes($pokemon);
+        }
         return new ViewModel([
-            'pokemons' => $this->pokemonService->getAll(),
+            'pokemons' => $pokemons,
             'messages' => $this->flashMessenger()->getMessages()
         ]);
     }
