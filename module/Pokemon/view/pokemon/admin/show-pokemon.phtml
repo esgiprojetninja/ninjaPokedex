@@ -1,5 +1,11 @@
 <?php if ( $this->pokemon != null ) : ?>
 <?php $poke = $this->pokemon; ?>
+<?php
+    $idnation = (string) $poke->getIdNational();
+    while (strlen($idnation) < 3) {
+        $idnation = "0".$idnation;
+    }
+?>
 <div class="row">
     <img class="height-auto col-lg-1 col-md-1 col-xs-2" src="<?= $poke->getImage() ?>" alt="<?= $poke->getName() ?>">
     <h1 class="text text-primary col-lg-4 col-md-6 col-xs-8"><?= $poke->getName() ?> details</h1>

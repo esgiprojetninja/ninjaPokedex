@@ -79,7 +79,7 @@ class PokemonsController extends AbstractRestfulController {
 
   public function dispoAction() {
     $idNational = intval($this->params()->fromRoute('id'));
-    return new JsonModel(['data'=>$this->pokemonService->dispo($idNational)]);
+    return new JsonModel(['data'=>$this->pokemonService->canPokemonBeParentOf(2, 1)]);
   }
 
   public function methodNotAllowed() {

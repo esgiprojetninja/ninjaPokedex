@@ -23,13 +23,11 @@
         ?>
     </div>
     <div class="form-group">
-        <?php
-            $parent_id_input = $form->get('id_parent');
-            if ( (bool) (int) ($poke->getIdParent()) )
-                $parent_id_input->setValue($poke->getIdParent());
-
+    <?php
+        if ($form->has('id_parent')) {
             echo $this->formRow($form->get('id_parent'));
-        ?>
+        }
+    ?>
     </div>
     <div class="form-group">
         <?= $this->formRow($form->get('description')->setValue($poke->getDescription())); ?>

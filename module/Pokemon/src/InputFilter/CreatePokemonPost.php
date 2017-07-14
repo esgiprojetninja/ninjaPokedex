@@ -43,11 +43,6 @@ class CreatePokemonPost extends InputFilter
         $description->setFilterChain($this->getStringTrimFilterChain());
         $description->setValidatorChain($this->getDescriptionValidatorChain());
 
-
-        $id_parent = new Input('id_parent');
-        $id_parent->setRequired(false);
-        $id_parent->setValidatorChain($this->getIdParentValidatorChain());
-
         $type_1 = new Input('type1');
         $type_1->setRequired(false);
         $type_1->setValidatorChain($this->getTypeValidatorChain());
@@ -62,7 +57,6 @@ class CreatePokemonPost extends InputFilter
         $this->addImageValidator();
         $this->add($name);
         $this->add($id_national);
-        $this->add($id_parent);
         $this->add($description);
         $this->add($type_1);
         $this->add($type_2);
@@ -114,18 +108,6 @@ class CreatePokemonPost extends InputFilter
         $validatorChain = new ValidatorChain();
         $validatorChain->attach($valid);
         $validatorChain->attach($validator);
-        return $validatorChain;
-    }
-
-    protected function getIdParentValidatorChain()
-    {
-        $valid = new GreaterThan([
-            'min' => 0,
-            'inclusive' => true
-        ]);
-        $validatorChain = new ValidatorChain();
-        $validatorChain->attach(new Digits());
-        $validatorChain->attach($valid);
         return $validatorChain;
     }
 
