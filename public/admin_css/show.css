@@ -9,3 +9,16 @@
 .admin-show-evolution-group:last-of-type .pokemon-detail-tree-container span.glyphicon{
     display: none;
 }
+.admin-show-type-label{
+  color: #fff;
+  padding: 5px;
+}
+#admin-show-type-2-label{
+  margin-left: 10px;
+}
+.show-pokemon-btns-container a:last-child{
+    margin-left: 15px;
+}
+body{
+  padding-top: 70px;
+}

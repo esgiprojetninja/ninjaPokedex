@@ -20,13 +20,13 @@ class Pokemon extends Form {
         $this->setHydrator($hydrator);
 
         $name = new Element\Text('name');
-        $name->setLabel('Name');
+        $name->setLabel('Nom');
         $name->setAttribute('class','form-control');
 
         $poke_id = new Element\Hidden('id_pokemon');
 
         $national_id = new Element\Number('id_national');
-        $national_id->setLabel('Official id number');
+        $national_id->setLabel('ID national');
         $national_id->setAttribute('class','form-control');
         $national_id->setAttribute('min',1);
 
@@ -39,20 +39,33 @@ class Pokemon extends Form {
         $img->setAttribute('class','form-control height-auto width-auto');
         $img->setAttribute('id','poke_image_input');
 
-        $parent_id = new Element\Select('id_parent');
-        $parent_id->setLabel('Parent');
-        $parent_id->setAttribute('class','form-control');
+        if ( $pokemon != null ) {
+            $parent_id = new Element\Select('id_parent');
+            $parent_id->setLabel('Parent');
+            $parent_id->setAttribute('class','form-control');
 
-        $parent_options = [0 => 'Pas de parent'];
-        foreach ( $pokemonService->getAll() as $possible_parent_pokemon ) {
-            (int) $parent_options[$possible_parent_pokemon->id_national] = $possible_parent_pokemon->name;
+            $currentParentId = $pokemon->getIdParent();
+            if ( $currentParentId != null ) {
+              $currentParent = $pokemonService->findByIdNational(intval($currentParentId));
+              $parent_options = [
+                  (string)$currentParent['id_national'] => $currentParent['name'],
+                  0 => 'Pas de parent'
+              ];
+            } else {
+              $parent_options = [0 => 'Pas de parent'];
+            }
+            foreach ( $pokemonService->getAll() as $possible_parent_pokemon ) {
+              if ( $pokemonService->canPokemonBeParentOf(intval($possible_parent_pokemon->id_national), intval($pokemon->getIdNational())) ) {
+                (int) $parent_options[$possible_parent_pokemon->id_national] = $possible_parent_pokemon->name;
+
+              }
+            }
+            $parent_id->setValueOptions($parent_options);
+            $this->add($parent_id);
         }
-        $parent_id->setValueOptions($parent_options);
-
-
 
         $type_1 = new Element\Select('type1');
-        $type_1->setLabel('First type');
+        $type_1->setLabel('Premier type');
         $type_1->setAttribute('class','form-control');
 
         $type_2 = new Element\Select('type2');
@@ -84,7 +97,7 @@ class Pokemon extends Form {
         $type_2->setValueOptions($type2_options);
 
         $submit = new Element\Submit('submit');
-        $submit->setValue('Send');
+        $submit->setValue('Valider');
         $submit->setAttribute('class', 'btn btn-primary btn-lg');
 
         $this->add($name);
@@ -92,7 +105,6 @@ class Pokemon extends Form {
         $this->add($national_id);
         $this->add($description);
         $this->add($img);
-        $this->add($parent_id);
         $this->add($type_1);
         $this->add($type_2);
         $this->add($submit);

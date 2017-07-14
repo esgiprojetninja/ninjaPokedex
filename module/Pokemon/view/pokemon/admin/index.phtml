@@ -35,13 +35,13 @@
                     $idnation = "0".$idnation;
                 }
             ?>
-            <tr id="poke-<?= $poke->getIdNational() ?>">
+            <tr id="poke-<?= $poke->getIdPokemon() ?>">
                 <td><?= "#".$idnation ?></td>
                 <td><?= $poke->getName() ?></td>
                 <td><img src="<?= $poke->getImage() ?>" alt="<?= $poke->getName() ?> image"></td>
                 <td>
                     <?php if ( $poke->getParent() != null ): ?>
-                        <a href="<?= $this->basePath().'/admin/pokemon/show/'.$poke->getParent()->getIdNational() ?>"><?= $poke->getParent()->getName() ?></a>
+                        <a href="<?= $this->basePath().'/admin/pokemon/show/'.$poke->getParent()->getIdPokemon() ?>"><?= $poke->getParent()->getName() ?></a>
                     <?php else: ?>
                         &empty;
                     <?php endif; ?>
@@ -50,11 +50,11 @@
                 <?php if ( is_array($poke->getEvolutions()) ) : ?>
                     <div class="evolutions row">
                     <?php foreach ($poke->getEvolutions() as $evo): ?>
-                        <a href="<?= $this->basePath().'/admin/pokemon/show/'.$evo->getIdNational() ?>"><?= $evo->getName() ?></a>
+                        <a href="<?= $this->basePath().'/admin/pokemon/show/'.$evo->getIdPokemon() ?>"><?= $evo->getName() ?></a>
                         <?php if ( is_array($evo->getEvolutions()) ) : ?>
                             <div class="next-evolutions">
                             <?php foreach ($evo->getEvolutions() as $next_evo): ?>
-                                <a href="<?= $this->basePath().'/admin/pokemon/show/'.$next_evo->getIdNational() ?>"><?= $next_evo->getName() ?></a>
+                                <a href="<?= $this->basePath().'/admin/pokemon/show/'.$next_evo->getIdPokemon() ?>"><?= $next_evo->getName() ?></a>
                             <?php endforeach; ?>
                             </div>
                         <?php endif; ?>
@@ -74,9 +74,9 @@
                         <?php endif; ?>
                     <?php endif; ?>
                 </td>
-                <td><a href="/admin/pokemon/show/<?= $poke->getIdNational() ?>"><button type="button" class="btn btn-success btn-xs">Show</button></a></td>
-                <td><a href="/admin/pokemon/edit/<?= $poke->getIdNational() ?>"><button type="button" class="btn btn-warning btn-xs">Edit</button></a></td>
-                <td><a href="/admin/pokemon/delete/<?= $poke->getIdNational() ?>"><button type="button" class="btn btn-danger btn-xs">Remove</button></a></td>
+                <td><a href="/admin/pokemon/show/<?= $poke->getIdPokemon() ?>"><button type="button" class="btn btn-success btn-xs">Voir</button></a></td>
+                <td><a href="/admin/pokemon/edit/<?= $poke->getIdPokemon() ?>"><button type="button" class="btn btn-warning btn-xs">Modifier</button></a></td>
+                <td><a href="/admin/pokemon/delete/<?= $poke->getIdPokemon() ?>"><button type="button" class="btn btn-danger btn-xs">Supprimer</button></a></td>
             </tr>
         <?php endforeach; ?>
         </tbody>

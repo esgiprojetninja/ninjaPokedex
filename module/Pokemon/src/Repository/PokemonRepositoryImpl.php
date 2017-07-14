@@ -20,7 +20,7 @@ use Zend\Db\ResultSet\ResultSet;
 class PokemonRepositoryImpl implements PokemonRepository
 {
   use AdapterAwareTrait;
-  const POKEMONS_PER_PAGE = 5;
+  const POKEMONS_PER_PAGE = 10;
 
   public function save(Pokemon $pokemon) {
     $return = false;
@@ -771,13 +771,11 @@ class PokemonRepositoryImpl implements PokemonRepository
 
   public function hydrateWithTypes(Pokemon $pokemon)
   {
-      $types = $this->getTypes($pokemon->getIdPokemon());
-      if ( isset($types['type1']) && $types['type1'] != null )
-        $pokemon->setType1($this->getTypeInformation($types['type1']));
-      if ( isset($types['type2']) && $types['type2'] != null )
-        $pokemon->setType2($this->getTypeInformation($types['type2']));
-
-      return $pokemon;
+    if ( $pokemon->getType1() != null )
+        $pokemon->setType1($this->getTypeInformation(intval($pokemon->getType1())));
+    if ( $pokemon->getType2() != null )
+        $pokemon->setType2($this->getTypeInformation(intval($pokemon->getType2())));
+    return $pokemon;
   }
 
   protected function getPokemonEvolutions($pokemons, $pokemon) {
