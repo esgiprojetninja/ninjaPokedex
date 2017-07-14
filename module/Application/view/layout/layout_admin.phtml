@@ -30,10 +30,13 @@
             ->prependFile($this->basePath('admin_js/jquery-3.1.0.min.js'))
         ?>
     </head>
-    <?php $user = $_SESSION['identity']; ?>
+    <?php
+        $user = $_SESSION['identity'];
+        @$current_route = $this->getHelperPluginManager()->getServiceLocator()->get('request')->getUri()->getPath();
+    ?>
     <body>
-        <nav class="navbar navbar-inverse" role="navigation">
-            <div class="container display-flex-row space-between">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid display-flex-row space-between">
                 <div class="col-md-8">
                     <div class="navbar-heade pull-left">
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -48,22 +51,22 @@
                     <div class="collapse navbar-collapse">
                         <ul class="nav navbar-nav">
                         <?php if ( false != $user ): ?>
-                            <li><a href="<?= $this->url('admin_home') ?>">Pokemons</a></li>
-                            <li><a href="<?= $this->url('admin_home/admin_pokemon_create') ?>">Add Pokemon</a></li>
+                            <li class="<?= ($current_route == '/admin' || strpos($current_route, '/admin/page/') !== false ) ? 'active' : '' ?>"><a href="<?= $this->url('admin_home') ?>">Les pokémons</a></li>
+                            <li class="<?= $current_route == '/admin/pokemon/create' ? 'active' : '' ?>"><a href="<?= $this->url('admin_home/admin_pokemon_create') ?>">Créer un pokemon</a></li>
                         <?php endif; ?>
-                            <li><a href="<?= $this->url('admin_home/add_admin') ?>">Add Admin</a></li>
+                            <li class="<?= $current_route == '/admin/add' ? 'active' : '' ?>"><a href="<?= $this->url('admin_home/add_admin') ?>">Créer un admin</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-md-4 display-flex-row space-between">
                 <?php if ( false != $user ): ?>
                     <div class="col-md-3 col-md-offset-7 align-start">
-                        <span class="label label-warning">
+                        <span class="label label-default">
                             <?= $user; ?>
                         </span>
                     </div>
                     <div class="col-md-2">
-                        <a href="<?php echo $this->url('admin_home/admin_logout') ?>" class="btn btn-danger">Logout</a>
+                        <a href="<?php echo $this->url('admin_home/admin_logout') ?>" class="btn btn-default">Logout</a>
                     </div>
                 <?php else: ?>
                     <div class="col-md-2 col-md-offset-10">

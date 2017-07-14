@@ -19,3 +19,6 @@
 .show-pokemon-btns-container a:last-child{
     margin-left: 15px;
 }
+body{
+  padding-top: 70px;
+}
