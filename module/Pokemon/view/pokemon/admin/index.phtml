@@ -5,7 +5,7 @@
     <a href="<?= $this->url('admin_home/admin_pokemon_create') ?>" class="btn btn-primary btn-lg pull-right" name="button">Ajouter un pokemon <span class="glyphicon glyphicon-plus"></span></a>
 </div>
 <?php if ( (bool) count($this->messages) ) : ?>
-<div class="row alert alert-info">
+<div class="row alert alert-info light-top-margin">
     <?php foreach ($this->messages as $msg): ?>
     <p class="col-xs-10 col-xs-offset-1"><strong><?= $msg ?></strong></p>
     <?php endforeach; ?>
@@ -30,6 +30,7 @@
         <tbody>
         <?php foreach ($this->pokemons as $poke): ?>
             <?php
+                // var_dump($poke);
                 $idnation = (string) $poke->getIdNational();
                 while (strlen($idnation) < 3) {
                     $idnation = "0".$idnation;

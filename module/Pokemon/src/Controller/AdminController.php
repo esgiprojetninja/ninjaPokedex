@@ -69,7 +69,7 @@ class AdminController extends AbstractActionController {
                 if ( true === $saveReturn )
                     return $this->redirect()->toRoute('admin_home/admin_login');
                 else if ( false === $saveReturn )
-                    $this->flashMessenger()->addMessage('An Error occurred while admin adding');
+                    $this->flashMessenger()->addMessage("Une erreur est suvenue à la création d'un admin");
                 else
                     $this->flashMessenger()->addMessage($saveReturn);
             }
@@ -101,9 +101,9 @@ class AdminController extends AbstractActionController {
                     return $this->redirect()->toUrl($url);
                 }
                 else
-                    $this->flashMessenger()->addMessage('Invalid credentials');
+                    $this->flashMessenger()->addMessage('Identifiants incorrects');
             } else
-                $this->flashMessenger()->addMessage('Invalid form received');
+                $this->flashMessenger()->addMessage("Les champs n'ont pas été bien remplis !");
         }
         return new ViewModel([
             'form' => $form,
@@ -203,11 +203,11 @@ class AdminController extends AbstractActionController {
                     $data['image'] = $baseUrl . $this->imageManager->getPublicWebPath() . $data['image'];
                 }
                 if ( $this->pokemonService->update($id_poke, $data)){
-                    $this->flashMessenger()->addMessage('Pokemon successfully updated !');
+                    $this->flashMessenger()->addMessage('Pokémon bien mis à jour');
                     return $this->redirect()->toRoute('admin_home');
                 }
                 else
-                    $this->flashMessenger()->addMessage('Pokemon could not be updated !');
+                    $this->flashMessenger()->addMessage("Le Pokémon n'a pu être mis à jour !");
             }
         }
 
@@ -229,12 +229,12 @@ class AdminController extends AbstractActionController {
         $poke = $this->pokemonService->findById((int) $this->params()->fromRoute('id'));
         if ( $poke != null ){
             if ( true === $this->pokemonService->delete($poke['id_pokemon']) )
-                $this->flashMessenger()->addMessage('Pokemon deleted !');
+                $this->flashMessenger()->addMessage('Pokémon supprimé');
             else
-                $this->flashMessenger()->addMessage('Pokemon could not be deleted !');
+                $this->flashMessenger()->addMessage("Pokemon n'a pu être supprimé");
         }
         else
-            $this->flashMessenger()->addMessage('Could not find the pokemon to delete');
+            $this->flashMessenger()->addMessage("Pokémon à supprimer introuvable");
 
         return $this->redirect()->toRoute('admin_home');
     }
@@ -265,12 +265,13 @@ class AdminController extends AbstractActionController {
                     $data['image'] = $baseUrl . $this->imageManager->getPublicWebPath() . $data['image'];
                 }
                 $pokemon = $this->pokeHydrator->hydrate($data, new Pokemon());
-                if ( $this->pokemonService->save($pokemon)){
-                    $this->flashMessenger()->addMessage('Pokemon ' . $pokemon->getName() . ' succefully created !');
+
+                if ( true === $this->pokemonService->save($pokemon) ){
+                    $this->flashMessenger()->addMessage('Le pokémon ' . $pokemon->getName() . ' a bien été créé');
                     return $this->redirect()->toRoute('admin_home');
                 }
                 else
-                    $this->flashMessenger()->addMessage('Pokemon could not be created !');
+                    $this->flashMessenger()->addMessage("Le pokémon n'a pu être créé");
             }
         }
 

@@ -20,10 +20,18 @@ use Zend\Db\ResultSet\ResultSet;
 class PokemonRepositoryImpl implements PokemonRepository
 {
   use AdapterAwareTrait;
-  const POKEMONS_PER_PAGE = 10;
+  const POKEMONS_PER_PAGE = 6;
 
   public function save(Pokemon $pokemon) {
     $return = false;
+    $pokemon->setType1(((int) $pokemon->getType1() <= 0 ) ? NULL : $pokemon->getType1());
+    $pokemon->setType2(((int) $pokemon->getType2() <= 0 ) ? NULL : $pokemon->getType2());
+
+    if ( $pokemon->getType1() == NULL && $pokemon->getType2() != NULL ) {
+        $pokemon->setType1($pokemon->getType2());
+        $pokemon->setType2(null);
+    }
+
     try {
       $this->adapter
       ->getDriver()
@@ -39,7 +47,7 @@ class PokemonRepositoryImpl implements PokemonRepository
         $type1 = $pokemon->getType1();
         $type2 = $pokemon->getType2();
 
-        if($type1 == $type2){
+        if($type1 == $type2 && $type1 != null){
           return "Les deux types sont identiques";
         }
 
@@ -59,7 +67,7 @@ class PokemonRepositoryImpl implements PokemonRepository
         ->commit();
 
         $this->saveTypes($this->getPokemonByName($pokemon->getName()), $type1, $type2);
-        return "success";
+        return true;
       }
     } catch (\Exception $e) {
       return $e->getMessage();
@@ -771,10 +779,13 @@ class PokemonRepositoryImpl implements PokemonRepository
 
   public function hydrateWithTypes(Pokemon $pokemon)
   {
-    if ( $pokemon->getType1() != null )
-        $pokemon->setType1($this->getTypeInformation(intval($pokemon->getType1())));
-    if ( $pokemon->getType2() != null )
-        $pokemon->setType2($this->getTypeInformation(intval($pokemon->getType2())));
+    $types = $this->getTypes($pokemon->getIdPokemon());
+    if ( isset($types["type1"]) && $types["type1"] != null) {
+        $pokemon->setType1($this->getTypeInformation($types["type1"]));
+    }
+    if ( isset($types["type2"]) && $types["type2"] != null) {
+        $pokemon->setType2($this->getTypeInformation($types["type2"]));
+    }
     return $pokemon;
   }
 
