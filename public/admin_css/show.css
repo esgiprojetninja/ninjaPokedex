@@ -22,3 +22,7 @@
 body{
   padding-top: 70px;
 }
+footer.navbar {
+  margin-bottom: 0;
+  padding: 20px 0;
+}
