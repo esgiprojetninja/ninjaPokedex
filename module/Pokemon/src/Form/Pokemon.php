@@ -20,13 +20,13 @@ class Pokemon extends Form {
         $this->setHydrator($hydrator);
 
         $name = new Element\Text('name');
-        $name->setLabel('Name');
+        $name->setLabel('Nom');
         $name->setAttribute('class','form-control');
 
         $poke_id = new Element\Hidden('id_pokemon');
 
         $national_id = new Element\Number('id_national');
-        $national_id->setLabel('Official id number');
+        $national_id->setLabel('ID national');
         $national_id->setAttribute('class','form-control');
         $national_id->setAttribute('min',1);
 
@@ -54,24 +54,18 @@ class Pokemon extends Form {
             } else {
               $parent_options = [0 => 'Pas de parent'];
             }
-            $possibleParentToAssign = false;
             foreach ( $pokemonService->getAll() as $possible_parent_pokemon ) {
               if ( $pokemonService->canPokemonBeParentOf(intval($possible_parent_pokemon->id_national), intval($pokemon->getIdNational())) ) {
-                $possibleParentToAssign = true;
                 (int) $parent_options[$possible_parent_pokemon->id_national] = $possible_parent_pokemon->name;
 
               }
             }
-            if ( isset( $parent_options[intval($pokemon->getIdNational())] ) )
-                unset($parent_options[intval($pokemon->getIdNational())]);
             $parent_id->setValueOptions($parent_options);
-            if ( $possibleParentToAssign ){
-              $this->add($parent_id);
-            }
+            $this->add($parent_id);
         }
 
         $type_1 = new Element\Select('type1');
-        $type_1->setLabel('First type');
+        $type_1->setLabel('Premier type');
         $type_1->setAttribute('class','form-control');
 
         $type_2 = new Element\Select('type2');
@@ -103,7 +97,7 @@ class Pokemon extends Form {
         $type_2->setValueOptions($type2_options);
 
         $submit = new Element\Submit('submit');
-        $submit->setValue('Send');
+        $submit->setValue('Valider');
         $submit->setAttribute('class', 'btn btn-primary btn-lg');
 
         $this->add($name);

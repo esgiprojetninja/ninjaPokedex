@@ -16,3 +16,6 @@
 #admin-show-type-2-label{
   margin-left: 10px;
 }
+.show-pokemon-btns-container a:last-child{
+    margin-left: 15px;
+}

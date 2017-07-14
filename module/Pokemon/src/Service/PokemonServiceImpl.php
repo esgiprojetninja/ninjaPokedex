@@ -107,6 +107,17 @@ class PokemonServiceImpl implements PokemonService
         if ( false === $this->canPokemonHaveAParent($pokemonChild) )
             return false;
 
+        $cumulatedTreeLen = $this->getPokemonTreeLength($pokemonChild) + $this->getPokemonTreeLength($pokemonParent);
+        if ( $cumulatedTreeLen > 4)
+            return false;
+
+        // prevent Aquali -> evoli -> Aquali
+        if ( $this->isFuturParentAlreadyAlsoAChild($pokemonParent, $pokemonChild) )
+            return false;
+
+        if ( $pokemonChild->getIdNational() == $pokemonParent->getIdNational() )
+            return false;
+
         $parentPossibleEvolutions = $this->dispo($pokemonParent->getIdNational());
         return $parentPossibleEvolutions;
         foreach ($parentPossibleEvolutions as $parentPossibleEvolution) {
@@ -114,6 +125,37 @@ class PokemonServiceImpl implements PokemonService
             return true;
         }
         return false;
+    }
+    private function isFuturParentAlreadyAlsoAChild(Pokemon $parent_pokemon, Pokemon $child_pokemon)
+    {
+        if ( is_array($child_pokemon->getEvolutions()) && count($child_pokemon->getEvolutions()) > 0 ) {
+            foreach($child_pokemon->getEvolutions() as $evo) {
+                if ( intval($evo->getIdNational()) == intval($parent_pokemon->getIdNational()) )
+                    return true;
+            }
+        }
+        return false;
+    }
+    private function getPokemonTreeLength(Pokemon $pokemon)
+    {
+        $treeLen = 1;
+        if ( $pokemon->getParent() != null ) {
+          $treeLen += 1;
+          if ( $pokemon->getParent()->getParent() != null )
+            $treeLen += 1;
+        }
+
+        if ( is_array($pokemon->getEvolutions()) && count($pokemon->getEvolutions()) > 0 ) {
+          $treeLen += 1;
+          $found = false;
+          foreach ($pokemon->getEvolutions() as $first_evolutions) {
+            if ( is_array($first_evolutions->getEvolutions()) && count($first_evolutions->getEvolutions()) > 0 && !$found ) {
+                $treeLen += 1;
+                $found = true;
+            }
+          }
+        }
+        return $treeLen;
     }
     public function canPokemonHaveAParent(Pokemon $pokemon)
     {

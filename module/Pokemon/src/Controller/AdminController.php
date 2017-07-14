@@ -264,8 +264,6 @@ class AdminController extends AbstractActionController {
                     $baseUrl = sprintf('%s://%s%s', $this->getEvent()->getRouter()->getRequestUri()->getScheme(), $this->getEvent()->getRouter()->getRequestUri()->getHost(), $this->getEvent()->getRequest()->getBaseUrl());
                     $data['image'] = $baseUrl . $this->imageManager->getPublicWebPath() . $data['image'];
                 }
-                if ( $data['id_parent'] == 0 )
-                    unset($data['id_parent']);
                 $pokemon = $this->pokeHydrator->hydrate($data, new Pokemon());
                 if ( $this->pokemonService->save($pokemon)){
                     $this->flashMessenger()->addMessage('Pokemon ' . $pokemon->getName() . ' succefully created !');

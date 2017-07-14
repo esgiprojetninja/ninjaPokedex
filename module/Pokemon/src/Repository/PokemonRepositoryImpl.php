@@ -20,7 +20,7 @@ use Zend\Db\ResultSet\ResultSet;
 class PokemonRepositoryImpl implements PokemonRepository
 {
   use AdapterAwareTrait;
-  const POKEMONS_PER_PAGE = 5;
+  const POKEMONS_PER_PAGE = 10;
 
   public function save(Pokemon $pokemon) {
     $return = false;

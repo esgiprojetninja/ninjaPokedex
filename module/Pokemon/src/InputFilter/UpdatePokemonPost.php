@@ -102,12 +102,11 @@ class UpdatePokemonPost extends InputFilter {
     protected function getIdPokeValidatorChain() {
         $validator = new RecordExists([
             'table'   => 'pokemon',
-            'field'   => 'id_national',
+            'field'   => 'id_pokemon',
             'adapter' => $this->dbAdapter,
         ]);
-        $valid = new Between([
+        $valid = new GreaterThan([
             'min' => 0,
-            'max' => 151,
             'inclusive' => true
         ]);
         $validatorChain = new ValidatorChain();
@@ -135,14 +134,13 @@ class UpdatePokemonPost extends InputFilter {
     }
 
     protected function getIdParentValidatorChain() {
-        $validator = new RecordExists([
-            'table'   => 'pokemon',
-            'field'   => 'id_national',
-            'adapter' => $this->dbAdapter,
+        $valid = new GreaterThan([
+            'min' => 0,
+            'inclusive' => true
         ]);
         $validatorChain = new ValidatorChain();
         $validatorChain->attach(new Digits());
-        $validatorChain->attach($validator);
+        $validatorChain->attach($valid);
         return $validatorChain;
     }
 

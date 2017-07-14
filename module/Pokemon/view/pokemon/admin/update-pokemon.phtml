@@ -1,7 +1,7 @@
 <?php if ( $this->pokemon != null ) :?>
     <?php $poke = $this->pokemon;?>
     <div class="row">
-        <h1 class="text text-primary col-lg-4 col-md-4 col-xs-8">Update <?= $poke->getName(); ?></h1>
+        <h1 class="text text-primary col-lg-4 col-md-4 col-xs-8">Mise à jour - <?= $poke->getName(); ?></h1>
         <img src="<?= $poke->getImage(); ?>" alt="image <?= $poke->getName(); ?>" class="img-responsive col-lg-1 col-xs-2">
     </div>
 
@@ -14,13 +14,7 @@
         <?= $this->formRow($form->get('name')->setValue($poke->getName())); ?>
     </div>
     <div class="form-group">
-        <?php
-            $form_img = $form->get('image');
-            echo $form_img->getLabel();
-            // $form_img->setAttribute('src', $poke->getImage());
-            echo $this->formFile($form_img);
-            // echo $this->formImage($form_img);
-        ?>
+        <?= $this->formRow($form->get('image')); ?>
     </div>
     <div class="form-group">
     <?php
@@ -46,5 +40,7 @@
     <?= $this->formSubmit($form->get('submit')); ?>
     <?= $this->form()->closeTag();?>
 <?php else: ?>
-    <h1>No matched pokemon</h1>
+    <div class="row light-top-margin">
+      <h1 class="text text-primary">Pokémon inexistant</h1>
+    </div>
 <?php endif; ?>
