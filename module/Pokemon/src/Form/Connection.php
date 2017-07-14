@@ -18,7 +18,7 @@ class Connection extends Form {
         $password->setAttribute('class','form-control');
 
         $submit = new Element\Submit('submit');
-        $submit->setValue('Se connecter');
+        $submit->setValue('Valider');
         $submit->setAttribute('class', 'btn btn-primary');
 
         $this->add($login);
