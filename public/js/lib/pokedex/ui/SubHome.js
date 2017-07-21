@@ -37,7 +37,7 @@ export default class SubHome extends React.PureComponent {
 
     renderSubtitleBtn() {
       return (
-        <div className="text-center title-btn-wrapper">
+        <div className="text-center title-btn-wrapper hidden-xs">
           <RaisedButton
             target="_blank"
             label="Ajouter un pokémon"
@@ -66,7 +66,7 @@ export default class SubHome extends React.PureComponent {
 
     render () {
         return (
-          <div className="align full-height">
+          <div className="align full-height hidden-xs hidden-sm">
             <div className="subtitle-wrapper">
               {this.renderSubTitle()}
               {this.renderSubtitleBtn()}

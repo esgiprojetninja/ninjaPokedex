@@ -17,6 +17,7 @@
 .random-btn-image{
   margin-left: 150px;
   align-self: flex-end;
+  max-height: 350px;
 }
 
 .text-center{
