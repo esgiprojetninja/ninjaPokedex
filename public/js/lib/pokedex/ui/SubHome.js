@@ -40,14 +40,6 @@ export default class SubHome extends React.PureComponent {
         <div className="text-center title-btn-wrapper hidden-xs">
           <RaisedButton
             target="_blank"
-            label="Ajouter un pokémon"
-            labelColor="#ffffff"
-            backgroundColor="#a4c639"
-            style={styles.button}
-            icon={<AddCircleOutlineSVG/>}
-          />
-          <RaisedButton
-            target="_blank"
             label="Voir la map"
             labelColor="#ffffff"
             secondary={true}

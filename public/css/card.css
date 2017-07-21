@@ -25,10 +25,6 @@
   border-bottom-right-radius: 5px;
 }
 
-.card-details-content {
-  margin-top: 150px !important;
-}
-
 .card-pokemon {
   /*position: absolute;
   top: -170px;
@@ -106,6 +102,7 @@
   background: rgba(0, 0, 0, 0.8);
   z-index: 9999;
   overflow: auto;
+  padding: 25px;
 }
 
 .pokemon-details{

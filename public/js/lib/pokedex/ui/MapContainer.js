@@ -133,7 +133,6 @@ export default class MapContainer extends React.PureComponent {
                     onActionTouchTap={this.props.setNoticedAddEDPokeLocationMsgTrue}
                     onRequestClose={this.props.setNoticedAddEDPokeLocationMsgTrue}
                 />
-                />
                 <Snackbar
                     open={!this.props.mapContainer.noticedFailedAddedSignalment}
                     message="Le signalement a échoué !"
